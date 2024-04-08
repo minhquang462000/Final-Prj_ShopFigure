@@ -9,14 +9,17 @@ export default function CardProductItem () {
     <div className='grid grid-cols-2 gap-4 '>
         <SlideItem/>
         <nav className="flex  flex-col gap-2">
-              <h1 className="text-2xl font-medium text-wrap">
+             <div className='flex flex-wrap'>
+             <h1 className="text-2xl font-medium text-wrap">
                 Date A Live IV - Tokisaki Kurumi - Artist MasterPiece+ - Zafkiel
                 | Taito Figure{" "}
-                <span className="bg-[#38bf57] text-xs px-1 py-[2px] rounded text-white">
+               
+              </h1>
+              <span className="bg-[#38bf57] w-max text-xs px-1 py-[2px] rounded text-white">
                   {" "}
                   Còn hàng
                 </span>
-              </h1>
+             </div>
               <h4>
                 Thương hiệu:{" "}
                 <span className="text-[#ff0000] font-bold px-1">Taito</span> |
@@ -41,7 +44,7 @@ export default function CardProductItem () {
               </ul>
               <div className="flex text-2xl font-medium border w-max items-center gap-4">
                 <button className="p-1 px-3">-</button>
-                <input type="text" className="outline-none w-[15px] text-center bg-transparent" value={"1"} min={"1"} />
+                <input type="text" className="outline-none w-[15px] text-center bg-transparent" defaultValue={"1"} min={"1"} />
                 <button className="p-1 px-3">+</button>
               </div>
               <button className="flex flex-col font-bold text-sm w-full rounded-md py-2  items-center text-white bg-[#ff0000]">

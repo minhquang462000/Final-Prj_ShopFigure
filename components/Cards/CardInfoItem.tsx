@@ -9,7 +9,7 @@ export interface ICardInfoItemProps {
 
 export default function CardInfoItem (props: ICardInfoItemProps) {
   return (
-    <div className="col-span-1  bg-white pb-8  rounded-sm p-3">
+    <div className="col-span-1  bg-white pb-8  rounded-md p-3">
             <tr className="flex flex-col  rounded-t-lg border pb-4 gap-3">
               <td className="flex w-full bg-[#38bf57] py-2 px-3 text-white font-bold">
                 {" "}
@@ -49,8 +49,8 @@ export default function CardInfoItem (props: ICardInfoItemProps) {
               <td className="flex  w-full px-3 gap-2">
                 {" "}
                 <IoIosCheckmarkCircle
-                  className="w-[10%]"
-                  size={25}
+                  className="w-[10%] mt-2"
+                  size={20}
                   color="green"
                 />
                 <span className="w-[90%]">
@@ -61,8 +61,8 @@ export default function CardInfoItem (props: ICardInfoItemProps) {
               <td className="flex  w-full px-3 gap-2">
                 {" "}
                 <IoIosCheckmarkCircle
-                  className="w-[10%]"
-                  size={25}
+                  className="w-[10%] mt-2"
+                  size={20}
                   color="green"
                 />
                 <span className="w-[90%]">
@@ -74,8 +74,8 @@ export default function CardInfoItem (props: ICardInfoItemProps) {
               <td className="flex  w-full px-3 gap-2">
                 {" "}
                 <IoIosCheckmarkCircle
-                  className="w-[10%]"
-                  size={25}
+                  className="w-[10%] mt-2"
+                  size={20}
                   color="green"
                 />
                 <span className="w-[90%]">
