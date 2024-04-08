@@ -47,7 +47,7 @@ export default function Home() {
     {/* FlashSale */}
     <FlashSale/>
      {/* SlideProduct */}
-     <div className="  bg-white rounded-md my-3 p-4  w-full">
+     <div className="  bg-white group/item rounded-md my-3 p-4  w-full">
        <CardTitleMain/>
         <SlideProduct/>
     </div>

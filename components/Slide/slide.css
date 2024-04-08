@@ -96,3 +96,43 @@
   .dots-slick-flashsale li.slick-active button{
     background-color: white;
   }
+  /* FlashSale */
+  .dots-slick-flashsale{
+    position: block;
+    bottom: 0;
+    display: flex !important;
+    gap: 10px !important;
+    padding: 20px;
+    justify-content: center;
+    width: 100%;
+  }
+  .dots-slick-flashsale li {
+    width: 8px;
+    height: 10px;
+
+   
+  }
+  /* Slick-dots-items */
+  .slick-prev{
+    left: 15px;
+    z-index: 20;
+    color: black;
+    scale: 2;
+  }
+  .slick-next{
+    right: 15px;
+    color: black;
+    z-index: 20;
+    scale: 2;
+
+  }
+  .slick-next::before{
+    border-radius: 50%;
+    box-shadow: 1px 1px 5px gray;
+    background: #1f1f1f;
+  }
+  .slick-prev::before{
+    border-radius: 50%;
+    box-shadow: 1px 1px 5px gray;
+    background: #1f1f1f;
+  }

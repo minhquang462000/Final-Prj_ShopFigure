@@ -58,7 +58,7 @@ export default function FlashSale (props: IAppProps) {
       };
   return (
   
-    <div className='w-full my-8 rounded-md bg-gradient-to-t pb-1 px-8 from-red-700 to-orange-500'>
+    <div className='w-full  my-8 rounded-md bg-gradient-to-t pb-1 px-8 from-red-700 to-orange-500'>
         <nav className='text-white flex justify-between py-4 items-center '>
             <span className='flex items-center  gap-2'>
                 <Image src={imgHot.src} alt="" width={25} height={25}/>
