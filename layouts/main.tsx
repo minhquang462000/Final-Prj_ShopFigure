@@ -8,7 +8,7 @@ import * as React from "react";
 export default function MainLayout({ children }: Readonly<ILayout>) {
   return (
     <section className="w-screen">
-      <MainHeader />
+      <MainHeader  />
       <HeaderSelect/>
       {children}
       <MainFooter/>
