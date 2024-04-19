@@ -2,20 +2,63 @@
 import MainLayout from "@/layouts/main";
 import * as React from "react";
 import { FaFacebookF, FaGoogle, FaRegEye, FaRegEyeSlash } from "react-icons/fa";
-
+import { usePathname, useRouter } from 'next/navigation'
+import Link from "next/link";
+import axios from "axios";
+import { ToastContainer, toast} from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 export interface IAppProps {}
 
 export default function App(props: IAppProps) {
+  const pathname = usePathname()
+  const router = useRouter();
   const [showPassword, setShowPassword] = React.useState(false);
   const [showForgetTable, setShowForgetTable] = React.useState(false);
+  const [formLogin, setFormLogin] = React.useState({
+    email: "",
+    password: "",
+  });
+
+  const handleDataLogin = (e: any) => {
+    const { name, value } = e.target;
+    setFormLogin({
+      ...formLogin,
+      [name]: value,
+    });
+  };
+
+  const handleLogin = () => {
+    if (formLogin.email == "" || formLogin.password == "") {  
+      toast.error('Vui lòng điền đầy đủ điền kiện')
+    } else {
+      const fetData = async () => {
+ await axios.post(
+          "http://localhost:8080/api/v1/auth/login",
+          {...formLogin}
+        ).then((res) => {
+          router.push('/')
+          toast.success('Đăng nhập thành công ,xin chờ trong giây lát...')
+        }).catch((e) => {
+          toast.error(e.response.data.message)
+        });
+
+        
+      };
+      fetData();
+    }}
   return (
     <MainLayout>
       <main className="text-black text-xl  w-screen bg-gradient-to-r from-[#cdf2f9] to-[#6fe9ff] mx-auto">
+        <ToastContainer autoClose={2000}/>
         <div className="w-[1280px] pb-10 flex flex-col gap-10 mx-auto">
           <ul className="flex py-3 text-base gap-2 ">
-            <li className="cursor-pointer">Trang chủ</li>
-            <li className="cursor-pointer hover:text-[#d70018]">/ Tài khoản</li>
-            <li className="cursor-pointer">/ Đăng nhập</li>
+            <li className="cursor-pointer"> 
+            <Link className={`link ${pathname === '/' ? 'active' : ''}`} href="/">
+            Trang chủ
+          </Link>
+          </li>
+            <li className="cursor-pointer hover:text-[#d70018]">/ </li>
+            <li className="cursor-pointer"> Đăng nhập</li>
           </ul>
           {showForgetTable ? (
             <nav className="bg-white flex flex-col py-20 gap-5 mx-auto rounded-md group/item w-[900px] px-10 ">
@@ -39,12 +82,16 @@ export default function App(props: IAppProps) {
             <nav className="bg-white flex flex-col pb-10 gap-5 mx-auto rounded-md group/item w-[900px] px-10 p-6">
               <h1 className="text-center text-[30px] font-medium">Đăng nhập</h1>
               <input
+              onChange={handleDataLogin}
                 className="outline-none bg-transparent border p-2"
                 type="text"
+                name="email"
                 placeholder="Email"
               />
               <div className="w-full flex justify-between p-2 border">
                 <input
+                name="password"
+                  onChange={handleDataLogin}
                   className="outline-none w-[95%] bg-transparent"
                   type={showPassword ? "text" : "password"}
                   placeholder="Mật khẩu"
@@ -57,7 +104,7 @@ export default function App(props: IAppProps) {
                 </button>
               </div>
 
-              <button className="w-max bg-black mx-auto text-white p-3 px-8 font-medium rounded">
+              <button onClick={handleLogin} className="w-max bg-black mx-auto text-white p-3 px-8 font-medium rounded">
                 Đăng Nhập
               </button>
               <div className="flex justify-between gap-2">
