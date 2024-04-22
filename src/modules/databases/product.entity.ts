@@ -34,8 +34,9 @@ export class ProductEntity {
     @ManyToOne(()=>SaleEntity,(sale)=>sale.products)
     sale:ProductEntity
     // Cart
-    @ManyToOne(()=>CartEntity,(cart)=>cart.product)
-    cart:CartEntity
+    @ManyToMany(()=>CartEntity,(cart)=>cart.product)
+    @JoinTable({name:"cart_products"})
+    cart:CartEntity[]
     //Brand
     @ManyToOne(()=>BrandEntity,(brand)=>brand.products)
     brand:BrandEntity

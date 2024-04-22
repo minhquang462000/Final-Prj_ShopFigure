@@ -63,6 +63,12 @@ const salt  = await genSaltSync(saltRounds);
 const hash =  await hashSync(password, salt);
 return hash;
 }
+
+// Identity
+ async getDataAdmin(email) {
+  const admin = await this.userRepository.findOne({ where: { email } ,select: ['email','role','password']});
+  return {...admin, password: 0};
+}
 // compare password
 private async comparePassword(password: string, hash: string):Promise<boolean> {
  const match = await compareSync(password, hash);

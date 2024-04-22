@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { UserEntity } from "./user.entity";
 import { ProductEntity } from "./product.entity";
 
@@ -7,7 +7,7 @@ export class CartEntity {
     @PrimaryGeneratedColumn({type: 'int'})
     cart_id: number
     // Relationship
-    @OneToMany(() => ProductEntity, (product) => product.cart)
+    @ManyToMany(() => ProductEntity, (product) => product.cart)
     product: ProductEntity[]
     // User
     @OneToOne(() => UserEntity, (user) => user.cart)

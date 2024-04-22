@@ -15,6 +15,10 @@ export class AuthController {
   register(@Body() registerUserDto: RegisterUserDto): Promise<any> {
     return this.authService.register(registerUserDto);
   }
+@Get('admin')
+  findOne(@Param('email') email: string): Promise<any> {
+    return this.authService.getDataAdmin(email);
+  }
 @Post('login')
 @ApiResponse({ status: 201, description: 'Successful Login' })
 @ApiResponse({ status: 401, description: 'Failed Login' })

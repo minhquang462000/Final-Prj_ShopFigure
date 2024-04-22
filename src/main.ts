@@ -5,11 +5,11 @@ import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 require('dotenv').config();
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 async function bootstrap() {
   const app = await NestFactory.create(AppModule,{
     cors: true});
-  app.enableCors( {origin: "http://localhost:3000"} );
+  app.enableCors({origin:'*'}  );
   const config = new DocumentBuilder()
   .setTitle('Shopfigure API')
   .setDescription('The Shopfigure API description')
