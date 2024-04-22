@@ -1,1 +1,6 @@
-export class CreateCharacterDto {}
+export class CreateCharacterDto {
+    name: string;
+    description: string;
+    thumbnail: string;
+    status: number;
+}

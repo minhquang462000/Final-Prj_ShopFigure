@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserEntity } from '../user/database/user.entity';
+import { UserEntity } from '../databases/user.entity';
 import { genSaltSync, hashSync ,compareSync} from 'bcrypt';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
@@ -18,39 +18,29 @@ export class AuthService {
 
 async login(loginUserDto: LoginUserDto) {
 
-  try {
-    const user = await this.userRepository.findOne({ where: { email: loginUserDto.email } });
+      const user = await this.userRepository.findOne({ where: { email: loginUserDto.email } });
     if (!user) {
-      throw new Error('Email không tồn tại');
+    throw new HttpException('Email không tồn tại', HttpStatus.BAD_REQUEST);
     }
     if (!await this.comparePassword(loginUserDto.password, user.password)) {
-      throw new Error('Password không đúng');
+      throw new HttpException('Password không đúng', HttpStatus.BAD_REQUEST);
     }
     const payload = { id: user.user_id, email: user.email };
     return await this.generateToken(payload);
-   
-  } catch (e) {
-    return e.message
-  }
 }
 async register(registerUserDto: RegisterUserDto) {
- try {
-  const hashPassword = await this.hashPassword(registerUserDto.password);
+ const hashPassword = await this.hashPassword(registerUserDto.password);
   if (await this.checkEmail(registerUserDto.email)) {
-    throw new Error('Email đã đăng ký');
+   throw new HttpException('Email đã đăng ký', HttpStatus.BAD_REQUEST);
     
   }
   if (await this.checkUsername(registerUserDto.name)) {
-    throw new Error('Username đã đăng ký');
+  throw new HttpException('Username đã đăng ký', HttpStatus.BAD_REQUEST);
   }
   registerUserDto.password = hashPassword;
-  console.log(registerUserDto);
   
    await this.userRepository.save({...registerUserDto,refresh_token: 'test-token',password: hashPassword});
-   return 'Đăng ký thành công'
- } catch (e) {
-  return e.message
- }
+   throw new HttpException('Đăng ký thành công', HttpStatus.OK);
 }
 async checkEmail(email: string) {
   const user = await this.userRepository.findOne({ where: { email } });

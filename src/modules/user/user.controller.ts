@@ -18,7 +18,6 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { AuthGuard } from 'src/shared/guard/auth.guard';
 import { FilterUserDto } from './dtos/filter.dto';
-import { UserEntity } from './database/user.entity';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { extname } from 'path';
@@ -30,9 +29,7 @@ import { extname } from 'path';
   @Controller('api/v1/users')
   export class UserController {
     constructor(private readonly userService: UserService) {}
-  
     @Post()
-   
     create(@Body() createUserDto: CreateUserDto) {
       return this.userService.create(createUserDto);
     }

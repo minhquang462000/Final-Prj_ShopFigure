@@ -2,8 +2,17 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { CartService } from './cart.service';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 
-@Controller('cart')
+
+
+
+@ApiBearerAuth()
+@ApiResponse({ status: 201, description: 'ok baby'})
+@ApiResponse({ status: 403, description: 'Forbidden'})
+
+@ApiTags('Cart')
+@Controller('api/v1/cart')
 export class CartController {
   constructor(private readonly cartService: CartService) {}
 

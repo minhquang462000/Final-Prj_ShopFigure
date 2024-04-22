@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ValidationPipe } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { UserEntity } from '../user/database/user.entity';
+import { UserEntity } from '../databases/user.entity';
 import { LoginUserDto } from './dto/login-user.dto';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -12,14 +12,14 @@ export class AuthController {
   @Post('register')
   @ApiResponse({ status: 201, description: 'Successful Register' })
 @ApiResponse({ status: 401, description: 'Failed Register' })
-  register(@Body() registerUserDto: RegisterUserDto): Promise<UserEntity> {
+  register(@Body() registerUserDto: RegisterUserDto): Promise<any> {
     return this.authService.register(registerUserDto);
   }
 @Post('login')
 @ApiResponse({ status: 201, description: 'Successful Login' })
 @ApiResponse({ status: 401, description: 'Failed Login' })
 @UsePipes(ValidationPipe)
-  login(@Body() loginUserDto: LoginUserDto): Promise<UserEntity> {
+  login(@Body() loginUserDto: LoginUserDto): Promise<any> {
     return this.authService.login(loginUserDto);
   }
   @Post('refresh-token')

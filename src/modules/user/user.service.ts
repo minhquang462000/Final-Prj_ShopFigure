@@ -1,6 +1,6 @@
 
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { UserEntity } from './database/user.entity';
+import { HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
+import { UserEntity } from '../databases/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { FilterUserDto } from './dtos/filter.dto';
@@ -14,12 +14,11 @@ export class UserService {
     private readonly userRepository: any,
   ) {}
   async create(createUserDto: CreateUserDto) {
-    try {
-      if (await this.checkEmail(createUserDto.email)) {
-        throw new Error('Email đã tồn tại');
+   if (await this.checkEmail(createUserDto.email)) {
+        throw new HttpException('Email đã đăng ký', HttpStatus.BAD_REQUEST);
       }
       if (await this.checkUsername(createUserDto.name)) {
-        throw new Error('Username đã tồn tại');
+      throw new HttpException('Username đã đăng ký', HttpStatus.BAD_REQUEST);
       }
 
       const user = new UserEntity();
@@ -30,10 +29,7 @@ export class UserService {
       user.password = createUserDto.password;
 
       await this.userRepository.save(user);
-      return 'Ok baby';
-    } catch (e) {
-      return e.message;
-    }
+     throw new HttpException('Ok baby', HttpStatus.OK);
   }
   // check role
   // check email

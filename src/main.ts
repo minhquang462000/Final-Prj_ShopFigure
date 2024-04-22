@@ -7,7 +7,9 @@ require('dotenv').config();
 
 const PORT = process.env.PORT || 3000;
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule,{
+    cors: true});
+  app.enableCors( {origin: "http://localhost:3000"} );
   const config = new DocumentBuilder()
   .setTitle('Shopfigure API')
   .setDescription('The Shopfigure API description')

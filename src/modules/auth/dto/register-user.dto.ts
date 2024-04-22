@@ -17,11 +17,7 @@ export class RegisterUserDto {
 @ApiProperty()
    @IsEmail() 
    @MinLength(6)
-   @MaxLength(30)
+   @MaxLength(50)
    @IsNotEmpty()
    email: string;
-@ApiProperty()
-   @IsNumber()
-   @IsNotEmpty()
-   status: number;
 }
