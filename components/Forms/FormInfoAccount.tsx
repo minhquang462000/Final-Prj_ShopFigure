@@ -5,8 +5,8 @@ export interface IFormInfoAccountProps {
 
 export default function FormInfoAccount (props: IFormInfoAccountProps) {
   return (
-    <nav className='w-full flex gap-4  flex-col'>
-            <h1 className='text-2xl  mb-1'>Thông tin tài khoản</h1>
+    <nav className='w-full flex gap-4  bg-white  p-4 rounded-xl  flex-col'>
+            <h1 className='text-2xl   mb-1'>Thông tin tài khoản</h1>
             <div className='flex justify-between items-center'>
               <label  className='w-1/4' htmlFor="">Tên người dùng</label>
               <input className='w-3/4 outline-none bg-transparent border  px-3 py-1 rounded-full' type="text" name="name" id="" placeholder="tên" />
@@ -26,11 +26,11 @@ export default function FormInfoAccount (props: IFormInfoAccountProps) {
             </div>
             <div className='flex justify-between items-center'>
               <label  className='w-1/4' htmlFor="">Địa chỉ</label>
-              <input className='w-3/4 outline-none bg-transparent border  px-3 py-1 rounded-full' type="text" name="name" id="" placeholder="NHập địa chỉ" />
+              <input className='w-3/4 outline-none bg-transparent border  px-3 py-1 rounded-full' type="text" name="name" id="" placeholder="Nhập địa chỉ" />
             </div>
             <div className='flex justify-between items-center'>
               <label  className='w-1/4' htmlFor="">Quốc gia</label>
-              <select  className='w-3/4 outline-none bg-transparent border  px-3 py-1 rounded-full' defaultValue={"VietNam"} name="" id="">
+              <select  className='w-3/4 outline-none cursor-pointer bg-transparent border  px-3 py-1 rounded-full' defaultValue={"VietNam"} name="" id="">
                 <option value="" disabled>Vui lòng chọn quốc gia</option>
                 <option value="">VietNam</option>
                 <option value="">England</option>
@@ -38,7 +38,7 @@ export default function FormInfoAccount (props: IFormInfoAccountProps) {
             </div>
             <div className='flex justify-between items-center'>
               <label  className='w-1/4' htmlFor="">Tỉnh ,Thành phố</label>
-              <select  className='w-3/4 outline-none bg-transparent border  px-3 py-1 rounded-full' defaultValue={"Hà Nội"} name="" id="">
+              <select  className='w-3/4 outline-none cursor-pointer bg-transparent border  px-3 py-1 rounded-full' defaultValue={"Hà Nội"} name="" id="">
                 <option value="">Thái Bình</option>
                 <option value="">Hồ Chí Minh</option>
                 <option value="">Đà Nẵng</option>

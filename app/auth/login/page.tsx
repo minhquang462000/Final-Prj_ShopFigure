@@ -5,9 +5,10 @@ import { FaFacebookF, FaGoogle, FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { usePathname, useRouter } from 'next/navigation'
 import Link from "next/link";
 import axios from "axios";
-import { ToastContainer, toast} from 'react-toastify';
-  import 'react-toastify/dist/ReactToastify.css';
-export interface IAppProps {}
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { headers } from "next/headers";
+export interface IAppProps { }
 
 export default function App(props: IAppProps) {
   const pathname = usePathname()
@@ -18,7 +19,7 @@ export default function App(props: IAppProps) {
     email: "",
     password: "",
   });
-
+   
   const handleDataLogin = (e: any) => {
     const { name, value } = e.target;
     setFormLogin({
@@ -28,35 +29,44 @@ export default function App(props: IAppProps) {
   };
 
   const handleLogin = () => {
-    if (formLogin.email == "" || formLogin.password == "") {  
+    if (formLogin.email == "" || formLogin.password == "") {
       toast.error('Vui lòng điền đầy đủ điền kiện')
     } else {
       const fetData = async () => {
- await axios.post(
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+          }
+        }
+        await axios.post(
           "http://localhost:8080/api/v1/auth/login",
-          {...formLogin}
+          { ...formLogin }
         ).then((res) => {
-          router.push('/')
+          console.log('token', res.data.accessToken)
+          document.cookie = `access-token=${res.data.accessToken}`
+
           toast.success('Đăng nhập thành công ,xin chờ trong giây lát...')
         }).catch((e) => {
           toast.error(e.response.data.message)
         });
 
-        
+
       };
       fetData();
-    }}
+    }
+  }
   return (
     <MainLayout>
       <main className="text-black text-xl  w-screen bg-gradient-to-r from-[#cdf2f9] to-[#6fe9ff] mx-auto">
-        <ToastContainer autoClose={2000}/>
+        <ToastContainer autoClose={2000} />
         <div className="w-[1280px] pb-10 flex flex-col gap-10 mx-auto">
           <ul className="flex py-3 text-base gap-2 ">
-            <li className="cursor-pointer"> 
-            <Link className={`link ${pathname === '/' ? 'active' : ''}`} href="/">
-            Trang chủ
-          </Link>
-          </li>
+            <li className="cursor-pointer">
+              <Link className={`link ${pathname === '/' ? 'active' : ''}`} href="/">
+                Trang chủ
+              </Link>
+            </li>
             <li className="cursor-pointer hover:text-[#d70018]">/ </li>
             <li className="cursor-pointer"> Đăng nhập</li>
           </ul>
@@ -82,7 +92,7 @@ export default function App(props: IAppProps) {
             <nav className="bg-white flex flex-col pb-10 gap-5 mx-auto rounded-md group/item w-[900px] px-10 p-6">
               <h1 className="text-center text-[30px] font-medium">Đăng nhập</h1>
               <input
-              onChange={handleDataLogin}
+                onChange={handleDataLogin}
                 className="outline-none bg-transparent border p-2"
                 type="text"
                 name="email"
@@ -90,7 +100,7 @@ export default function App(props: IAppProps) {
               />
               <div className="w-full flex justify-between p-2 border">
                 <input
-                name="password"
+                  name="password"
                   onChange={handleDataLogin}
                   className="outline-none w-[95%] bg-transparent"
                   type={showPassword ? "text" : "password"}

@@ -1,5 +1,7 @@
 "use client";
+import FormAddressDelivery from "@/components/Forms/FormAddressDelivery";
 import FormInfoAccount from "@/components/Forms/FormInfoAccount";
+import FormYourOrder from "@/components/Forms/FormYourOrder";
 import MainLayout from "@/layouts/main";
 import * as React from "react";
 import { FaHome, FaUser } from "react-icons/fa";
@@ -8,6 +10,19 @@ import { RiBox1Fill } from "react-icons/ri";
 export interface IpageProps {}
 
 export default function page(props: IpageProps) {
+  const [tabIndex, setTabIndex] = React.useState<number>(2);
+  const renderByTabIndex = () => {
+    switch (tabIndex) {
+      case 0:
+        return <FormInfoAccount />;
+      case 1:
+        return <FormYourOrder/>
+      case 2:
+        return <FormAddressDelivery />;
+      default:
+        return null;
+    }
+  };
   return (
     <MainLayout>
       <main className="w-[1280px] grid grid-cols-4 gap-8  mb-8 text-black mx-auto">
@@ -23,21 +38,21 @@ export default function page(props: IpageProps) {
               <p className="w-[200px]  text-gray-500 truncate">nguyenminhquang.cd2017@gmail.com</p>
             </span>
           </nav>
-          <button className="flex items-center mx-4 bg-[#eaeaea] p-2 py-1 font-medium hover:text-white hover:bg-[#d62828] group/item rounded-full gap-3">
-            <FaUser className="bg-white p-2 text-[#eaeaea] group-hover/item:text-[#d62828] text-[35px] rounded-full" />
+          <button onClick={() => setTabIndex(0)} className={`flex items-center mx-4  p-[6px]  font-medium hover:text-white hover:bg-[#d62828] ${tabIndex === 0 ? "text-white bg-[#d62828] " : "bg-[#eaeaea] group/item"}  rounded-full gap-3`}>
+            <FaUser className={`bg-white  p-2 ${tabIndex === 0 ? "text-[#d62828]" : "text-[#eaeaea] group-hover/item:text-[#d62828] "} text-[35px] rounded-full`} />
             <p>Thông tin cá nhân</p>
           </button>
-          <button className="flex items-center mx-4 bg-[#eaeaea] p-2 py-1 font-medium hover:text-white hover:bg-[#d62828] group/item rounded-full gap-3 ">
-            <RiBox1Fill className="bg-white text-[#eaeaea] group-hover/item:text-[#d62828] p-2 text-[35px] rounded-full" />
+          <button onClick={() => setTabIndex(1)} className={`flex items-center mx-4  p-[6px]  font-medium hover:text-white hover:bg-[#d62828] ${tabIndex === 1 ? "text-white bg-[#d62828] " : "bg-[#eaeaea] group/item"}  rounded-full gap-3`}>
+            <RiBox1Fill className={`bg-white  p-2 ${tabIndex === 1 ? "text-[#d62828]" : "text-[#eaeaea] group-hover/item:text-[#d62828] "} text-[35px] rounded-full`} />
             <p>Đơn hàng của bạn</p>
           </button>
-          <button className="flex items-center mx-4 bg-[#eaeaea] p-2 py-1 font-medium hover:text-white  group/item  hover:bg-[#d62828]  rounded-full gap-3 ">
-            <FaHome className="bg-white p-2 text-[#eaeaea] text-[35px] group-hover/item:text-[#d62828] rounded-full" />
+          <button onClick={() => setTabIndex(2)} className={`flex items-center mx-4  p-[6px]  font-medium hover:text-white hover:bg-[#d62828] ${tabIndex === 2 ? "text-white bg-[#d62828] " : "bg-[#eaeaea] group/item"}  rounded-full gap-3`}>
+            <FaHome className={`bg-white  p-2 ${tabIndex === 2 ? "text-[#d62828]" : "text-[#eaeaea] group-hover/item:text-[#d62828] "} text-[35px] rounded-full`} />
             <p>Địa chỉ giao hàng</p>
           </button>
         </section>
-        <section className="col-span-3 bg-white p-4 rounded-xl">
-         <FormInfoAccount/>
+        <section className="col-span-3 ">
+         {renderByTabIndex()}
         </section>
       </main>
     </MainLayout>

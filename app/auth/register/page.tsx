@@ -41,11 +41,15 @@ if (formRegister.name == "" || formRegister.email == "" || formRegister.password
    try {
     const {comfirmpassword,...data} = formRegister
    const fetData = async () => {
-    const res = await axios.post("http://localhost:8080/api/v1/auth/register", {...data});
-    if (res) {
+    const res = await axios.post("http://localhost:8080/api/v1/auth/register", {...data}).then((res) => {
       toast.success('Đăng ký thành công')
       router.push('/auth/login')
-    }
+      console.log(res);
+      
+    }).catch((e) => {
+      toast.error(e.response.data.message)
+    });
+    
   };
   fetData();
 
