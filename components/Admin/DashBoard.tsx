@@ -26,7 +26,7 @@ export default function Dashboard(props: IDashboardProps) {
             className={`${cssButton} ${pathName === "/admin/users" && active}`}
           >
             {" "}
-            <FaCircleUser size={20} /> Tài khoản người dùng
+            <FaCircleUser size={20} /> Tài khoản 
           </Link>
         </button>
         <button >

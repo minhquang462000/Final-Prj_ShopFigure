@@ -1,112 +1,98 @@
-"use client";
-import ButtonCreate from "@/components/Admin/ButtonCreate";
-import { Button, ConfigProvider, Space, Table, Tag } from "antd";
-import { DataSourceItemType } from "antd/es/auto-complete";
-import Column from "antd/es/table/Column";
-import * as React from "react";
-import { FaPencilAlt, FaPlus } from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
-const data: any = [
+
+import Image from "next/image";
+import { CiEdit } from "react-icons/ci";
+import { MdDeleteOutline } from "react-icons/md";
+
+const packageData: any = [
   {
-    user_id: "1",
-    name: "Nguyen Minh Quang",
-    email: "nmquang@gmail.com",
-    gender: "name",
-    address: "ThuyDuyen ThaiThuy ThaiBinh",
-    phone: "0987654321",
-    avatar:
-      "https://mir-s3-cdn-cf.behance.net/projects/404/2d5247173291955.Y3JvcCwxMDgwLDg0NCwwLDU5MA.png",
+    name: "Free package",
+    price: 0.0,
+    address: `ThuyDuyen-ThaiThuy-ThaiBinh HaNoi SaiGon`,
     status: 1,
-    createAt: "2022-10-01 00:00:00",
+    logo: "https://tse3.mm.bing.net/th?id=OIP.G9WoQEGv01moqs8jc2lB2gHaLg&pid=Api&P=0&h=220",
+  },
+  {
+    logo: "https://tse3.mm.bing.net/th?id=OIP.G9WoQEGv01moqs8jc2lB2gHaLg&pid=Api&P=0&h=220",
+    name: "Standard Package",
+    price: 59.0,
+    address: `ThuyDuyen-ThaiThuy-ThaiBinh HaNoi SaiGon`,
+    status: 0,
+  },
+  {
+    logo: "https://tse3.mm.bing.net/th?id=OIP.G9WoQEGv01moqs8jc2lB2gHaLg&pid=Api&P=0&h=220",
+    name: "Business Package",
+    price: 99.0,
+    address: `ThuyDuyen-ThaiThuy-ThaiBinh HaNoi SaiGon`,
+    status: 0,
+  },
+  {
+    logo: "https://tse3.mm.bing.net/th?id=OIP.G9WoQEGv01moqs8jc2lB2gHaLg&pid=Api&P=0&h=220",
+    name: "Standard Package",
+    price: 59.0,
+    address: `ThuyDuyen-ThaiThuy-ThaiBinh HaNoi SaiGon`,
+    status: 1,
   },
 ];
-export interface IpageProps {}
 
-export default function page(props: IpageProps) {
+const TableThree = () => {
   return (
-    <div className="text-lg">
-      <div className="p-4 flex justify-between font-medium items-center w-full ">
-        <h1 className="text-xl  underline">Danh sách người dùng</h1>
-        <button className="w-max flex items-center text-lg   gap-2 border-gray-600 hover:text-white transition-all duration-300 hover:border-red-500 hover:bg-red-500  rounded-xl p-2 border   ">
-          <FaPlus />
-          Thêm mới
-        </button>
+    <div className="rounded-sm border border-stroke bg-white ">
+      <div className="w-full overflow-x-auto">
+        <table className="w-full table-auto">
+          <thead className="w-full p-4">
+            <tr className="bg-gray-2 text-center w-full border-b p-4 flex justify-between dark:bg-meta-4">
+              <th className="w-[50px]  ">
+                Avatar
+              </th>
+              <th className="w-[15%] truncate  ">
+                Tên người dùng
+              </th>
+              <th className="w-[25%] truncate">
+                Địa chỉ
+              </th>
+              <th className="w-[10%]">
+              Trạng thái
+              </th>
+              <th className="w-[7%]">
+                Actions
+              </th>
+            </tr>
+          </thead>
+          <tbody className="w-full">
+            {packageData.map((packageItem, key) => (
+              <tr className="flex justify-between  text-center items-center border-b p-4" key={key}>
+                <td className=" w-[50px] h-[50px] border border-black overflow-hidden rounded-full  ">
+                <img src={packageItem.logo} alt="Brand" className=" w-full h-full  object-cover" />
+                </td>
+                <td className="w-[15%] truncate ">
+                {packageItem.name}
+                </td>
+                <td className="w-[25%] truncate">
+                {packageItem.address}
+                </td>
+                <td className="w-[10%]">
+                  <p
+                    className={`inline-flex rounded-lg  border bg-opacity-10 px-2 py-1 text-sm font-bold ${
+                      packageItem.status === 1
+                        ? "border-green-500 text-green-500"
+                        : "border-red-500 text-red-500"
+                      
+                    }`}
+                  >
+                   {packageItem.status === 1 ? "Active" : "Inactive"}
+                  </p>
+                </td>
+                <td className="flex items-center justify-between px-2 w-[7%]">
+                <button><CiEdit  size={25}/></button>
+                   <button><MdDeleteOutline color="red" size={25}/></button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
-      <Table
-        pagination={{ pageSize: 10 }}
-        rowKey="user_id"
-        dataSource={data}
-      >
-        <Column width={100} title="ID" dataIndex="user_id" key="user_id" />
-        <Column title="Tên tài khoản" dataIndex="name" key="name" />
-        <Column title="Email" dataIndex="email" key="email" />
-        <Column title="Địa chỉ" dataIndex="address" key="address" />
-        <Column title="SDT" dataIndex="phone" key="phone" />
-        <Column
-          title="Avatar"
-          dataIndex="avatar"
-          key="avatar"
-          render={(url: string) => (
-            <img width={100} className="object-cover" src={url} alt="avatar" />
-          )}
-        />
-        <Column
-          title="Trạng thái"
-          dataIndex="status"
-          key="status"
-          render={(status: number) => (
-            <Tag color={status === 1 ? "green" : "red"}>
-              {status === 1 ? "Active" : "Khoá mõm"}
-            </Tag>
-          )}
-        />
-        {/* <Column
-          title="Tags"
-          dataIndex="tags"
-          key="tags"
-          render={(tags: string[]) => (
-            <>
-              {tags.map((tag) => {
-                let color = tag.length > 5 ? "geekblue" : "green";
-                if (tag === "loser") {
-                  color = "volcano";
-                }
-                return (
-                  <Tag color={color} key={tag}>
-                    {tag.toUpperCase()}
-                  </Tag>
-                );
-              })}
-            </>
-          )}
-        /> */}
-        <Column
-          title="Action"
-          key="action"
-          render={(_: any, record: DataSourceItemType) => (
-            <Space>
-              <Button
-                type="primary"
-                color="red"
-                danger
-                size="large"
-                icon={<MdDelete />}
-              />
-              <ConfigProvider
-                theme={{
-                  components: {
-                    Button: {
-                      colorPrimary: "green",
-                    },
-                  },
-                }}
-              >
-                <Button type="primary" size="large" icon={<FaPencilAlt />} />
-              </ConfigProvider>
-            </Space>
-          )}
-        />
-      </Table>
     </div>
   );
-}
+};
+
+export default TableThree;
