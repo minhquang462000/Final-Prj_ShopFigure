@@ -179,12 +179,12 @@ export default function page(props: IAppProps) {
             </p>
           </td>
           <td className="col-span-1 text-wrap ">2022-11-11 : 11:11</td>
-          <td className="col-span-1 text-wrap ">2022-11-11 : 11:11</td>
+          <td className="col-span-1 text-wrap text-green-500">2022-11-11 : 11:11</td>
           <td className="col-span-1 text-wrap justify-center flex gap-2 ">
             {" "}
-            <button>
+           <Link href={`/admin/product/update/${product.id}`}> <button>
               <CiEdit size={25} />
-            </button>
+            </button></Link>
             <button>
               <MdDeleteOutline color="red" size={25} />
             </button>

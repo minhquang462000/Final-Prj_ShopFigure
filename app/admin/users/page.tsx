@@ -97,9 +97,10 @@ const TableThree = () => {
             2022-11-11 : 11:11
           </td>
           <td className="flex items-center justify-evenly px-2 col-span-1">
-            <button>
+           <Link href={`/admin/users/update/${packageItem.id}`}>
+           <button>
               <CiEdit size={25} />
-            </button>
+            </button></Link>
             <button>
               <MdDeleteOutline color="red" size={25} />
             </button>

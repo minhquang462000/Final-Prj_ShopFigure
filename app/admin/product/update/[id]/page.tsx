@@ -17,9 +17,14 @@ export default function page(props: IpageProps) {
     if (e.target.files) {
       //convert `FileList` to `File[]`
       const _files = Array.from(e.target.files);
+      console.log("_files", _files);
+
       setImages(_files);
+      console.log("images", images);
+
     }
   };
+  const [imagePreview, setImagePreview] = useState<string>("");
   const [dataUser, setDataUser] = useState({
     email: "",
     password: "",
@@ -27,6 +32,7 @@ export default function page(props: IpageProps) {
     lastName: "",
     phone: "",
     address: "",
+
     gender: "1",
     positionId: "",
   });
@@ -41,7 +47,7 @@ export default function page(props: IpageProps) {
     <main className=" h-screen p-4 px-5 overflow-y-auto">
       <ToastContainer />
       <h2 className="text-2xl mb-5 font-semibold leading-7 text-gray-900">
-        Thêm người dùng
+        Cập nhật thông tin
       </h2>
       <div className="border-b pb-8 grid grid-cols-3 gap-4 gap-x-8 border-gray-900/10 ">
         <div className="col-span-2  ">

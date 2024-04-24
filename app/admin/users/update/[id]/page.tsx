@@ -81,52 +81,7 @@ export default function page(props: IpageProps) {
             className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-[#26b9fe] outline-none placeholder:text-gray-400 "
           />
         </div>
-        <div className="col-span-1">
-          <label className="block text-sm font-medium leading-6 text-gray-900">
-            Mật khẩu
-          </label>
-          <div className="flex justify-between  ">
-            {" "}
-            <input
-              className=" px-2 w-full  rounded-md border-0 py-1.5 shadow-sm text-gray-900  ring-1 ring-inset ring-gray-300 focus:ring-[#26b9fe] outline-none placeholder:text-gray-400 "
-              type={showPass ? "text" : "password"}
-              id="password"
-              onChange={(e) => handleOnchange(e)}
-              name="password"
-            />
-            <div className="flex relative">
-              <span
-                onClick={() => setShowPass(!showPass)}
-                className="absolute right-2 top-[10px] cursor-pointer"
-              >
-                {showPass ? <FaEyeSlash /> : <FaEye />}
-              </span>
-            </div>
-          </div>
-        </div>
-        <div className="col-span-1">
-          <label className="block text-sm font-medium leading-6 text-gray-900">
-           Nhập Lại Mật khẩu
-          </label>
-          <div className="flex justify-between  ">
-            {" "}
-            <input
-              className=" px-2 w-full  rounded-md border-0 py-1.5 shadow-sm text-gray-900  ring-1 ring-inset ring-gray-300 focus:ring-[#26b9fe] outline-none placeholder:text-gray-400 "
-              type={showPass ? "text" : "password"}
-              id="password"
-              onChange={(e) => handleOnchange(e)}
-              name="password"
-            />
-            <div className="flex relative">
-              <span
-                onClick={() => setShowPass(!showPass)}
-                className="absolute right-2 top-[10px] cursor-pointer"
-              >
-                {showPass ? <FaEyeSlash /> : <FaEye />}
-              </span>
-            </div>
-          </div>
-        </div>
+       
         <div className="col-span-2 w-[400px]">
           <label
             htmlFor="gender"
@@ -145,6 +100,26 @@ export default function page(props: IpageProps) {
             </option>
             <option value={1}>Male</option>
             <option value={0}> Female</option>
+          </select>
+        </div>
+        <div className="col-span-2 w-[400px]">
+          <label
+            htmlFor="gender"
+            className="block text-sm font-medium leading-6 text-gray-900"
+          >
+            Trạng thái
+          </label>
+          <select
+            id="gender"
+            name="gender"
+            onChange={(e: any) => handleOnchange(e)}
+            className="block w-full rounded-md border-0 py-1.5 focus:ring-[#26b9fe] outline-none text-gray-900 shadow-sm ring-1 ring-gray-300 "
+          >
+            <option disabled value="">
+              Chọn giới tính ở đây
+            </option>
+            <option value={1}>Active</option>
+            <option value={0}> Deactive</option>
           </select>
         </div>
         <div className="col-span-1">

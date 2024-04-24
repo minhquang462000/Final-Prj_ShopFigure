@@ -14,7 +14,7 @@ export default function Dashboard(props: IDashboardProps) {
   const active = "bg-[#333a48]";
   const cssButton = "flex items-center gap-2 p-3  rounded hover:bg-[#333a48]";
   return (
-    <div className="w-full flex flex-col gap-2   py-5 bg-[#1c2434] h-screen">
+    <div className="w-full flex flex-col gap-2   py-5 bg-[#1c2434] min-h-screen">
       <button className="flex text-2xl gap-2 mb-7 font-medium  px-5">
         <MdOutlineDashboard size={30} />
         <p className="">Admin</p>
