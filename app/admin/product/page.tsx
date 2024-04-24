@@ -1,108 +1,196 @@
-import Image from "next/image";
-import { Product } from "@/types/product";
+"use client";
 
-const productData: Product[] = [
+import SlideProductAdmin from "@/components/Admin/Slide/SlideProductAdmin";
+import Link from "next/link";
+
+// Import Swiper React components
+
+const productData: any = [
   {
-    image: "/images/product/product-01.png",
+    image: [
+      "https://product.hstatic.net/200000462939/product/10002_e9904efa9aab45fc9672f0c6e145e974_grande.jpg",
+      "https://product.hstatic.net/200000462939/product/10003_301359d555e0443cbebee77f013b4097_grande.jpg",
+      "https://product.hstatic.net/200000462939/product/10005_558736ac52cc453bb88a479e88e07468_grande.jpg",
+      "https://product.hstatic.net/200000462939/product/10009_c38e0400f5b64bc29e9aff37ebc4429f_grande.jpg",
+    ],
     name: "Apple Watch Series 7",
-    category: "Electronics",
+    category: ["Electronics", "Watch", "Smart Watch"],
     price: 296,
-    sold: 22,
+    quantity: 22,
     profit: 45,
+    status: 1,
   },
   {
-    image: "/images/product/product-02.png",
+    image: [
+      "https://product.hstatic.net/200000462939/product/10002_e9904efa9aab45fc9672f0c6e145e974_grande.jpg",
+      "https://product.hstatic.net/200000462939/product/10003_301359d555e0443cbebee77f013b4097_grande.jpg",
+      "https://product.hstatic.net/200000462939/product/10005_558736ac52cc453bb88a479e88e07468_grande.jpg",
+      "https://product.hstatic.net/200000462939/product/10009_c38e0400f5b64bc29e9aff37ebc4429f_grande.jpg",
+    ],
     name: "Macbook Pro M1",
-    category: "Electronics",
+    category: ["Electronics", "Watch", "Smart Watch"],
     price: 546,
-    sold: 12,
+    quantity: 12,
     profit: 125,
+    status: 0,
   },
   {
-    image: "/images/product/product-03.png",
+    image: [
+      "https://product.hstatic.net/200000462939/product/10002_e9904efa9aab45fc9672f0c6e145e974_grande.jpg",
+      "https://product.hstatic.nt/200000462939/product/10003_301359d555e0443cbebee77f013b4097_grande.jpg",
+      "https://product.hstatic.net/200000462939/product/10005_558736ac52cc453bb88a479e88e07468_grande.jpg",
+      "https://product.hstatic.net/200000462939/product/10009_c38e0400f5b64bc29e9aff37ebc4429f_grande.jpg",
+    ],
     name: "Dell Inspiron 15",
-    category: "Electronics",
+    category: ["Electronics", "Watch", "Smart Watch"],
     price: 443,
-    sold: 64,
+    quantity: 64,
     profit: 247,
+    status: 1,
   },
   {
-    image: "/images/product/product-04.png",
+    image: [
+      "https://product.hstatic.net/200000462939/product/10002_e9904efa9aab45fc9672f0c6e145e974_grande.jpg",
+      "https://product.hstatic.net/200000462939/product/10003_301359d555e0443cbebee77f013b4097_grande.jpg",
+      "https://product.hstatic.net/200000462939/product/10005_558736ac52cc453bb88a479e88e07468_grande.jpg",
+      "https://product.hstatic.net/200000462939/product/10009_c38e0400f5b64bc29e9aff37ebc4429f_grande.jpg",
+    ],
     name: "HP Probook 450",
-    category: "Electronics",
+    category: ["Electronics", "Watch", "Smart Watch"],
     price: 499,
-    sold: 72,
+    quantity: 72,
     profit: 103,
+    status: 0,
   },
 ];
 
-const TableTwo = () => {
+import * as React from "react";
+import { CiEdit } from "react-icons/ci";
+import { FaPlus } from "react-icons/fa";
+import { MdDeleteOutline } from "react-icons/md";
+
+export interface IAppProps {}
+
+export default function page(props: IAppProps) {
   return (
-    <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-      <div className="px-4 py-6 md:px-6 xl:px-7.5">
-        <h4 className="text-xl font-semibold text-black dark:text-white">
-          Top Products
-        </h4>
+    <div className="rounded-sm text-xs text-wrap border py-2 w-full text-center ">
+      <div className="p-4 flex justify-between font-medium items-center w-full ">
+        <h1 className="text-xl  underline">Danh sách sản phẩm</h1>
+        <Link href={"/admin/product/create"}>
+          {" "}
+          <button className="w-max flex items-center    gap-2 border-gray-600 hover:text-white transition-all duration-300 hover:border-red-500 hover:bg-red-500  rounded-xl p-2 border   ">
+            <FaPlus />
+            Thêm mới
+          </button>
+        </Link>
       </div>
+      <th className="grid grid-cols-16 text-sm  w-full text-center py-2 font-medium  ">
+        <td className="col-span-4 ">Tên sản phẩm</td>
+        <td className="col-span-2 ">Mô tả </td>
 
-      <div className="grid grid-cols-6 border-t border-stroke px-4 py-4.5 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5">
-        <div className="col-span-3 flex items-center">
-          <p className="font-medium">Product Name</p>
-        </div>
-        <div className="col-span-2 hidden items-center sm:flex">
-          <p className="font-medium">Category</p>
-        </div>
-        <div className="col-span-1 flex items-center">
-          <p className="font-medium">Price</p>
-        </div>
-        <div className="col-span-1 flex items-center">
-          <p className="font-medium">Sold</p>
-        </div>
-        <div className="col-span-1 flex items-center">
-          <p className="font-medium">Profit</p>
-        </div>
-      </div>
+        <td className="col-span-2  ">Thể loại</td>
+        <td className="col-span-1 ">Thông tin</td>
 
-      {productData.map((product, key) => (
-        <div
-          className="grid grid-cols-6 border-t border-stroke px-4 py-4.5 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5"
+        <td className="col-span-1 ">Nhân vật</td>
+        <td className="col-span-1 ">Thương hiệu</td>
+        <td className="col-span-1 ">Seri</td>
+
+        <td className="col-span-1 ">Trạng thái </td>
+        <td className="col-span-1 ">Ngày tạo</td>
+        <td className="col-span-1 ">Ngày cập nhật </td>
+        <td className="col-span-1 ">Action</td>
+      </th>
+
+      {productData.map((product: any, key: number) => (
+        <tr
+          className="grid grid-cols-16 gap-2 font-medium items-center border-t border-gray-400 py-2 "
           key={key}
         >
-          <div className="col-span-3 flex items-center">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-              <div className="h-12.5 w-15 rounded-md">
-                <img
-                  src={product.image}
-                  width={60}
-                  height={50}
-                  alt="Product"
-                />
-              </div>
-              <p className="text-sm text-black dark:text-white">
-                {product.name}
+          <td className="col-span-4 flex gap-5   items-center">
+            <SlideProductAdmin data={product.image} />
+            <p className=" text-start text-wrap truncate ">
+              {product.name} zxczxcz asdzsad sdasd sdas sdsa sdas sadas adas
+              adasd asdas
+            </p>
+          </td>
+          <td className="col-span-2 font-normal h-[80px] overflow-hidden line-clamp-5   text-start">
+            Mô tả sdgas áhjdg shajdg shjgd shjgd sahjdg shjg ádjhg ádhj ádhjg
+            ádhj ádhj áhjdb sjas sahjdg áhjg sjdg sdja ạd Mô tả sdgas áhjdg
+            shajdg shjgd shjgd sahjdg shjg ádjhg ádhj ádhjg ádhj ádhj áhjdb sjas
+            sahjdg áhjg sjdg sdja ạd Mô tả sdgas áhjdg shajdg shjgd shjgd sahjdg
+            shjg ádjhg ádhj ádhjg ádhj ádhj áhjdb sjas sahjdg áhjg sjdg sdja ạd
+            asdhjsdk quang ádhj ádhj áhjdb sjas sahjdg áhjg sjdg sdja ạd ádhj
+            ádhj áhjdb sjas sahjdg áhjg sjdg sdja ạd asdhjsdk quang
+          </td>
+
+          <td className="col-span-2  flex flex-wrap gap-1 ">
+            {" "}
+            {product.category.map((item: any, index: number) => (
+              <span
+                className=" p-1 rounded-md border  border-black "
+                key={index}
+              >
+                {item}
+              </span>
+            ))}
+          </td>
+          <td className="col-span-1 justify-evenly items-start  flex flex-col gap-2 text-xs font-bold ">
+            <span className="flex gap-2 items-center">
+              {" "}
+              Giá Sp:
+              <p className=" font-light italic">{product.price}.đ</p>
+            </span>
+            <span className="flex gap-2 items-center">
+              Số lượng:
+              <p className=" font-light italic">{product.quantity}</p>
+            </span>
+            <span className="flex gap-1 font-medium  items-center">
+              Giảm giá:{" "}
+              <p className="bg-red-500 w-max  font-light italic text-white rounded-md  px-1">
+                -10%
               </p>
-            </div>
-          </div>
-          <div className="col-span-2 hidden items-center sm:flex">
-            <p className="text-sm text-black dark:text-white">
-              {product.category}
+            </span>
+          </td>
+
+          <td className="col-span-1  ">
+            <p className="p-1 rounded-md border   border-black w-max m-auto">
+              Nhân vật
             </p>
-          </div>
-          <div className="col-span-1 flex items-center">
-            <p className="text-sm text-black dark:text-white">
-              ${product.price}
+          </td>
+          <td className="col-span-1  ">
+            <p className="p-1 rounded-md border   border-black w-max m-auto">
+              Thương hiệu
             </p>
-          </div>
-          <div className="col-span-1 flex items-center">
-            <p className="text-sm text-black dark:text-white">{product.sold}</p>
-          </div>
-          <div className="col-span-1 flex items-center">
-            <p className="text-sm text-meta-3">${product.profit}</p>
-          </div>
-        </div>
+          </td>
+          <td className="col-span-1  ">
+            <p className="p-1 rounded-md border   border-black w-max m-auto">
+              Onpiece
+            </p>
+          </td>
+          <td className="col-span-1 ">
+            <p
+              className={`inline-flex rounded-lg  border bg-opacity-10 px-2 py-1 text-sm font-bold ${
+                product.status === 1
+                  ? "border-green-500 text-green-500"
+                  : "border-red-500 text-red-500"
+              }`}
+            >
+              {product.status === 1 ? "Active" : "Inactive"}
+            </p>
+          </td>
+          <td className="col-span-1 text-wrap ">2022-11-11 : 11:11</td>
+          <td className="col-span-1 text-wrap ">2022-11-11 : 11:11</td>
+          <td className="col-span-1 text-wrap justify-center flex gap-2 ">
+            {" "}
+            <button>
+              <CiEdit size={25} />
+            </button>
+            <button>
+              <MdDeleteOutline color="red" size={25} />
+            </button>
+          </td>
+        </tr>
       ))}
     </div>
   );
-};
-
-export default TableTwo;
+}
