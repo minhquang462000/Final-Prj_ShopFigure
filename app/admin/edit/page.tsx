@@ -3,14 +3,11 @@ import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
 import { HiPhoto } from "react-icons/hi2";
-import Select from "react-select"
-import makeAnimated from "react-select/animated"
 
 export interface IpageProps {}
 
 export default function page(props: IpageProps) {
   const [image, setImage] = React.useState<any>(null);
-  const animatedComponents = makeAnimated();
   return (
     <div className="mx-auto max-w-270">
       <div className="grid grid-cols-5 gap-4">
@@ -88,24 +85,6 @@ export default function page(props: IpageProps) {
               defaultValue="Thuy Duyen -Thai Thuy-Thai Binh"
             />
           </div>
-          <div className="col-span-1">
-          <label
-            htmlFor="status"
-            className="block text-sm font-medium leading-6 mb-3 text-gray-900"
-          >
-           Trạng Thái Hoạt Động
-          </label>
-          <Select
-            closeMenuOnSelect={true}
-            defaultValue={{ value: "1", label: "Active" }}
-            name="status"
-            components={animatedComponents}
-            options={[
-              { value: "1", label: "Active" },
-              { value: "0", label: "InActive" },
-            ]}
-          />
-        </div>
         </nav>
         <div className="col-span-2 bg-white rounded-md p-7">
           <label
@@ -166,7 +145,7 @@ export default function page(props: IpageProps) {
         </div>
       </div>
       <div className="mt-5 flex items-center justify-center gap-x-6 m-auto">
-        <Link href="/admin/users">
+        <Link href="/admin">
           <button className="text-sm w-[100px] hover:bg-red-500 hover:text-white hover:border-red-500 border px-3 py-2 rounded-md border-black font-semibold leading-6 text-gray-900">
             Quay Lại
           </button>

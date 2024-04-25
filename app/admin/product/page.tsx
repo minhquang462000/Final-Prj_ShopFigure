@@ -1,5 +1,6 @@
 "use client";
 
+import ButtonCreate from "@/components/Admin/ButtonCreate";
 import SlideProductAdmin from "@/components/Admin/Slide/SlideProductAdmin";
 import Link from "next/link";
 
@@ -74,44 +75,41 @@ export interface IAppProps {}
 export default function page(props: IAppProps) {
   return (
     <div className="rounded-sm text-xs text-wrap border py-2 w-full text-center ">
-      <div className="p-4 flex justify-between font-medium items-center w-full ">
-        <h1 className="text-xl  underline">Danh sách sản phẩm</h1>
-        <Link href={"/admin/product/create"}>
-          {" "}
-          <button className="w-max flex items-center    gap-2 border-gray-600 hover:text-white transition-all duration-300 hover:border-red-500 hover:bg-red-500  rounded-xl p-2 border   ">
-            <FaPlus />
-            Thêm mới
-          </button>
-        </Link>
-      </div>
+      <ButtonCreate title="Danh Sách Sản Phẩm" urlLink="/admin/product/create"/>
       <th className="grid grid-cols-16 text-sm  w-full text-center py-2 font-medium  ">
-        <td className="col-span-4 ">Tên sản phẩm</td>
-        <td className="col-span-2 ">Mô tả </td>
+        <td className="col-span-4 flex gap-2   items-center">
+          <input type="checkbox" name="" id="" />
+          Tên Sản Phẩm
+        </td>
+        <td className="col-span-2 ">Mô Tả </td>
 
-        <td className="col-span-2  ">Thể loại</td>
-        <td className="col-span-1 ">Thông tin</td>
+        <td className="col-span-1  ">Thể Loại</td>
+        <td className="col-span-1 ">Thông Tin</td>
 
-        <td className="col-span-1 ">Nhân vật</td>
-        <td className="col-span-1 ">Thương hiệu</td>
+        <td className="col-span-1 ">Nhân Vật</td>
+        <td className="col-span-1 ">Thương Hiệu</td>
         <td className="col-span-1 ">Seri</td>
 
-        <td className="col-span-1 ">Trạng thái </td>
-        <td className="col-span-1 ">Ngày tạo</td>
-        <td className="col-span-1 ">Ngày cập nhật </td>
+        <td className="col-span-1 ">Trạng Thái </td>
+        <td className="col-span-1 ">Ngày Tạo</td>
+        <td className="col-span-1 ">Ngày Cập Nhật </td>
         <td className="col-span-1 ">Action</td>
       </th>
 
       {productData.map((product: any, key: number) => (
         <tr
-          className="grid grid-cols-16 gap-2 font-medium items-center border-t border-gray-400 py-2 "
+          className="grid grid-cols-16 gap-2 font-medium items-center border-t text-[10px] border-gray-400 py-2 "
           key={key}
         >
-          <td className="col-span-4 flex gap-5   items-center">
-            <SlideProductAdmin data={product.image} />
-            <p className=" text-start text-wrap truncate ">
-              {product.name} zxczxcz asdzsad sdasd sdas sdsa sdas sadas adas
-              adasd asdas
-            </p>
+          <td className="col-span-4 flex gap-2 text-xs   items-center">
+            <input type="checkbox" name="" id="" />
+            <div className="flex gap-5 items-center">
+              <SlideProductAdmin data={product.image} />
+              <p className=" text-start text-wrap truncate ">
+                {product.name} zxczxcz asdzsad sdasd sdas sdsa sdas sadas adas
+                adasd asdas
+              </p>
+            </div>
           </td>
           <td className="col-span-2 font-normal h-[80px] overflow-hidden line-clamp-5   text-start">
             Mô tả sdgas áhjdg shajdg shjgd shjgd sahjdg shjg ádjhg ádhj ádhjg
@@ -123,7 +121,7 @@ export default function page(props: IAppProps) {
             ádhj áhjdb sjas sahjdg áhjg sjdg sdja ạd asdhjsdk quang
           </td>
 
-          <td className="col-span-2  flex flex-wrap gap-1 ">
+          <td className="col-span-1   flex flex-wrap gap-1 ">
             {" "}
             {product.category.map((item: any, index: number) => (
               <span
@@ -134,7 +132,7 @@ export default function page(props: IAppProps) {
               </span>
             ))}
           </td>
-          <td className="col-span-1 justify-evenly items-start  flex flex-col gap-2 text-xs font-bold ">
+          <td className="col-span-1 justify-evenly items-start  text-xs flex flex-col gap-2  font-bold ">
             <span className="flex gap-2 items-center">
               {" "}
               Giá Sp:
@@ -144,7 +142,7 @@ export default function page(props: IAppProps) {
               Số lượng:
               <p className=" font-light italic">{product.quantity}</p>
             </span>
-            <span className="flex gap-1 font-medium  items-center">
+            <span className="flex gap-1  items-center">
               Giảm giá:{" "}
               <p className="bg-red-500 w-max  font-light italic text-white rounded-md  px-1">
                 -10%
@@ -169,7 +167,7 @@ export default function page(props: IAppProps) {
           </td>
           <td className="col-span-1 ">
             <p
-              className={`inline-flex rounded-lg  border bg-opacity-10 px-2 py-1 text-sm font-bold ${
+              className={`inline-flex rounded-lg  border bg-opacity-10 px-2 py-1  font-bold ${
                 product.status === 1
                   ? "border-green-500 text-green-500"
                   : "border-red-500 text-red-500"
@@ -179,12 +177,17 @@ export default function page(props: IAppProps) {
             </p>
           </td>
           <td className="col-span-1 text-wrap ">2022-11-11 : 11:11</td>
-          <td className="col-span-1 text-wrap text-green-500">2022-11-11 : 11:11</td>
+          <td className="col-span-1 text-wrap text-green-500">
+            2022-11-11 : 11:11
+          </td>
           <td className="col-span-1 text-wrap justify-center flex gap-2 ">
             {" "}
-           <Link href={`/admin/product/update/${product.id}`}> <button>
-              <CiEdit size={25} />
-            </button></Link>
+            <Link href={`/admin/product/update/${product.id}`}>
+              {" "}
+              <button>
+                <CiEdit size={25} />
+              </button>
+            </Link>
             <button>
               <MdDeleteOutline color="red" size={25} />
             </button>

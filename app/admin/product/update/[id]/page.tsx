@@ -3,13 +3,11 @@ import axios from "axios";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { useEffect, useState } from "react";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { HiPhoto } from "react-icons/hi2";
 import { ToastContainer } from "react-toastify";
 import Link from "next/link";
-import Image from "next/image";
 
-export interface IpageProps { }
+export interface IpageProps {}
 
 export default function page(props: IpageProps) {
   const [images, setImages] = useState<File[]>([]);
@@ -17,14 +15,9 @@ export default function page(props: IpageProps) {
     if (e.target.files) {
       //convert `FileList` to `File[]`
       const _files = Array.from(e.target.files);
-      console.log("_files", _files);
-
       setImages(_files);
-      console.log("images", images);
-
     }
   };
-  const [imagePreview, setImagePreview] = useState<string>("");
   const [dataUser, setDataUser] = useState({
     email: "",
     password: "",
@@ -32,7 +25,6 @@ export default function page(props: IpageProps) {
     lastName: "",
     phone: "",
     address: "",
-
     gender: "1",
     positionId: "",
   });
@@ -47,7 +39,7 @@ export default function page(props: IpageProps) {
     <main className=" h-screen p-4 px-5 overflow-y-auto">
       <ToastContainer />
       <h2 className="text-2xl mb-5 font-semibold leading-7 text-gray-900">
-        Cập nhật thông tin
+       Cập Nhật Sản Phẩm
       </h2>
       <div className="border-b pb-8 grid grid-cols-3 gap-4 gap-x-8 border-gray-900/10 ">
         <div className="col-span-2  ">
@@ -55,7 +47,7 @@ export default function page(props: IpageProps) {
             htmlFor="name"
             className="block text-sm font-medium leading-6 text-gray-900"
           >
-            Tên sản phẩm
+            Tên Sản Phẩm
           </label>
           <input
             id="name"
@@ -71,7 +63,7 @@ export default function page(props: IpageProps) {
             htmlFor="cover-photo"
             className="block text-sm font-medium leading-6 text-gray-900"
           >
-            Cover avatar
+           Ảnh Hiển Thị
           </label>
           <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
             <div className="text-center">
@@ -104,9 +96,14 @@ export default function page(props: IpageProps) {
             </div>
           </div>
           <div className="grid grid-cols-3 gap-5 relative  w-full   pt-5">
-          <button 
-           onClick={() => setImages([])}
-           className={`px-10 p-2 text-end w-max bg-red-500 rounded-xl col-span-3 justify-self-end  text-white font-bold ${images.length === 0 && "hidden"}`}>X</button>
+            <button
+              onClick={() => setImages([])}
+              className={`px-10 p-2 text-end w-max bg-red-500 rounded-xl col-span-3 justify-self-end  text-white font-bold ${
+                images.length === 0 && "hidden"
+              }`}
+            >
+              X
+            </button>
             {images.map((image) => {
               const src = URL.createObjectURL(image);
               return (
@@ -116,7 +113,8 @@ export default function page(props: IpageProps) {
                     src={src}
                     alt=""
                   />
-                  <button className="absolute -top-2 -right-2  text-white bg-red-600 p-2 px-4 rounded-xl" 
+                  <button
+                    className="absolute -top-2 -right-2  text-white bg-red-600 p-2 px-4 rounded-xl"
                     type="button"
                     onClick={() => setImages(images.filter((i) => i !== image))}
                   >
@@ -129,10 +127,10 @@ export default function page(props: IpageProps) {
         </div>
         <div className="col-span-2  ">
           <label
-            htmlFor="email"
+            htmlFor="description"
             className="block text-sm font-medium leading-6 text-gray-900"
           >
-            Mô tả
+           Mô Tả
           </label>
           <textarea
             name=""
@@ -140,12 +138,13 @@ export default function page(props: IpageProps) {
             className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset h-[100px] ring-gray-300 focus:ring-[#26b9fe] outline-none placeholder:text-gray-400 "
           />
         </div>
-        <div className="col-span-2">
+        <div></div>
+        <div className="col-span-1">
           <label
             htmlFor="address"
             className="block text-sm font-medium leading-6 text-gray-900"
           >
-            Adress
+            Giá Sản Phẩm
           </label>
           <input
             type="text"
@@ -155,12 +154,12 @@ export default function page(props: IpageProps) {
             className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset focus:ring-[#26b9fe] outline-none ring-gray-300 placeholder:text-gray-400 "
           />
         </div>
-        <div className="col-span-2">
+        <div className="col-span-1">
           <label
             htmlFor="phone"
             className="block text-sm font-medium leading-6 text-gray-900"
           >
-            Number phone
+            Số Lượng
           </label>
           <input
             type="text"
@@ -170,13 +169,27 @@ export default function page(props: IpageProps) {
             className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset focus:ring-[#26b9fe] outline-none ring-gray-300 placeholder:text-gray-400 "
           />
         </div>
-        <div className="col-span-1"></div>
+        <div className="col-span-1">
+          <label
+            htmlFor="phone"
+            className="block text-sm font-medium leading-6 text-gray-900"
+          >
+          Giảm Giá
+          </label>
+          <input
+            type="text"
+            onChange={(e) => handleOnchange(e)}
+            name="phone"
+            id="phone"
+            className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset focus:ring-[#26b9fe] outline-none ring-gray-300 placeholder:text-gray-400 "
+          />
+        </div>
         <div className="col-span-2 ">
           <label
             htmlFor="category"
             className="block text-sm font-medium leading-6 text-gray-900"
           >
-            Danh mục
+            Danh Mục
           </label>
           <Select
             closeMenuOnSelect={false}
@@ -186,6 +199,24 @@ export default function page(props: IpageProps) {
             options={[
               { value: "1", label: "Nam" },
               { value: "0", label: "Nu" },
+            ]}
+          />
+        </div>
+        <div className="col-span-1">
+          <label
+            htmlFor="status"
+            className="block text-sm font-medium leading-6 text-gray-900"
+          >
+           Trạng Thái Hoạt Động
+          </label>
+          <Select
+            closeMenuOnSelect={true}
+            
+            name="status"
+            components={animatedComponents}
+            options={[
+              { value: "1", label: "Active" },
+              { value: "0", label: "InActive" },
             ]}
           />
         </div>
@@ -215,6 +246,7 @@ export default function page(props: IpageProps) {
           </label>
           <Select
             closeMenuOnSelect={true}
+            
             name="brand"
             components={animatedComponents}
             options={[
@@ -246,11 +278,11 @@ export default function page(props: IpageProps) {
       <div className="mt-3 flex items-center justify-center gap-x-6 m-auto">
         <Link href="/admin/product">
           <button className="text-sm w-[100px] hover:bg-red-500 hover:text-white hover:border-red-500 border px-3 py-2 rounded-md border-black font-semibold leading-6 text-gray-900">
-            Cancel
+            Quay Lại
           </button>
         </Link>
         <button className="rounded-md bg-indigo-600 px-3 w-[100px] py-[10px] text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 ">
-          Save
+         Lưu Sp
         </button>
       </div>
     </main>

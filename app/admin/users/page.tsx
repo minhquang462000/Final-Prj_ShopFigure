@@ -1,3 +1,4 @@
+import ButtonCreate from "@/components/Admin/ButtonCreate";
 import Image from "next/image";
 import Link from "next/link";
 import { CiEdit } from "react-icons/ci";
@@ -38,24 +39,18 @@ const packageData: any = [
 const TableThree = () => {
   return (
     <div className="rounded-sm border border-stroke bg-white text-sm ">
-      <div className="p-4 flex justify-between font-medium items-center w-full ">
-        <h1 className="text-xl  underline">Danh sách người dùng</h1>
-        <Link href={"/admin/users/create"}>
-          <button className="w-max flex items-center    gap-2 border-gray-600 hover:text-white transition-all duration-300 hover:border-red-500 hover:bg-red-500  rounded-xl p-2 border   ">
-            <FaPlus />
-            Thêm mới
-          </button>
-        </Link>
-      </div>
+    <ButtonCreate title="Danh Sách Người Dùng" urlLink="/admin/users/create"/>
       <th className="grid grid-cols-14 w-full text-center  p-4  border-gray-400  font-medium  ">
-        <td className="col-span-3  text-start">Tài Khoản</td>
+        <td className="col-span-3 flex items-center gap-2  text-start">
+          <input type="checkbox" name="" id="" /> Tài Khoản
+        </td>
         <td className="col-span-2 text-start">Email</td>
         <td className="col-span-3 text-start  ">Địa Chỉ</td>
         <td className="col-span-1 ">Trạng Thái</td>
         <td className="col-span-1 ">Giới Tính</td>
         <td className="col-span-1 ">Số ĐT</td>
-        <td className="col-span-1 ">Ngày tạo</td>
-        <td className="col-span-1 ">Ngày cập nhật </td>
+        <td className="col-span-1 ">Ngày Tạo</td>
+        <td className="col-span-1 ">Ngày Cập Nhật </td>
         <td className="col-span-1  ">Action</td>
       </th>
       {packageData.map((packageItem: any, key: any) => (
@@ -64,14 +59,17 @@ const TableThree = () => {
           key={key}
         >
           <td className="col-span-3 text-start gap-2 text-base flex items-center ">
-            <img
-              src={packageItem.logo}
-              alt="Brand"
-              className=" w-[50px] h-[50px] border border-black rounded-full   object-cover"
-            />
-            <p className=" col-span-2 w-[200px] truncate ">
-              {packageItem.name}
-            </p>
+            <input type="checkbox" name="" id="" />
+            <div className="flex items-center gap-2 ">
+              <img
+                src={packageItem.logo}
+                alt="Brand"
+                className=" w-[50px] h-[50px] border border-black rounded-full   object-cover"
+              />
+              <p className=" col-span-2 w-[200px] truncate ">
+                {packageItem.name}
+              </p>
+            </div>
           </td>
           <td className="col-span-2 text-start  truncate">Email</td>
           <td className="col-span-3 text-start truncate">
@@ -97,10 +95,11 @@ const TableThree = () => {
             2022-11-11 : 11:11
           </td>
           <td className="flex items-center justify-evenly px-2 col-span-1">
-           <Link href={`/admin/users/update/${packageItem.id}`}>
-           <button>
-              <CiEdit size={25} />
-            </button></Link>
+            <Link href={`/admin/users/update/${packageItem.id}`}>
+              <button>
+                <CiEdit size={25} />
+              </button>
+            </Link>
             <button>
               <MdDeleteOutline color="red" size={25} />
             </button>

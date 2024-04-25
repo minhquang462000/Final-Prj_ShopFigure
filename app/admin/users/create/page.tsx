@@ -1,189 +1,116 @@
 "use client";
-import axios from "axios";
+import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import * as React from "react";
 import { HiPhoto } from "react-icons/hi2";
-import { ToastContainer } from "react-toastify";
 
 export interface IpageProps {}
 
 export default function page(props: IpageProps) {
-  const [showPass, setShowPass] = useState<boolean>(false);
-  const [image, setImage] = useState<any>(null);
-  
-  const [dataUser, setDataUser] = useState({
-    email: "",
-    password: "",
-    firstName: "",
-    lastName: "",
-    phone: "",
-    address: "",
-    image: "",
-    gender: "1",
-    positionId: "",
-  });
-  const handleOnchange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDataUser({
-      ...dataUser,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  // //preview Image Avatar
-  // useEffect(() => {
-  //   if (imgUrl) {
-  //     const reader: any = new FileReader();
-  //     const url: string = reader.readAsDataURL(imgUrl);
-
-  //     reader.onloadend = function () {
-  //       setImagePreview(reader.result);
-  //     };
-  //     setImagePreview(url);
-  //   }
-  // }, [imgUrl]);
+  const [image, setImage] = React.useState<any>(null);
   return (
-    <main className=" h-screen p-4 px-5 overflow-y-auto">
-      <ToastContainer />
-      <h2 className="text-2xl mb-5 font-semibold leading-7 text-gray-900">
-        Thêm người dùng
-      </h2>
-      <div className="border-b grid grid-cols-2 gap-4 gap-x-8 border-gray-900/10 ">
-        <div className="col-span-1  ">
-          <label
-            htmlFor="name"
-            className="block text-sm font-medium leading-6 text-gray-900"
-          >
-            Tên người dùng
-          </label>
-          <input
-            id="name"
-            name="name"
-            onChange={(e) => handleOnchange(e)}
-            type=""
-            autoComplete="name"
-            className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-[#26b9fe] outline-none placeholder:text-gray-400 "
-          />
+    <div className="mx-auto max-w-270">
+      <div className="grid grid-cols-5 gap-4">
+        <div
+          className="border-b col-span-5 border-stroke
+         "
+        >
+          <h3 className="font-medium  ">Cật Nhật Thông Tin</h3>
         </div>
-        <div className="col-span-1  ">
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium leading-6 text-gray-900"
-          >
-            Email
-          </label>
-          <input
-            id="email"
-            name="email"
-            onChange={(e) => handleOnchange(e)}
-            type="email"
-            autoComplete="email"
-            className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-[#26b9fe] outline-none placeholder:text-gray-400 "
-          />
-        </div>
-        <div className="col-span-1">
-          <label className="block text-sm font-medium leading-6 text-gray-900">
-            Mật khẩu
-          </label>
-          <div className="flex justify-between  ">
-            {" "}
-            <input
-              className=" px-2 w-full  rounded-md border-0 py-1.5 shadow-sm text-gray-900  ring-1 ring-inset ring-gray-300 focus:ring-[#26b9fe] outline-none placeholder:text-gray-400 "
-              type={showPass ? "text" : "password"}
-              id="password"
-              onChange={(e) => handleOnchange(e)}
-              name="password"
-            />
-            <div className="flex relative">
-              <span
-                onClick={() => setShowPass(!showPass)}
-                className="absolute right-2 top-[10px] cursor-pointer"
-              >
-                {showPass ? <FaEyeSlash /> : <FaEye />}
-              </span>
+        <nav className="grid col-span-3 bg-white rounded-md gap-4 p-7">
+          <div className="w-full ">
+            <label
+              className="mb-3 block text-sm font-medium "
+              htmlFor="fullName"
+            >
+              Tên
+            </label>
+            <div className="w-full">
+              <input
+                className="w-full rounded-md outline-none bg-transparent border ring-1 focus:ring-[#26b9fe] p-2"
+                type="text"
+                name="name"
+                id="name"
+                placeholder="Tên..."
+            
+              />
             </div>
           </div>
-        </div>
-        <div className="col-span-1">
-          <label className="block text-sm font-medium leading-6 text-gray-900">
-           Nhập Lại Mật khẩu
-          </label>
-          <div className="flex justify-between  ">
-            {" "}
-            <input
-              className=" px-2 w-full  rounded-md border-0 py-1.5 shadow-sm text-gray-900  ring-1 ring-inset ring-gray-300 focus:ring-[#26b9fe] outline-none placeholder:text-gray-400 "
-              type={showPass ? "text" : "password"}
-              id="password"
-              onChange={(e) => handleOnchange(e)}
-              name="password"
-            />
-            <div className="flex relative">
-              <span
-                onClick={() => setShowPass(!showPass)}
-                className="absolute right-2 top-[10px] cursor-pointer"
-              >
-                {showPass ? <FaEyeSlash /> : <FaEye />}
-              </span>
+
+          <div className="">
+            <label className="mb-3 block text-sm font-medium " htmlFor="phone">
+              Số Điện Thoại
+            </label>
+            <div className="w-full">
+              <input
+                className="w-full rounded-md outline-none bg-transparent border ring-1 focus:ring-[#26b9fe] p-2"
+                type="text"
+                name="phone"
+                id="name"
+                placeholder="SĐT..."
+               
+              />
             </div>
           </div>
-        </div>
-        <div className="col-span-2 w-[400px]">
-          <label
-            htmlFor="gender"
-            className="block text-sm font-medium leading-6 text-gray-900"
-          >
-            Giới tính
-          </label>
-          <select
-            id="gender"
-            name="gender"
-            onChange={(e: any) => handleOnchange(e)}
-            className="block w-full rounded-md border-0 py-1.5 focus:ring-[#26b9fe] outline-none text-gray-900 shadow-sm ring-1 ring-gray-300 "
-          >
-            <option disabled value="">
-              Chọn giới tính ở đây
-            </option>
-            <option value={1}>Male</option>
-            <option value={0}> Female</option>
-          </select>
-        </div>
-        <div className="col-span-1">
-          <label
-            htmlFor="phoneNumber"
-            className="block text-sm font-medium leading-6 text-gray-900"
-          >
-           Số Điện Thoại
-          </label>
-          <input
-            type="text"
-            onChange={(e) => handleOnchange(e)}
-            name="phoneNumber"
-            id="phoneNumber"
-            className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset focus:ring-[#26b9fe] outline-none ring-gray-300 placeholder:text-gray-400 "
-          />
-        </div>
-        <div className="col-span-1">
-          <label
-            htmlFor="address"
-            className="block text-sm font-medium leading-6 text-gray-900"
-          >
-            Địa Chỉ
-          </label>
-          <input
-            type="text"
-            onChange={(e) => handleOnchange(e)}
-            name="address"
-            id="address"
-            className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset focus:ring-[#26b9fe] outline-none ring-gray-300 placeholder:text-gray-400 "
-          />
-        </div>
-        <div className="col-span-2">
+
+          <div className="">
+            <label className="mb-3 block text-sm font-medium " htmlFor="email">
+              Email
+            </label>
+            <div className="w-full">
+              <input
+                className="w-full rounded-md outline-none bg-transparent border ring-1 focus:ring-[#26b9fe] p-2"
+                type="text"
+                name="email"
+                id="email"
+                placeholder="email..."
+               
+              />
+            </div>
+          </div>
+
+          <div className="">
+            <label
+              className="mb-3 block text-sm font-medium "
+              htmlFor="address"
+            >
+              Địa Chỉ
+            </label>
+            <input
+              className="w-full rounded-md outline-none bg-transparent border ring-1 focus:ring-[#26b9fe] p-2"
+              type="text"
+              name="address"
+              id="address"
+              placeholder="Địa chỉ..."
+              
+            />
+          </div>
+        </nav>
+        <div className="col-span-2 bg-white rounded-md p-7">
           <label
             htmlFor="cover-photo"
             className="block text-sm font-medium leading-6 text-gray-900"
           >
-           Avatar
+            Avatar
           </label>
+          <div className={`${image ? "block" : "hidden "}   `}>
+            <div className="flex  items-end gap-2 w-full">
+              <img
+                className="w-[100px] h-[100px] object-cover rounded-full"
+                src={image}
+                alt=""
+              />
+              <button
+                className="border border-black rounded-md px-4 py-1 text-xs hover:border-red-500 hover:text-red-500"
+                type="button"
+                onClick={() => {
+                  setImage(null);
+                }}
+              >
+                Xoá
+              </button>
+            </div>
+          </div>
           <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
             <div className="text-center">
               <HiPhoto
@@ -201,7 +128,9 @@ export default function page(props: IpageProps) {
                     id="image"
                     name="image"
                     type="file"
-                    onChange={(e)=>setImage(URL.createObjectURL(e.target.files![0]))}
+                    onChange={(e) =>
+                      setImage(URL.createObjectURL(e.target.files![0]))
+                    }
                     accept="image/*"
                     className="sr-only outline-none"
                   />
@@ -213,38 +142,8 @@ export default function page(props: IpageProps) {
               </p>
             </div>
           </div>
-          <div
-            className={`${
-              image ? "block" : "hidden "
-            } mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-2`}
-          >
-            <div className="flex justify-between items-center w-full">
-              <span className="w-[200px] h-[120px]">
-                <img
-                  className="w-full h-full object-cover rounded-md"
-                  src={image}
-                  alt=""
-                />
-              </span>
-              <span className="w-[70%] truncate">
-                Url Image: {image}
-              </span>
-              <span className="border border-black rounded-md px-3 py-1 text-xl">
-                {" "}
-                <button
-                  type="button"
-                  onClick={() => {
-                    setImage(null);
-                  }}
-                >
-                  X
-                </button>
-              </span>
-            </div>
-          </div>
         </div>
       </div>
-
       <div className="mt-5 flex items-center justify-center gap-x-6 m-auto">
         <Link href="/admin/users">
           <button className="text-sm w-[100px] hover:bg-red-500 hover:text-white hover:border-red-500 border px-3 py-2 rounded-md border-black font-semibold leading-6 text-gray-900">
@@ -255,6 +154,6 @@ export default function page(props: IpageProps) {
           Lưu
         </button>
       </div>
-    </main>
+    </div>
   );
 }
