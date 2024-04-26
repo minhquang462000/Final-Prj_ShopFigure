@@ -7,6 +7,7 @@ import { LoginUserDto } from './dto/login-user.dto';
 import {JwtService} from '@nestjs/jwt'
 import { Repository } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
+import { access } from 'fs';
 
 @Injectable()
 export class AuthService {
@@ -16,8 +17,14 @@ export class AuthService {
   private configService: ConfigService
  ) {}
 
+async checkDefaultAdmin() {
+  const admin = await this.userRepository.findOne({ where: { email: 'nmquang@gmail.com' } });
+  if (!admin) {
+    const hashPassword = await this.hashPassword('quang460');
+    await this.userRepository.save({ email: 'nmquang@gmail.com', name: 'Nguyễn Minh Quang', password: hashPassword, role: 0 ,gender: 0});
+  }
+}
 async login(loginUserDto: LoginUserDto) {
-
       const user = await this.userRepository.findOne({ where: { email: loginUserDto.email } });
     if (!user) {
     throw new HttpException('Email không tồn tại', HttpStatus.BAD_REQUEST);
@@ -26,9 +33,14 @@ async login(loginUserDto: LoginUserDto) {
       throw new HttpException('Password không đúng', HttpStatus.BAD_REQUEST);
     }
     const payload = { id: user.user_id, email: user.email };
-    return await this.generateToken(payload);
+    const Token = await this.generateToken(payload);
+     return {
+      Token:Token.accessToken,
+      userId:user.user_id
+     }
 }
 async register(registerUserDto: RegisterUserDto) {
+  
  const hashPassword = await this.hashPassword(registerUserDto.password);
   if (await this.checkEmail(registerUserDto.email)) {
    throw new HttpException('Email đã đăng ký', HttpStatus.BAD_REQUEST);
@@ -42,6 +54,8 @@ async register(registerUserDto: RegisterUserDto) {
    await this.userRepository.save({...registerUserDto,refresh_token: 'test-token',password: hashPassword});
    throw new HttpException('Đăng ký thành công', HttpStatus.OK);
 }
+// Admin
+
 async checkEmail(email: string) {
   const user = await this.userRepository.findOne({ where: { email } });
   if (user) {

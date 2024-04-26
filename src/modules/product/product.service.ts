@@ -24,7 +24,6 @@ export class ProductService {
   if (await this.checkName(createProductDto.name)) {
     throw new HttpException('Sản phẩm đã tồn tại', HttpStatus.BAD_REQUEST);
   }
-  console.log(createProductDto.categories);
   let categories =[]
   for (let i = 0; i < createProductDto.categories.length; i++) {
     const element = Number(createProductDto.categories[i]) || '';

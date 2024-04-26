@@ -1,5 +1,5 @@
 
-import { Module } from '@nestjs/common';
+import { Module, OnModuleInit } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { config } from './configs/ormconfig';
 import { MulterModule } from '@nestjs/platform-express';
@@ -17,6 +17,8 @@ import { SaleModule } from './modules/sale/sale.module';
 import { SeriesModule } from './modules/series/series.module';
 import { CartModule } from './modules/cart/cart.module';
 import { ProductModule } from './modules/product/product.module';
+import { AuthService } from './modules/auth/auth.service';
+import { UserEntity } from './modules/databases/user.entity';
 
 @Module({
   imports: [
@@ -36,11 +38,15 @@ import { ProductModule } from './modules/product/product.module';
     ProductModule,
     ConfigModule.forRoot(),
     MulterModule.register({dest: './uploads'}),
-    
+    TypeOrmModule.forFeature([UserEntity]),
   ],
-
-
   controllers: [],
-  providers: [],
+  providers: [AuthService],
 })
-export class AppModule {}
+export class AppModule implements OnModuleInit {
+  constructor(private readonly authService: AuthService) {}
+
+  async onModuleInit() {
+    await this.authService.checkDefaultAdmin();
+  }
+}

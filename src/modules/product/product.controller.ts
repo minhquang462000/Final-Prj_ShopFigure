@@ -1,10 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseInterceptors, Req, UploadedFile, BadRequestException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseInterceptors, Req, UploadedFile, BadRequestException, UploadedFiles } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { FilterProductDto } from './dto/filter-product.dto';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { storageConfig } from 'src/configs/config-uploadImg';
 import { extname } from 'path';
 
@@ -18,7 +18,7 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Post()
-  @UseInterceptors(FileInterceptor('images',{storage:storageConfig('product'),
+  @UseInterceptors(FilesInterceptor('images',5,{storage:storageConfig('product'),
     fileFilter: (req, file, cb) => {
     const ext = extname(file.originalname);
     const allowedExtArr = ['.png','.jpg','.jpeg'];
@@ -33,14 +33,22 @@ export class ProductController {
     }
      return cb(null, true);
     }}))
-  create(@Req() req: any, @Body() createProductDto: CreateProductDto,@UploadedFile() file: Express.Multer.File) {
+  create(@Req() req: any, @Body() createProductDto: CreateProductDto,@UploadedFiles() files: Express.Multer.File[]) {
+    console.log("file",files);
+    console.log("createProductDto",createProductDto);
+    
+    
     if (req.fileValidationError) {
       throw new BadRequestException(req.fileValidationError);
       }
-      if (!file) {
+      if (!files) {
         throw new BadRequestException('File not found');
       }
-     return this.productService.create({...createProductDto,images:file.destination+'/'+file.filename});
+      let images = [];
+      for (const file of files) {
+        images.push(file.destination + '/' + file.filename);
+      }
+     return this.productService.create({...createProductDto,images});
 
   }
 

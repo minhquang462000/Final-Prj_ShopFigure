@@ -20,8 +20,8 @@ export class ProductEntity {
     quantity:number;
     @Column()
     description:string;
-    @Column()
-    images:string;
+    @Column('simple-array')
+    images:string[]
     @Column({default:1})
     status:number;
     @Column({nullable:true,default:null})

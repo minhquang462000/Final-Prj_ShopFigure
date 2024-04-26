@@ -3,7 +3,9 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { AuthService } from './modules/auth/auth.service';
 require('dotenv').config();
+
 
 const PORT = process.env.PORT || 3001;
 async function bootstrap() {

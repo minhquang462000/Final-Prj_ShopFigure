@@ -24,7 +24,7 @@ export class CreateProductDto {
     price: string;
     //images
     @ApiProperty()
-    images: string;
+    images: string[]
     //charecterisics
     @ApiProperty()
     @IsNotEmpty()
