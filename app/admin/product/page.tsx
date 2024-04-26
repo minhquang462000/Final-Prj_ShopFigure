@@ -67,7 +67,7 @@ const productData: any = [
 
 import * as React from "react";
 import { CiEdit } from "react-icons/ci";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaRegEye } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 
 export interface IAppProps {}
@@ -75,16 +75,18 @@ export interface IAppProps {}
 export default function page(props: IAppProps) {
   return (
     <div className="rounded-sm text-xs text-wrap border py-2 w-full text-center ">
-      <ButtonCreate title="Danh Sách Sản Phẩm" urlLink="/admin/product/create"/>
+      <ButtonCreate
+        title="Danh Sách Sản Phẩm"
+        urlLink="/admin/product/create"
+      />
       <th className="grid grid-cols-16 text-sm  w-full text-center py-2 font-medium  ">
-        <td className="col-span-4 flex gap-2   items-center">
+        <td className="col-span-5 flex gap-2   items-center">
           <input type="checkbox" name="" id="" />
           Tên Sản Phẩm
         </td>
-        <td className="col-span-2 ">Mô Tả </td>
 
-        <td className="col-span-1  ">Thể Loại</td>
-        <td className="col-span-1 ">Thông Tin</td>
+        <td className="col-span-2  ">Thể Loại</td>
+        <td className="col-span-2 ">Thông Tin</td>
 
         <td className="col-span-1 ">Nhân Vật</td>
         <td className="col-span-1 ">Thương Hiệu</td>
@@ -98,12 +100,12 @@ export default function page(props: IAppProps) {
 
       {productData.map((product: any, key: number) => (
         <tr
-          className="grid grid-cols-16 gap-2 font-medium items-center border-t text-[10px] border-gray-400 py-2 "
+          className="grid grid-cols-16 gap-2 font-medium items-center border-t text-sm border-gray-400 py-2 "
           key={key}
         >
-          <td className="col-span-4 flex gap-2 text-xs   items-center">
+          <td className="col-span-5 flex gap-4    items-center">
             <input type="checkbox" name="" id="" />
-            <div className="flex gap-5 items-center">
+            <div className="flex gap-8 items-center">
               <SlideProductAdmin data={product.image} />
               <p className=" text-start text-wrap truncate ">
                 {product.name} zxczxcz asdzsad sdasd sdas sdsa sdas sadas adas
@@ -111,17 +113,7 @@ export default function page(props: IAppProps) {
               </p>
             </div>
           </td>
-          <td className="col-span-2 font-normal h-[80px] overflow-hidden line-clamp-5   text-start">
-            Mô tả sdgas áhjdg shajdg shjgd shjgd sahjdg shjg ádjhg ádhj ádhjg
-            ádhj ádhj áhjdb sjas sahjdg áhjg sjdg sdja ạd Mô tả sdgas áhjdg
-            shajdg shjgd shjgd sahjdg shjg ádjhg ádhj ádhjg ádhj ádhj áhjdb sjas
-            sahjdg áhjg sjdg sdja ạd Mô tả sdgas áhjdg shajdg shjgd shjgd sahjdg
-            shjg ádjhg ádhj ádhjg ádhj ádhj áhjdb sjas sahjdg áhjg sjdg sdja ạd
-            asdhjsdk quang ádhj ádhj áhjdb sjas sahjdg áhjg sjdg sdja ạd ádhj
-            ádhj áhjdb sjas sahjdg áhjg sjdg sdja ạd asdhjsdk quang
-          </td>
-
-          <td className="col-span-1   flex flex-wrap gap-1 ">
+          <td className="col-span-2   flex flex-wrap gap-1 ">
             {" "}
             {product.category.map((item: any, index: number) => (
               <span
@@ -132,7 +124,7 @@ export default function page(props: IAppProps) {
               </span>
             ))}
           </td>
-          <td className="col-span-1 justify-evenly items-start  text-xs flex flex-col gap-2  font-bold ">
+          <td className="col-span-2 justify-evenly items-start   flex flex-col gap-2  font-bold ">
             <span className="flex gap-2 items-center">
               {" "}
               Giá Sp:
@@ -180,17 +172,22 @@ export default function page(props: IAppProps) {
           <td className="col-span-1 text-wrap text-green-500">
             2022-11-11 : 11:11
           </td>
-          <td className="col-span-1 text-wrap justify-center flex gap-2 ">
+          <td className="col-span-1 text-wrap items-center justify-center flex gap-2 ">
             {" "}
             <Link href={`/admin/product/update/${product.id}`}>
               {" "}
               <button>
-                <CiEdit size={25} />
+                <CiEdit size={20} />
               </button>
             </Link>
             <button>
-              <MdDeleteOutline color="red" size={25} />
+              <MdDeleteOutline color="red" size={20} />
             </button>
+            <Link href={`/admin/product/detail/${product.id}`}>
+              <button>
+                <FaRegEye className="text-green-500" size={20} />
+              </button>
+            </Link>
           </td>
         </tr>
       ))}
