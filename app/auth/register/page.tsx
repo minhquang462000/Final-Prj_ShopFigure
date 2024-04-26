@@ -1,14 +1,15 @@
 "use client";
 import MainLayout from "@/layouts/main";
 import axios from "axios";
+import Link from "next/link";
 import { useRouter } from 'next/navigation';
 import * as React from "react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { TbArrowBackUp } from "react-icons/tb";
-import { ToastContainer, toast} from 'react-toastify';
-  import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-export interface IpageProps {}
+export interface IpageProps { }
 
 export default function page(props: IpageProps) {
   const router = useRouter()
@@ -18,7 +19,7 @@ export default function page(props: IpageProps) {
     name: "",
     email: "",
     password: "",
-    numberphone:"",
+    numberphone: "",
     comfirmpassword: ""
   });
   const handleDataRegister = (e: any) => {
@@ -29,43 +30,41 @@ export default function page(props: IpageProps) {
     });
   };
 
-  
+
   const handleRegister = () => {
-if (formRegister.name == "" || formRegister.email == "" || formRegister.password == "" || formRegister.comfirmpassword == "") {
-  toast.error('Vui lòng điền đầy đủ điền kiện')
-}
-   else if(formRegister.password != formRegister.comfirmpassword ) {
-   toast.error('Mật khẩu nhập lại không đồng nhất')
-   }else{
-   
-   try {
-    const {comfirmpassword,...data} = formRegister
-   const fetData = async () => {
-    const res = await axios.post("http://localhost:8080/api/v1/auth/register", {...data}).then((res) => {
-      toast.success('Đăng ký thành công')
-      router.push('/auth/login')
-      console.log(res);
-      
-    }).catch((e) => {
-      toast.error(e.response.data.message)
-    });
-    
+    if (formRegister.name == "" || formRegister.email == "" || formRegister.password == "" || formRegister.comfirmpassword == "") {
+      toast.error('Vui lòng điền đầy đủ điền kiện')
+    }
+    else if (formRegister.password != formRegister.comfirmpassword) {
+      toast.error('Mật khẩu nhập lại không đồng nhất')
+    } else {
+
+      try {
+        const { comfirmpassword, ...data } = formRegister
+        const fetData = async () => {
+          const res = await axios.post("http://localhost:8080/api/v1/auth/register", { ...data }).then((res) => {
+            toast.success('Đăng ký thành công')
+            router.push('/auth/login')
+          }).catch((e) => {
+            toast.error(e.response.data.message)
+          });
+
+        };
+        fetData();
+
+
+      } catch (e: any) {
+        toast.error(e.response.data.message)
+      }
+    }
   };
-  fetData();
 
- 
-   } catch (e: any) {
-    toast.error(e.response.data.message)
-   }
-  }
-};
 
-  
   return (
     <MainLayout>
-      
+
       <main className="text-black text-xl  w-screen bg-gradient-to-r from-[#cdf2f9] to-[#6fe9ff] mx-auto">
-      <ToastContainer  autoClose={2000}/>
+        <ToastContainer autoClose={2000} />
         <div className="w-[1280px] pb-10 flex relative flex-col gap-10 mx-auto">
           <ul className="flex py-3 text-base gap-2 ">
             <li className="cursor-pointer">Trang chủ</li>
@@ -99,7 +98,7 @@ if (formRegister.name == "" || formRegister.email == "" || formRegister.password
             />
             <div className="w-full flex justify-between p-2 border">
               <input
-              onChange={(e) => handleDataRegister(e)}
+                onChange={(e) => handleDataRegister(e)}
                 className="outline-none w-[95%] bg-transparent"
                 name="password"
                 type={showPassword ? "text" : "password"}
@@ -114,8 +113,8 @@ if (formRegister.name == "" || formRegister.email == "" || formRegister.password
             </div>
             <div className="w-full flex justify-between p-2 border">
               <input
-              onChange={(e) => handleDataRegister(e)}
-              name="comfirmpassword"
+                onChange={(e) => handleDataRegister(e)}
+                name="comfirmpassword"
                 className="outline-none w-[95%] bg-transparent"
                 type={showPassword2 ? "text" : "password"}
                 placeholder="Xác nhận lại mật khẩu"
@@ -130,10 +129,11 @@ if (formRegister.name == "" || formRegister.email == "" || formRegister.password
             <button onClick={handleRegister} className="w-max bg-black mx-auto text-white p-3 px-8 font-medium rounded">
               Đăng Ký
             </button>
-            <button className="text-lg flex items-center justify-center gap-1 hover:text-[#d70018]">
+          <Link className="mx-auto" href="/auth/login">
+          <button className="text-lg flex items-center justify-center gap-1 hover:text-[#d70018]">
               <TbArrowBackUp />
               Quay lại đăng nhập
-            </button>
+            </button></Link>
           </nav>
         </div>
       </main>

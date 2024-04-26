@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import MainLayout from "@/layouts/main";
 import * as React from "react";
 import { FaFacebookF, FaGoogle, FaRegEye, FaRegEyeSlash } from "react-icons/fa";
@@ -7,11 +7,10 @@ import Link from "next/link";
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { headers } from "next/headers";
+import { getUserById } from "@/api/user";
 export interface IAppProps { }
 
 export default function App(props: IAppProps) {
-  const pathname = usePathname()
   const router = useRouter();
   const [showPassword, setShowPassword] = React.useState(false);
   const [showForgetTable, setShowForgetTable] = React.useState(false);
@@ -19,7 +18,7 @@ export default function App(props: IAppProps) {
     email: "",
     password: "",
   });
-   
+
   const handleDataLogin = (e: any) => {
     const { name, value } = e.target;
     setFormLogin({
@@ -27,7 +26,6 @@ export default function App(props: IAppProps) {
       [name]: value,
     });
   };
-
   const handleLogin = () => {
     if (formLogin.email == "" || formLogin.password == "") {
       toast.error('Vui lòng điền đầy đủ điền kiện')
@@ -39,19 +37,25 @@ export default function App(props: IAppProps) {
             "Accept": "application/json",
           }
         }
-        await axios.post(
+        const data = await axios.post(
           "http://localhost:8080/api/v1/auth/login",
           { ...formLogin }
         ).then((res) => {
-          console.log('token', res.data.accessToken)
-          document.cookie = `access-token=${res.data.accessToken}`
-
+          document.cookie = `access-token=${res.data.Token}`
           toast.success('Đăng nhập thành công ,xin chờ trong giây lát...')
+          console.log(res.data);
+          
+          const user = getUserById(res.data.userId).then(res => {
+            console.log("res",res);
+            
+          })
+         console.log("users",user);
+         
+
         }).catch((e) => {
           toast.error(e.response.data.message)
         });
-
-
+        //
       };
       fetData();
     }
@@ -63,7 +67,7 @@ export default function App(props: IAppProps) {
         <div className="w-[1280px] pb-10 flex flex-col gap-10 mx-auto">
           <ul className="flex py-3 text-base gap-2 ">
             <li className="cursor-pointer">
-              <Link className={`link ${pathname === '/' ? 'active' : ''}`} href="/">
+              <Link href={"/"}>
                 Trang chủ
               </Link>
             </li>
