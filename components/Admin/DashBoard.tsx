@@ -1,3 +1,4 @@
+'use client';
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import * as React from "react";
@@ -18,7 +19,7 @@ export default function Dashboard(props: IDashboardProps) {
   const cssButton = "flex items-center gap-2 p-3  rounded hover:bg-[#333a48]";
   return (
     <div className="w-full flex flex-col gap-2   py-5 bg-[#1c2434] min-h-screen">
-      <Link href={"/admin"}>
+      <Link href={`/admin/accountAdmin/view/1`}>
         {" "}
         <button className="flex text-2xl gap-2 mb-7 font-medium  px-5">
           <MdOutlineDashboard size={30} />

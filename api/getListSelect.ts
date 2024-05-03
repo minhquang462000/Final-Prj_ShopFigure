@@ -11,30 +11,14 @@ const axiosInstance = axios.create({
     }
 });
 
-export async function getAlluser() {
+export async function getListSeclect(url:string) {
     const accessToken = Cookies.get('token')
     if (!accessToken) return null
     try {
-        const res = await axiosInstance.get('/users',{
+        const res = await axiosInstance.get(`${url}/all`,{
             headers: {
                 Authorization: `Bearer ${Cookies.get('token')}`}})
                 return res.data.data as IUser
-                
-    } catch (e) {
-        return null
-    }
-}
-export async function getUserById(id: number) {
-    const accessToken = Cookies.get('token')
-
-    
-    if (!accessToken) return null
-    try {
-        const res = await axiosInstance.get(`/users/${id}`,{
-            headers: {
-                Authorization: `Bearer ${Cookies.get('token')}`}})
-               return res.data as IUser
-              
                 
     } catch (e) {
         return null

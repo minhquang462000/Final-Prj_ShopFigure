@@ -7,7 +7,7 @@ import Link from "next/link";
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { getUserById } from "@/api/user";
+import { setTokenCookie } from "@/api/login";
 export interface IAppProps { }
 
 export default function App(props: IAppProps) {
@@ -37,21 +37,17 @@ export default function App(props: IAppProps) {
             "Accept": "application/json",
           }
         }
-        const data = await axios.post(
+        await axios.post(
           "http://localhost:8080/api/v1/auth/login",
           { ...formLogin }
         ).then((res) => {
-          document.cookie = `access-token=${res.data.Token}`
+         setTokenCookie(res.data.Token);
           toast.success('Đăng nhập thành công ,xin chờ trong giây lát...')
-          console.log(res.data);
-          
-          const user = getUserById(res.data.userId).then(res => {
-            console.log("res",res);
-            
-          })
-         console.log("users",user);
-         
-
+          if (res.data.user.role == 0) {
+            router.push(`/admin/accountAdmin/${res.data.user.id}`)
+          } else {
+            router.push("/")
+          }
         }).catch((e) => {
           toast.error(e.response.data.message)
         });

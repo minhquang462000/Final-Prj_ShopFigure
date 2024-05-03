@@ -1,4 +1,4 @@
-"use client";
+
 import AvatarAdmin from "@/components/Admin/AvatarAdmin";
 import Dashboard from "@/components/Admin/DashBoard";
 import { ILayout } from "@/interfaces";

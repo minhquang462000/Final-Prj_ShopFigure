@@ -1,11 +1,11 @@
-import axios from "axios";
-import { cookies } from "next/headers";
+import Cookies from 'js-cookie';
 
-const axiosInstance = axios.create({
-    baseURL: process.env.API_URL || "http://localhost:8080/api/v1",
-    headers: {
-        Authorization: `Bearer ${cookies().get('x-access-token')?.value}`
-    }
-});
+
+
+
+export const setTokenCookie = (token:string) => {
+    // Thiết lập cookie với tên 'token' và giá trị là token được truyền vào
+    Cookies.set('token', token, { expires: 1 }); // 'expires' là thời gian sống của cookie (ví dụ: 7 ngày)
+  };
 
 

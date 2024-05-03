@@ -11,11 +11,11 @@ const axiosInstance = axios.create({
     }
 });
 
-export async function getAlluser() {
+export async function getAllProducts() {
     const accessToken = Cookies.get('token')
     if (!accessToken) return null
     try {
-        const res = await axiosInstance.get('/users',{
+        const res = await axiosInstance.get('/products',{
             headers: {
                 Authorization: `Bearer ${Cookies.get('token')}`}})
                 return res.data.data as IUser
@@ -24,13 +24,13 @@ export async function getAlluser() {
         return null
     }
 }
-export async function getUserById(id: number) {
+export async function getProductById(id: number) {
     const accessToken = Cookies.get('token')
 
     
     if (!accessToken) return null
     try {
-        const res = await axiosInstance.get(`/users/${id}`,{
+        const res = await axiosInstance.get(`/products/${id}`,{
             headers: {
                 Authorization: `Bearer ${Cookies.get('token')}`}})
                return res.data as IUser

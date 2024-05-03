@@ -183,7 +183,7 @@ export default function page(props: IAppProps) {
             <button>
               <MdDeleteOutline color="red" size={20} />
             </button>
-            <Link href={`/admin/product/detail/${product.id}`}>
+            <Link href={`/admin/product/view/${product.id}`}>
               <button>
                 <FaRegEye className="text-green-500" size={20} />
               </button>

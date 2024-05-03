@@ -6,15 +6,18 @@ import { MdDeleteOutline } from "react-icons/md";
 export interface IButtonCreateProps {
   title: string;
   urlLink: string;
+  IdsRemove: number[];
+  deleteMultipleRows: (ids: number[]) => void;
+
 }
 
 export default function ButtonCreate(props: IButtonCreateProps) {
-  const { title, urlLink } = props;
+  const { title, urlLink, IdsRemove, deleteMultipleRows } = props;
   return (
     <div className="p-4 flex justify-between font-medium items-center w-full ">
       <h1 className="text-xl  underline">{title}</h1>
       <div className="flex gap-2">
-        <button className="w-max flex items-center text-red-500   gap-2 border-red-500 hover:text-white transition-all duration-300 hover:border-red-500 hover:bg-red-500  rounded-xl p-2 border   ">
+        <button onClick={() => deleteMultipleRows(IdsRemove)} className="w-max flex items-center text-red-500   gap-2 border-red-500 hover:text-white transition-all duration-300 hover:border-red-500 hover:bg-red-500  rounded-xl p-2 border   ">
           <MdDeleteOutline />
           Xóa
         </button>
