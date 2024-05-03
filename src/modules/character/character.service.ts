@@ -47,6 +47,16 @@ export class CharacterService {
     return category;
   }
 
+  async findAllCharacter() {
+    const categories = await this.characterRepository.find({
+      select: ['character_id', 'name'],
+      where: { status: 1 },
+    });
+    if (!categories) {
+      throw new HttpException('Không tìm thấy danh mục', HttpStatus.BAD_REQUEST);
+    }
+    return categories;
+  }
   async update(id: number, updateCharacterDto: any) {
     const category = await this.characterRepository.findOne({ where: { character_id: id } });
     if (!category) {

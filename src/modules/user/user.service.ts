@@ -54,8 +54,7 @@ export class UserService {
    const page = query.page || 1;
     const skip = (Number(page) - 1) * Number(limit);
     const [res, total] = await this.userRepository.findAndCount({
-     where: [{ name: Like(`%${keyword}%`) }, { email: Like(`%${keyword}%`) },{status:Like(`%${keyword}%`)}],
-     select: ['user_id', 'name', 'email', 'status', 'role', 'created_at', 'updated_at'],
+     where: [{ name: Like(`%${keyword}%`) }, { email: Like(`%${keyword}%`) },{status:Like(`%${keyword}%`),role:1}],
      order:{created_at:"DESC"},
      take: Number(limit),
      skip: Number(skip)
@@ -68,11 +67,12 @@ const prevPage = Number(page) - 1 < 1 ? null : Number(page) - 1;
 }
   async findOne(id: number) {
     const data = await this.userRepository.findOne({
-      where: { user_id: id }
+      where: { user_id: id },
+      select: ['user_id', 'name', 'email', 'role', 'status', 'created_at', 'updated_at','avatar','address','phone','gender'],
     });
     return data;
   }
-//Upload Avatar
+// Upload Avatar
 async updateAvatar(id: number, avatar: string):Promise<any> {
   await this.userRepository.update({ user_id: id }, { avatar });
   

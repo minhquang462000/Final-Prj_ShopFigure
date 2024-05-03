@@ -32,14 +32,14 @@ export class CharacterController {
     }
      return cb(null, true);
     }}))
-    create(@Req() req: any, @Body() CreateCharacterDto: CreateCharacterDto,@UploadedFile() file: Express.Multer.File) {
+    create(@Req() req: any, @Body() CreateCharacterDto: CreateCharacterDto,@UploadedFile() thumbnail: Express.Multer.File) {
       if (req.fileValidationError) {
         throw new BadRequestException(req.fileValidationError);
         }
-        if (!file) {
-          throw new BadRequestException('File not found');
+        if (thumbnail) {
+          CreateCharacterDto.thumbnail = 'character' + '/' + thumbnail.filename
         }
-       return this.characterService.create({...CreateCharacterDto,thumbnail:file.destination+'/'+file.filename});
+       return this.characterService.create(CreateCharacterDto);
   
     }
 
@@ -52,10 +52,36 @@ export class CharacterController {
   findOne(@Param('id') id: string) {
     return this.characterService.findOne(+id);
   }
+  @Get('all')
+  findAllCharacter() {
+    return this.characterService.findAllCharacter();
+  }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCharacterDto: UpdateCharacterDto) {
-    return this.characterService.update(+id, updateCharacterDto);
+    @UseInterceptors(FileInterceptor('thumbnail',{storage:storageConfig('character'),
+    fileFilter: (req, file, cb) => {
+     const ext = extname(file.originalname);
+     const allowedExtArr = ['.png','.jpg','.jpeg'];
+     if (!allowedExtArr.includes(ext)) {
+      req.fileValidationError = `Only images are :${allowedExtArr.toString()} `;
+      return cb(null, false);
+     }
+     const fileSize = parseInt(req.headers['content-length']);
+     if (fileSize > 1024*1024*5) {
+      req.fileValidationError = 'File size is too large. Acceptable size is 5MB';
+      return cb(null, false);
+     }
+     return cb(null, true);
+    }
+  }))
+    update(@Req() req,@Param('id') id: string, @Body() updateCharacterDto: any,@UploadedFile() thumbnail: Express.Multer.File) {
+      if (req.fileValidationError) {
+        throw new BadRequestException(req.fileValidationError);
+        }
+        if (thumbnail) {
+        updateCharacterDto.thumbnail = 'character'+'/'+ thumbnail.filename
+        }
+         return this.characterService.update(+id, updateCharacterDto);
   }
 
   @Delete(':id')

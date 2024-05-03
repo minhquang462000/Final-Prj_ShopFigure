@@ -34,10 +34,6 @@ export class ProductController {
      return cb(null, true);
     }}))
   create(@Req() req: any, @Body() createProductDto: CreateProductDto,@UploadedFiles() files: Express.Multer.File[]) {
-    console.log("file",files);
-    console.log("createProductDto",createProductDto);
-    
-    
     if (req.fileValidationError) {
       throw new BadRequestException(req.fileValidationError);
       }

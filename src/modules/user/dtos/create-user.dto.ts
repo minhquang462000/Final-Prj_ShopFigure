@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsArray, IsNotEmpty, IsNumber, IsString, MaxLength, MinLength } from "class-validator";
+import { IsArray, IsNotEmpty, IsNumber, IsString, IsUrl, MaxLength, MinLength } from "class-validator";
 
 export class CreateUserDto {
     @ApiProperty()
@@ -29,4 +29,7 @@ export class CreateUserDto {
     role: number;
     @IsArray()
     posts: number[];
+    @IsUrl()
+avatar: string
 }
+

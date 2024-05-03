@@ -1,9 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Delete } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CategoryEntity } from '../databases/category.entity';
-import { Like } from 'typeorm';
+import { DeleteResult, In, Like } from 'typeorm';
 import { FilterBrandDto } from '../brand/dto/filter-brand.dto';
 
 @Injectable()
@@ -20,7 +20,9 @@ export class CategoryService {
     await this.categoryRepository.save(category);
     throw new HttpException('Thêm mới thành công', HttpStatus.OK);
   }
-
+  async multipleDelete(ids: string[]): Promise<DeleteResult> {
+    return await this.categoryRepository.delete({ category_id: In(ids) })
+}
   async findAll(query: FilterBrandDto) {
     const keyword = query.name || '';
     const limit = query.limit || 10;
@@ -28,7 +30,7 @@ export class CategoryService {
     const skip = (Number(page) - 1) * Number(limit);
     const [res, total] = await this.categoryRepository.findAndCount({
       where: [{ name: Like(`%${keyword}%`) }],
-      select: ['category_id', 'name', 'status', 'created_at', 'updated_at'],
+      select: ['category_id', 'name', 'status', 'created_at', 'updated_at', 'thumbnail', 'description'],
       order: { created_at: 'DESC' },
       take: Number(limit),
       skip: Number(skip)
@@ -38,7 +40,15 @@ export class CategoryService {
     const prevPage = Number(page) - 1 < 1 ? null : Number(page) - 1;
     return { data: res, currenPage: Number(page), total, nextPage, prevPage, lastPage };
   } 
-
+async findAllCategory() {
+  const category = await this.categoryRepository.find({
+    select: ['category_id', 'name'],
+  where: { status: 1 },});
+  if (!category) {
+    throw new HttpException('Không tìm thấy danh mục', HttpStatus.BAD_REQUEST);
+  }
+  return category;
+}
   async findOne(id: number) {
     const category = await this.categoryRepository.findOne({ where: { category_id: id } });
     if (!category) {

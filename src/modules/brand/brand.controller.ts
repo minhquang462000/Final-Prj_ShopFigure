@@ -33,18 +33,20 @@ export class BrandController {
     }
      return cb(null, true);
     }}))
-    create(@Req() req: any, @Body() createProductDto: CreateBrandDto,@UploadedFile() file: Express.Multer.File) {
+    create(@Req() req: any, @Body() createBrandDto: CreateBrandDto,@UploadedFile() thubnail: Express.Multer.File) {
       if (req.fileValidationError) {
         throw new BadRequestException(req.fileValidationError);
         }
-        if (!file) {
-          throw new BadRequestException('File not found');
+        if (thubnail) {
+        createBrandDto.thumbnail = 'brand'+ '/' + thubnail.filename;
         }
-       return this.brandService.create({...createProductDto,thumbnail:file.destination+'/'+file.filename});
+       return this.brandService.create(createBrandDto);
   
     }
-  
-
+  @Get('all')
+  findAllBrand() {
+    return this.brandService.findAllBrand();
+  }
   @Get()
   findAll(@Query() query:FilterBrandDto):Promise<any> {
     return this.brandService.findAll(query);
@@ -56,9 +58,32 @@ export class BrandController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBrandDto: UpdateBrandDto) {
-    return this.brandService.update(+id, updateBrandDto);
+  @UseInterceptors(FileInterceptor('thumbnail',{storage:storageConfig('brand'),
+  fileFilter: (req, file, cb) => {
+   const ext = extname(file.originalname);
+   const allowedExtArr = ['.png','.jpg','.jpeg'];
+   if (!allowedExtArr.includes(ext)) {
+    req.fileValidationError = `Only images are :${allowedExtArr.toString()} `;
+    return cb(null, false);
+   }
+   const fileSize = parseInt(req.headers['content-length']);
+   if (fileSize > 1024*1024*5) {
+    req.fileValidationError = 'File size is too large. Acceptable size is 5MB';
+    return cb(null, false);
+   }
+   return cb(null, true);
   }
+}))
+  update(@Req() req,@Param('id') id: string, @Body() updateBrandDto: any,@UploadedFile() thumbnail: Express.Multer.File) {
+    if (req.fileValidationError) {
+      throw new BadRequestException(req.fileValidationError);
+      }
+      if (thumbnail) {
+      updateBrandDto.thumbnail = 'brand'+'/'+ thumbnail.filename
+      }
+       return this.brandService.update(+id, updateBrandDto);
+}
+
 
   @Delete(':id')
   remove(@Param('id') id: string) {

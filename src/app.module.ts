@@ -1,3 +1,4 @@
+import { DataSourceOptions } from 'typeorm';
 
 import { Module, OnModuleInit } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -19,10 +20,15 @@ import { CartModule } from './modules/cart/cart.module';
 import { ProductModule } from './modules/product/product.module';
 import { AuthService } from './modules/auth/auth.service';
 import { UserEntity } from './modules/databases/user.entity';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(config),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname,  '../../uploads'),
+    }),
     AuthModule,
     UserModule,
     BrandModule,

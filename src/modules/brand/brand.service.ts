@@ -44,6 +44,16 @@ export class BrandService {
     const brand = await this.brandRepository.findOne({ where: { brand_id: id } });
     return brand
   }
+  async findAllBrand() {
+    const brands = await this.brandRepository.find({
+      select: ['brand_id', 'name'],
+      where: [{ status: 1 }]
+    });
+    if (!brands) {
+      throw new HttpException('Không tìm thấy thương hiệu', HttpStatus.BAD_REQUEST);
+    }
+    return brands
+  }
 
  async update(id: number, updateBrandDto: any) {
     const brand = await this.brandRepository.findOne({ where: { brand_id: id } });

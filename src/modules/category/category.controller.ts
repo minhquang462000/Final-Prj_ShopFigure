@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, Query, Req, UploadedFile, BadRequestException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, Query, Req, UploadedFile, BadRequestException, ParseArrayPipe } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
@@ -31,14 +31,14 @@ export class CategoryController {
     }
      return cb(null, true);
     }}))
-    create(@Req() req: any, @Body() CreateCategoryDto: CreateCategoryDto,@UploadedFile() file: Express.Multer.File) {
+    create(@Req() req: any, @Body() CreateCategoryDto: CreateCategoryDto,@UploadedFile() thumbnail: Express.Multer.File) {
       if (req.fileValidationError) {
         throw new BadRequestException(req.fileValidationError);
         }
-        if (!file) {
-          throw new BadRequestException('File not found');
+        if (thumbnail) {
+          CreateCategoryDto.thumbnail = 'category' + '/' + thumbnail.filename
         }
-       return this.categoryService.create({...CreateCategoryDto,thumbnail:file.destination+'/'+file.filename});
+       return this.categoryService.create(CreateCategoryDto);
   
     }
   @Get()
@@ -46,15 +46,45 @@ export class CategoryController {
     return this.categoryService.findAll(query);
   }
 
+  @Delete('multiple')
+  multipleDelete(@Query('ids', new ParseArrayPipe({ items: String, separator: ',' })) ids: string[]) {
+      return this.categoryService.multipleDelete(ids)
+  }
+  @Get('all')
+ findAllCategory():Promise<any> {
+    return this.categoryService.findAllCategory();
+  }
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.categoryService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCategoryDto: UpdateCategoryDto) {
-    return this.categoryService.update(+id, updateCategoryDto);
+  @UseInterceptors(FileInterceptor('thumbnail',{storage:storageConfig('category'),
+  fileFilter: (req, file, cb) => {
+   const ext = extname(file.originalname);
+   const allowedExtArr = ['.png','.jpg','.jpeg'];
+   if (!allowedExtArr.includes(ext)) {
+    req.fileValidationError = `Only images are :${allowedExtArr.toString()} `;
+    return cb(null, false);
+   }
+   const fileSize = parseInt(req.headers['content-length']);
+   if (fileSize > 1024*1024*5) {
+    req.fileValidationError = 'File size is too large. Acceptable size is 5MB';
+    return cb(null, false);
+   }
+   return cb(null, true);
   }
+}))
+  update(@Req() req,@Param('id') id: string, @Body() updateCategoryDto: any,@UploadedFile() thumbnail: Express.Multer.File) {
+    if (req.fileValidationError) {
+      throw new BadRequestException(req.fileValidationError);
+      }
+      if (thumbnail) {
+      updateCategoryDto.thumbnail = 'category'+'/'+ thumbnail.filename
+      }
+       return this.categoryService.update(+id, updateCategoryDto);
+}
 
   @Delete(':id')
   remove(@Param('id') id: string) {

@@ -43,6 +43,16 @@ export class SeriesService {
    }
    return data;
   }
+  async findAllSeries() {
+    const series = await this.seriesRepository.find({
+      select: ['series_id', 'name'],
+      where: [{ status: 1 }]
+    });
+    if (!series) {
+      throw new HttpException('The series does not exist', HttpStatus.BAD_REQUEST);
+    }
+    return series;
+  }
 
   async update(id: number, updateSeriesDto: any) {
     const data = await this.seriesRepository.findOne({ where: { series_id: id } });
