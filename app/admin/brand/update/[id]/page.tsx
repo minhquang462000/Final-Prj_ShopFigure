@@ -3,31 +3,61 @@ import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { HiPhoto } from "react-icons/hi2";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
+import { getBrandById } from "@/api/brand";
+import { useRouter } from "next/navigation";
 export interface IpageProps {}
 
-export default function page(props: IpageProps) {
-  const [image, setImage] = useState<any>(null);
+export default function page({ params }: { params: { id: string } }) {
+  const [image, setImage] = useState<any>("");
+  const [thumbnail, setThumbnail] = useState<any>(null);
 
-  const [dataUser, setDataUser] = useState({
-    email: "",
-    password: "",
-    firstName: "",
-    lastName: "",
-    phone: "",
-    address: "",
-    image: "",
-    gender: "1",
-    positionId: "",
+  const [dataBrandUpdate, setDataBrandUpdate] = useState<any>({
+    name: "",
+    description: "",
+    thumbnail: "",
+    status: 1,
   });
+  const fetchBrandById = async () => {
+    const res = await getBrandById(Number(params.id));
+    setDataBrandUpdate(res);
+    setImage(process.env.NEXT_PUBLIC_BASE_URL + "/" + res?.thumbnail);
+  };
+  useEffect(() => {
+    fetchBrandById();
+  }, []);
+
   const animatedComponents = makeAnimated();
   const handleOnchange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDataUser({
-      ...dataUser,
+    setDataBrandUpdate({
+      ...dataBrandUpdate,
       [e.target.name]: e.target.value,
     });
+  };
+  const router = useRouter();
+  const handleUpdate = async () => {
+    const formData = new FormData();
+    formData.append("name", dataBrandUpdate.name);
+    formData.append("description", dataBrandUpdate.description);
+
+    if (thumbnail) {
+      formData.append("thumbnail", thumbnail);
+    }
+    formData.append("status", dataBrandUpdate.status);
+    await axios
+      .patch(
+        `${process.env.NEXT_PUBLIC_API_URL}/brands/${params.id}`,
+        formData
+      )
+      .then((res) => {
+        router.push("/admin/brand");
+        toast.success("Cập nhật thành công");
+      })
+      .catch((e) => {
+        toast.error(e.response.data.message);
+      });
   };
   return (
     <main className=" h-screen p-4 px-5 overflow-y-auto">
@@ -47,6 +77,7 @@ export default function page(props: IpageProps) {
             id="name"
             name="name"
             onChange={(e) => handleOnchange(e)}
+            defaultValue={dataBrandUpdate?.name}
             type=""
             autoComplete="name"
             className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-[#26b9fe] outline-none placeholder:text-gray-400 "
@@ -62,6 +93,8 @@ export default function page(props: IpageProps) {
           <Select
             closeMenuOnSelect={true}
             name="status"
+            onChange={(e: any) => handleOnchange(e)}
+            defaultValue={{ value: dataBrandUpdate?.status, label: "Active" }}
             components={animatedComponents}
             options={[
               { value: "1", label: "Active" },
@@ -71,14 +104,16 @@ export default function page(props: IpageProps) {
         </div>
         <div className="col-span-1  ">
           <label
-            htmlFor="email"
+            htmlFor="description"
             className="block text-sm font-medium leading-6 text-gray-900"
           >
             Mô tả
           </label>
           <textarea
-            name=""
-            id=""
+            name="description"
+            onChange={(e: any) => handleOnchange(e)}
+            defaultValue={dataBrandUpdate?.description}
+            id="description"
             className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset h-[100px] ring-gray-300 focus:ring-[#26b9fe] outline-none placeholder:text-gray-400 "
           />
         </div>
@@ -107,9 +142,10 @@ export default function page(props: IpageProps) {
                     id="image"
                     name="image"
                     type="file"
-                    onChange={(e) =>
-                      setImage(URL.createObjectURL(e.target.files![0]))
-                    }
+                    onChange={(e) => {
+                      setImage(URL.createObjectURL(e.target.files![0]));
+                      setThumbnail(e.target.files![0]);
+                    }}
                     accept="image/*"
                     className="sr-only outline-none"
                   />
@@ -152,12 +188,12 @@ export default function page(props: IpageProps) {
       </div>
 
       <div className="mt-5 flex items-center justify-center gap-x-6 m-auto">
-        <Link href="/admin/users">
+        <Link href="/admin/brand">
           <button className="text-sm w-[100px] hover:bg-red-500 hover:text-white hover:border-red-500 border px-3 py-2 rounded-md border-black font-semibold leading-6 text-gray-900">
             Quay Lại
           </button>
         </Link>
-        <button className="rounded-md bg-indigo-600 px-3 w-[100px] py-[10px] text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 ">
+        <button onClick={handleUpdate} className="rounded-md bg-indigo-600 px-3 w-[100px] py-[10px] text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 ">
           Lưu
         </button>
       </div>

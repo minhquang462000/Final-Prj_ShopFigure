@@ -9,14 +9,14 @@ const axiosInstance = axios.create({
   },
 });
 
-export async function getAllCharacter(query: IFilter) {
+export async function getAllBrand(query: IFilter) {
   const page = query.page ? query.page : 1;
   const limit = query.limit ? query.limit : 10;
   const accessToken = Cookies.get("token");
   if (!accessToken) return null;
   try {
     const res = await axiosInstance.get(
-      `/characters?page=${page}&limit=${limit}`,
+      `/brands?page=${page}&limit=${limit}`,
       {
         headers: {
           Authorization: `Bearer ${Cookies.get("token")}`,
@@ -28,12 +28,12 @@ export async function getAllCharacter(query: IFilter) {
     return null;
   }
 }
-export async function getCharacterById(id: number) {
+export async function getBrandById(id: number) {
   const accessToken = Cookies.get("token");
 
   if (!accessToken) return null;
   try {
-    const res = await axiosInstance.get(`/characters/${id}`, {
+    const res = await axiosInstance.get(`/brands/${id}`, {
       headers: {
         Authorization: `Bearer ${Cookies.get("token")}`,
       },

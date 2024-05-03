@@ -94,7 +94,7 @@ export default function page({ params }: { params: { id: string } }) {
             closeMenuOnSelect={true}
             name="status"
             onChange={(e: any) => handleOnchange(e)}
-            defaultValue={{ value: "1", label: "Active" }}
+            defaultValue={{ value: dataCategoryUpdate?.status, label: "Active" }}
             components={animatedComponents}
             options={[
               { value: "1", label: "Active" },

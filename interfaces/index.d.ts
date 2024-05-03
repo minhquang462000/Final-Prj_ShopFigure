@@ -53,6 +53,7 @@ export interface ICategory {
 export interface ICharacter {
   character_id: number;
   name: string;
+  thumbnail: string;
   description: string;
   status: number;
   created_at: string;

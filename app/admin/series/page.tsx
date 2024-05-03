@@ -1,3 +1,4 @@
+"use client";
 import ButtonCreate from "@/components/Admin/ButtonCreate";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,7 +9,7 @@ import { MdDeleteOutline } from "react-icons/md";
 const TableThree = () => {
   return (
     <div className="rounded-sm border border-stroke bg-white text-sm ">
-      <ButtonCreate title="Danh Sách Series" urlLink="/admin/series/create"/>
+      <ButtonCreate title="Danh Sách Series" urlLink="/admin/series/create" />
       <th className="grid grid-cols-10 w-full text-center gap-5  p-4  border-gray-400  font-medium  ">
         <td className="col-span-2 flex items-center gap-2  text-start">
           {" "}

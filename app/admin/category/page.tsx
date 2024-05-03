@@ -163,9 +163,7 @@ export default function page() {
                 >
                   {category.status === 1 ? "Active" : "Inactive"}
                 </p>
-                {/* <p className="border border-green-500 text-green-500 px-2 py-1">
-            Active
-          </p> */}
+               
               </td>
               <td className="col-span-1 underline text-wrap ">
                 {formatDateTime(category?.created_at)}

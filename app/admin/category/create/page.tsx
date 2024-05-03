@@ -13,10 +13,6 @@ export default function page(props: IpageProps) {
   const [imagePreview, setImagePreview] = useState<any>(null);
   const router = useRouter();
   const handleCreateCategory = async () => {
-    console.log("data", dataCategory);
-    console.log("image", thumbnail);
-    
-
     if (dataCategory.name === "" || dataCategory.description === "" || thumbnail === null) {
       toast.error("Vui lòng điền đầy đủ thông tin");
       return;
@@ -28,7 +24,7 @@ export default function page(props: IpageProps) {
       formData.append("thumbnail", thumbnail);
     }
     await axios
-      .post("http://localhost:8080/api/v1/categories", formData)
+      .post(`${process.env.NEXT_PUBLIC_API_URL}/categories`, formData)
       .then((res) => {
         router.push("/admin/category");
       })
