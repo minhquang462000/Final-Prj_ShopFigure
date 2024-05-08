@@ -5,11 +5,10 @@ export interface IFilter {
   search: string;
   page: number;
   limit: number;
-  category: string;
-  character: string;
-  brand: string;
-  series: string;
+ 
+  wordFilter: string;
   price: string;
+  status: number;
 }
 export interface IUser {
   user_id: number;
@@ -32,14 +31,26 @@ export interface IProduct {
   name: string;
   price: number;
   description: string;
-  category: string;
+  categories: [];
+  series: {
+    name: string;
+    series_id: number;
+  };
+  character: {
+    name: string;
+    character_id: number;
+  };
+  brand: {
+    name: string;
+    brand_id: number;};
   quantity: number;
   status: number;
   Count: number;
-  disCount: number;
-  image: string[];
+  discount: number;
+  images: string[];
   created_at: string;
   updated_at: string;
+  characteristics: string;
 }
 export interface ICategory {
   category_id: number;

@@ -1,3 +1,4 @@
+'use client'
 import * as React from 'react';
 import { BiSlider } from 'react-icons/bi';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';

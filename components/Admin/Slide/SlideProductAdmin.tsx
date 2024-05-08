@@ -25,7 +25,7 @@ export default function SlideProductAdmin(props: ISlide) {
     >
       {data?.map((item, index) => (
         <SwiperSlide key={index}>
-          <img className="w-full h-full object-cover" src={item} alt="" />
+          <img className="w-full h-full object-cover" src={`${process.env.NEXT_PUBLIC_BASE_URL}/${item}`} alt="" />
         </SwiperSlide>
       ))}
     </Swiper>

@@ -1,6 +1,8 @@
+'use client'
 import { IUser } from '@/interfaces';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import * as React from 'react';
 import { CiImageOff } from 'react-icons/ci';
 import { FaFacebookSquare, FaInstagramSquare, FaTwitter, FaUserEdit } from 'react-icons/fa';
@@ -8,17 +10,18 @@ import { IoLogoGithub } from 'react-icons/io';
 
 export interface IViewAdminProps {
     data:IUser,
-    setTabId:(value:number)=>void
+  
 }
 
 export default function ViewAdmin (props: IViewAdminProps) {
-    const {data,setTabId} = props
-    
+    const {data} = props
+    const router = useRouter()
+    React.useEffect(() => {
+     router.refresh()
+    }, [])
   return (
     <div className="w-full flex  text-black flex-col gap-10 px-10 ">
-    <nav>
-      <h1 className="font-bold">Thông Tin Cá Nhân</h1>
-    </nav>
+    <h2 className="font-bold">Thông Tin Cá Nhân</h2>
     <nav className="border w-max m-auto rounded-lg pb-10 shadow-md shadow-gray-400">
       <div className="w-full h-[480px] mb-8 relative">
         <Image
@@ -42,16 +45,18 @@ export default function ViewAdmin (props: IViewAdminProps) {
             />}
           </div>
           <span className="text-center pb-8 font-medium">
-            <h3>Tên: {data?.name}</h3>
-            <h2> {data?.role === 0 ? "Admin" : ""}</h2>
+            <p>Tên: {data?.name}</p>
+            <p> {data?.role === 0 ? "Admin" : ""}</p>
             <p>Email: {data?.email}</p>
             <p>SĐT: {data?.phone}</p>
             <p>Địa Chỉ: {data?.address}</p>
           </span>
         </nav>
-        <button onClick={()=>setTabId(1)} className="bg-blue-600 flex items-center gap-1 rounded-md w-max px-3 py-1 font-bold absolute text-sm text-white right-4 bottom-[45%]">
-            <FaUserEdit /> Edit
+      <Link href={`/admin/users/update/${data?.user_id}`}>
+      <button  className="bg-blue-600 flex items-center gap-1 rounded-md w-max px-3 py-1 font-bold absolute text-sm text-white right-4 bottom-[45%]">
+        <FaUserEdit/> Edit
           </button>
+      </Link>
       </div>
       <nav className="text-center font-bold flex flex-col gap-5 text-xs">
         <div className="flex items-center w-max m-auto  border border-gray-500 justify-center '">

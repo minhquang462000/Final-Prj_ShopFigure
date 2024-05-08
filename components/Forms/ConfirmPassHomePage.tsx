@@ -9,6 +9,7 @@ export default function ComfirmPassHomePage (props: IComfirmPassHomePageProps) {
   const {setOpen} = props
   return (
     <section>
+      
     <h2 className="text-lg">KHÔI PHỤC MẬT KHẨU</h2>
     <h3 className="mb-3">Nhập email của bạn</h3>
     <input

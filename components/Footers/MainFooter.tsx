@@ -12,14 +12,14 @@ import bgIcon from "@/public/images/main.jpg"
 import { PiMapPinFill } from 'react-icons/pi';
 import { RiFacebookBoxFill } from 'react-icons/ri';
 import { IoIosShareAlt } from 'react-icons/io';
-import imgFooter from "@/public/icon/footer_trustbadge.png"
+import imgFooter from "@/public/icon/footer_coin.png"
 export interface IAppProps {
 }
 
 export default function MainFooter(props: IAppProps) {
   return (
     <footer className='w-screen bg-[#202020]'>
-      <nav className='w-[1280px]  mx-auto '>
+      <div className='w-[1280px]  mx-auto '>
         <section className='grid border-b-[3px]  items-center grid-cols-4 py-4'>
           <h2 className='font-medium'>ĐĂNG KÝ NHẬN TIN</h2>
           <div className='col-span-2 flex items-center pl-2 bg-white w-max'>
@@ -39,8 +39,8 @@ export default function MainFooter(props: IAppProps) {
             <Image src={FbIcon} alt="Vercel Logo" width={30} height={30} />
           </div>
         </section>
-        <tr className='grid py-8 gap-8 grid-cols-4'>
-          <td className='flex flex-col gap-3 text-sm'>
+        <ul className='grid py-8 gap-8 grid-cols-4'>
+          <li className='flex flex-col gap-3 text-sm'>
             <div className='bg-cover px-3 flex flex-col justify-evenly text-gray-200  ' style={{ backgroundImage: `url(${bgIcon.src})`, width: "100%", height: "140px" }}>
               <div className='w-12 h-12 border-2 border-[#26b9fe] rounded-full overflow-hidden '>
                 <img className='w-full h-full' src="https://cdn.dribbble.com/users/1346761/screenshots/7041513/media/dee97a1b0d22229724cc6022675151b2.png?compress=1&resize=800x600" alt="" />
@@ -71,8 +71,8 @@ export default function MainFooter(props: IAppProps) {
               <AiOutlineMail color='white' size={18} />
               0F2nQ@example.com
             </button>
-          </td>
-          <td className=''>
+          </li>
+          <li className=''>
             <h3 className='mb-3 font-bold list-none'>CHÍNH SÁCH</h3>
             <ul className='flex pl-5 flex-col text-sm list-disc gap-3'>
               <li><button className='hover:text-[#d70018]'>Tìm kiếm</button></li>
@@ -82,27 +82,27 @@ export default function MainFooter(props: IAppProps) {
               <li><button className='hover:text-[#d70018]'>Điều khoản dịch vụ</button></li>
               <li><button className='hover:text-[#d70018]'>Liên hệ</button></li>
             </ul>
-          </td>
-          <td className=''>
+          </li>
+          <li className=''>
             <h3 className='mb-3 font-bold list-none'>HƯỚNG DẪN</h3>
             <ul className='flex pl-5 flex-col text-sm list-disc gap-3'>
               <li><button className='hover:text-[#d70018]'>Danh mục Blog</button></li>
             </ul>
-          </td>
-          <td className=''>
+          </li>
+          <li className=''>
             <h3 className='mb-3 font-bold list-none'>TỔNG ĐÀI HỖ TRỢ</h3>
             <ul className='flex  flex-col text-sm  gap-4'>
               <li>Gọi mua hàng: <span className='text-[#26b9fe] pl-1 italic cursor-pointer  hover:text-[#d70018]'>0987654321</span></li>
               <li>Gọi bảo hành: <span className='text-[#26b9fe] pl-1 italic  cursor-pointer hover:text-[#d70018]'>0987654321</span></li>
               <li>Gọi hợp tác kinh doanh ,mua sỉ: <span className='text-[#26b9fe] pl-1 italic cursor-pointer  hover:text-[#d70018]'>0987654321</span></li>
               <h3 className='font-medium text-lg'>PHƯƠNG THỨC THANH TOÁN</h3>
-              <Image src={imgFooter} width={250} height={100} alt='abc' />
+              {/* <Image src={imgFooter} width={250} height={250} alt='Vercel Logo' /> */}
+              <img src={imgFooter.src} alt="" />
             </ul>
-          </td>
+          </li>
 
-        </tr>
-
-      </nav>
+        </ul>
+      </div>
     </footer>
   );
 }

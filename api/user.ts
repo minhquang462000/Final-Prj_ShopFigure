@@ -1,42 +1,44 @@
-import { IUser } from '@/interfaces';
-import axios from 'axios';
-import Cookies from 'js-cookie';
+import { ICategory, IFilter, IUser } from "@/interfaces";
+import axios from "axios";
 
+import { cookies } from "next/headers";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8081/api/v1";
 
-const axiosInstance = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_URL, 
-    headers: {
-        Authorization: `Bearer ${Cookies.get('token')}`
-    }
-});
+export async function getAllUser(query: IFilter) {
+  const page = query.page ? query.page : 1;
+  const limit = query.limit ? query.limit : 10;
+  const status= query.status ? query.status : 1
+  const accessToken = cookies().get("token")?.value; 
 
-export async function getAlluser() {
-    const accessToken = Cookies.get('token')
-    if (!accessToken) return null
-    try {
-        const res = await axiosInstance.get('/users',{
-            headers: {
-                Authorization: `Bearer ${Cookies.get('token')}`}})
-                return res.data.data as IUser
-                
-    } catch (e) {
-        return null
-    }
-}
-export async function getUserById(id: number) {
-    const accessToken = Cookies.get('token')
-
+  
+  if (!accessToken) return null;
+  try {
+    const res = await axios.get(
+      `${API_URL}/users?page=${page}&limit=${limit}&status=${status}`,
+      {
+        headers: {
+          Authorization: `Bearer ${cookies().get("token")?.value}`,
+        },
+      }
+    );
+    return res.data;
     
-    if (!accessToken) return null
-    try {
-        const res = await axiosInstance.get(`/users/${id}`,{
-            headers: {
-                Authorization: `Bearer ${Cookies.get('token')}`}})
-               return res.data as IUser
-              
-                
-    } catch (e) {
-        return null
-    }
+  } catch (e) {
+ 
+    
+    return null;
+  }
+}
+export async function getUserById(id: string) {
+  try {
+   const res = await axios.get(`${API_URL}/users/${id}`,{
+    headers: {
+      Authorization: `Bearer ${cookies().get("token")?.value}`,
+    },
+   });
+   return res.data
+  } catch (e) {
+    return null;
+  }
 }

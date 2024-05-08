@@ -10,7 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { setTokenCookie } from "@/api/login";
 export interface IAppProps { }
 
-export default function App(props: IAppProps) {
+export default function page(props: IAppProps) {
   const router = useRouter();
   const [showPassword, setShowPassword] = React.useState(false);
   const [showForgetTable, setShowForgetTable] = React.useState(false);
@@ -31,20 +31,17 @@ export default function App(props: IAppProps) {
       toast.error('Vui lòng điền đầy đủ điền kiện')
     } else {
       const fetData = async () => {
-        const config = {
-          headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-          }
-        }
         await axios.post(
-          "http://localhost:8080/api/v1/auth/login",
+          `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
           { ...formLogin }
-        ).then((res) => {
+        ).then(async (res) => {
+          if (res.data.user.cart ===null) {
+            await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth`, {user: res.data.user.user_id})
+           }
          setTokenCookie(res.data.Token);
           toast.success('Đăng nhập thành công ,xin chờ trong giây lát...')
           if (res.data.user.role == 0) {
-            router.push(`/admin/accountAdmin/${res.data.user.id}`)
+            router.push(`/admin/accountAdmin/${res.data.user.user_id}`)
           } else {
             router.push("/")
           }
@@ -130,7 +127,7 @@ export default function App(props: IAppProps) {
               </div>
               <nav className="text-center text-wrap w-[150px] mx-auto text-base">
                 <button onClick={() => setShowForgetTable(true)} className="hover:text-[#d70018]">Quên mật khẩu?</button>{" "}
-                hoặc <button className="hover:text-[#d70018]">Đăng ký</button>
+                hoặc <Link href={"/auth/register"}><button className="hover:text-[#d70018]">Đăng ký</button></Link>
               </nav>
             </nav>
           )}

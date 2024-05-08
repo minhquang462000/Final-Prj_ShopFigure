@@ -3,13 +3,88 @@ import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
 import { HiPhoto } from "react-icons/hi2";
-
-export interface IpageProps {}
+import { useRouter } from 'next/navigation';
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import { useState } from "react";
+import { IUser } from "@/interfaces";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+export interface IpageProps { }
 
 export default function page(props: IpageProps) {
-  const [image, setImage] = React.useState<any>(null);
+  const [avatar, setAvatar] = useState<any>(null);
+  const [imagePreview, setImagePreview] = useState<any>('');
+  const router = useRouter();
+
+  const [dataUser, setDataUser] = useState<any>({
+    name: "",
+    email: "",
+    password: "",
+    comfirmpassword: "",
+    gender: "",
+    address: "",
+    phone: ""
+  });
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
+  const handleDataNewUser = (e: any) => {
+    const { name, value } = e.target;
+    setDataUser({
+      ...dataUser,
+      [name]: value
+    });
+  };
+
+  const handleCreateUser = async () => {
+    if (dataUser.name === "" || dataUser.password === "" || dataUser.comfirmpassword === "" || dataUser.email === "" || dataUser.address === "" || dataUser.phone === "" || avatar === null) {
+      toast.error('Vui lòng điền đầy đủ điền kiện')
+      return
+    }
+    else if (dataUser.password != dataUser.comfirmpassword) {
+      toast.error('Mật khẩu nhập lại không đồng nhất')
+      return
+    } else {
+
+      const formData = new FormData();
+      formData.append('name', dataUser.name);
+      formData.append('email', dataUser.email);
+      formData.append('password', dataUser.password);
+      formData.append('comfirmpassword', dataUser.comfirmpassword);
+      formData.append('gender', dataUser.gender);
+      
+      formData.append('address', dataUser.address);
+      formData.append('phone', dataUser.phone);
+      if (avatar) {
+        formData.append('avatar', avatar);
+        
+      }
+      await axios
+        .post(`${process.env.NEXT_PUBLIC_API_URL}/users`, formData)
+        .then((res) => {
+          toast.success('Tạo tài khoản thành công')
+          router.push('/admin/users')
+        })
+        .catch((e) => {
+          toast.error(e.response.data.message)
+        })
+    }
+  };
+
+
   return (
     <div className="mx-auto max-w-270">
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <div className="grid grid-cols-5 gap-4">
         <div
           className="border-b col-span-5 border-stroke
@@ -32,8 +107,53 @@ export default function page(props: IpageProps) {
                 name="name"
                 id="name"
                 placeholder="Tên..."
-            
+                onChange={handleDataNewUser}
+
               />
+            </div>
+          </div>
+          <div className="">
+            <label className="mb-3 block text-sm font-medium " htmlFor="phone">
+              Giới tính
+            </label>
+            <select onChange={(e) => setDataUser({ ...dataUser, gender: e.target.value })} className="w-[300px] rounded-md outline-none bg-transparent border ring-1 focus:ring-[#26b9fe] p-2" name="gender" id="">
+              <option value="">Gioi tinh</option>
+              <option value="1">Nam</option>
+              <option value="0">Nu</option>
+            </select>
+          </div>
+          <div className="w-full flex gap-4">
+            <div className="w-full flex ring-1 focus:ring-[#26b9fe] rounded-md justify-between p-2 border">
+              <input
+
+                className="outline-none w-[95%] bg-transparent"
+                name="password"
+                type={showPassword ? "text" : "password"}
+                placeholder="Mật khẩu"
+                onChange={handleDataNewUser}
+              />
+              <button
+                onClick={() => setShowPassword(!showPassword)}
+                className="w-[5%]"
+              >
+                {!showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
+              </button>
+            </div>
+            <div className="w-full flex ring-1 focus:ring-[#26b9fe] rounded-md justify-between p-2 border">
+              <input
+
+                name="comfirmpassword"
+                className="outline-none w-[95%] bg-transparent"
+                type={showPassword2 ? "text" : "password"}
+                placeholder="Xác nhận lại mật khẩu"
+                onChange={handleDataNewUser}
+              />
+              <button
+                onClick={() => setShowPassword2(!showPassword2)}
+                className="w-[5%]"
+              >
+                {!showPassword2 ? <FaRegEye /> : <FaRegEyeSlash />}
+              </button>
             </div>
           </div>
 
@@ -48,7 +168,9 @@ export default function page(props: IpageProps) {
                 name="phone"
                 id="name"
                 placeholder="SĐT..."
-               
+
+                onChange={handleDataNewUser}
+
               />
             </div>
           </div>
@@ -64,7 +186,9 @@ export default function page(props: IpageProps) {
                 name="email"
                 id="email"
                 placeholder="email..."
-               
+
+                onChange={handleDataNewUser}
+
               />
             </div>
           </div>
@@ -82,7 +206,9 @@ export default function page(props: IpageProps) {
               name="address"
               id="address"
               placeholder="Địa chỉ..."
-              
+              onChange={handleDataNewUser}
+
+
             />
           </div>
         </nav>
@@ -93,18 +219,18 @@ export default function page(props: IpageProps) {
           >
             Avatar
           </label>
-          <div className={`${image ? "block" : "hidden "}   `}>
+          <div className={`${imagePreview ? "block" : "hidden "}   `}>
             <div className="flex  items-end gap-2 w-full">
               <img
                 className="w-[100px] h-[100px] object-cover rounded-full"
-                src={image}
+                src={imagePreview}
                 alt=""
               />
               <button
                 className="border border-black rounded-md px-4 py-1 text-xs hover:border-red-500 hover:text-red-500"
                 type="button"
                 onClick={() => {
-                  setImage(null);
+                  setImagePreview(null);
                 }}
               >
                 Xoá
@@ -128,8 +254,11 @@ export default function page(props: IpageProps) {
                     id="image"
                     name="image"
                     type="file"
-                    onChange={(e) =>
-                      setImage(URL.createObjectURL(e.target.files![0]))
+                    onChange={(e) => {
+                      setImagePreview(URL.createObjectURL(e.target.files![0]))
+                      setAvatar(e.target.files![0])
+                    }
+
                     }
                     accept="image/*"
                     className="sr-only outline-none"
@@ -150,7 +279,7 @@ export default function page(props: IpageProps) {
             Quay Lại
           </button>
         </Link>
-        <button className="rounded-md bg-indigo-600 px-3 w-[100px] py-[10px] text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 ">
+        <button onClick={handleCreateUser} className="rounded-md bg-indigo-600 px-3 w-[100px] py-[10px] text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 ">
           Lưu
         </button>
       </div>

@@ -1,35 +1,45 @@
+
 import * as React from 'react';
 import SlideItem from '../Slide/SlideItem';
+import { IProduct } from '@/interfaces';
+import { addDotToNumber } from '@/helpers/addDotToNumber';
+import moment from 'moment';
 
 export interface ICardProductItemProps {
+  data:IProduct
 }
 
-export default function CardProductItem () {
+export default function CardProductItem (props: ICardProductItemProps) {
+const {data} = props
+const formatDateTime = (dateTime: any) => {
+  return moment(dateTime).format("DD/MM/YYYY");
+};
   return (
-    <div className='grid grid-cols-2 gap-4 '>
-        <SlideItem/>
-        <nav className="flex  flex-col gap-2">
+    <div className='grid grid-cols-5 gap-4 '>
+        <div className='col-span-3'>
+        <SlideItem  images={data?.images}/>
+        </div>
+        <nav className="flex col-span-2  flex-col gap-2">
              <div className='flex flex-wrap'>
              <h1 className="text-2xl font-medium text-wrap">
-                Date A Live IV - Tokisaki Kurumi - Artist MasterPiece+ - Zafkiel
-                | Taito Figure{" "}
+              {data?.name}
                
               </h1>
-              <span className="bg-[#38bf57] w-max text-xs px-1 py-[2px] rounded text-white">
+              <span className={` ${data?.quantity>0 ? "bg-[#38bf57]" : "bg-[#ff0000]"} w-max text-xs px-1 py-[2px] rounded text-white`}>
                   {" "}
-                  Còn hàng
+                 {data?.quantity>0 ? "Còn hàng" : "Hết hàng"}
                 </span>
              </div>
               <h4>
                 Thương hiệu:{" "}
-                <span className="text-[#ff0000] font-bold px-1">Taito</span> |
+                <span className="text-[#ff0000] font-bold px-1">{data?.brand.name}</span> |
                 Loại:{" "}
                 <span className="text-[#ff0000] font-bold px-1">
                   Game Prize
                 </span>
               </h4>
               <p className="text-[#ff0000] font-medium text-2xl">
-                650,000 <span className="underline">đ</span>
+               {addDotToNumber(data?.price)} <span className="underline">đ</span>
               </p>
               <p className="">
                 Tiêu đề: <span className="font-bold ">Bản thường</span>
@@ -42,11 +52,7 @@ export default function CardProductItem () {
                   Bản limited
                 </li>
               </ul>
-              <div className="flex text-2xl font-medium border w-max items-center gap-4">
-                <button className="p-1 px-3">-</button>
-                <input type="text" className="outline-none w-[15px] text-center bg-transparent" defaultValue={"1"} min={"1"} />
-                <button className="p-1 px-3">+</button>
-              </div>
+             
               <button className="flex flex-col font-bold text-sm w-full rounded-md py-2  items-center text-white bg-[#ff0000]">
                 THÊM VÀO GIỎ
                 <span>Vui lòng Đọc Kỹ Ngày Phát Hành</span>
@@ -54,17 +60,20 @@ export default function CardProductItem () {
               <ul className="flex items-center flex-wrap  gap-4 py-2 ">
                 Tags:
                 <li className="px-2 rounded-lg hover:bg-[#9cf2fd] cursor-pointer hover:text-white text-sm font-medium py-[2px] bg-gray-200">
-                  Tokisagi Karumi
+                  {data?.character.name}
                 </li>
                 <li className="px-2 rounded-lg hover:bg-[#9cf2fd] cursor-pointer hover:text-white text-sm font-medium py-[2px] bg-gray-200">
-                  Phát hành 2024/2
+                  Phát hành {formatDateTime(data?.created_at)}
                 </li>
-                <li className="px-2 rounded-lg hover:bg-[#9cf2fd] cursor-pointer hover:text-white text-sm font-medium py-[2px] bg-gray-200">
-                  Date A Live
-                </li>
-                <li className="px-2 rounded-lg hover:bg-[#9cf2fd] cursor-pointer hover:text-white text-sm font-medium py-[2px] bg-gray-200">
-                  Date A Live
-                </li>
+               {data?.categories?.map((item: any) => (
+                  <li
+                    className="px-2 rounded-lg hover:bg-[#9cf2fd] cursor-pointer hover:text-white text-sm font-medium py-[2px] bg-gray-200"
+                    key={item._id}
+                  >
+                    {item.name}
+                  </li>
+                ))}
+              
               </ul>
             </nav>
     </div>

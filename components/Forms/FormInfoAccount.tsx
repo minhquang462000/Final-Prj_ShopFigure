@@ -5,8 +5,8 @@ export interface IFormInfoAccountProps {
 
 export default function FormInfoAccount (props: IFormInfoAccountProps) {
   return (
-    <nav className='w-full flex gap-4  bg-white  p-4 rounded-xl  flex-col'>
-            <h1 className='text-2xl   mb-1'>Thông tin tài khoản</h1>
+    <div className='w-full flex gap-4  bg-white  p-4 rounded-xl  flex-col'>
+            <h2 className='text-2xl   mb-1'>Thông tin tài khoản</h2>
             <div className='flex justify-between items-center'>
               <label  className='w-1/4' htmlFor="">Tên người dùng</label>
               <input className='w-3/4 outline-none bg-transparent border  px-3 py-1 rounded-full' type="text" name="name" id="" placeholder="tên" />
@@ -63,6 +63,6 @@ export default function FormInfoAccount (props: IFormInfoAccountProps) {
               <input className='w-3/4 outline-none bg-transparent border  px-3 py-1 rounded-full' type="date" name="name" id="" placeholder="dd/mm/yyyy" />
             </div>
             <button className='bg-[#d62828] font-semibold w-[250px] mx-auto text-white  py-[6px] rounded-full'>CẬT NHẬT</button>
-          </nav>
+          </div>
   );
 }

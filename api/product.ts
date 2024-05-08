@@ -1,42 +1,77 @@
-import { IUser } from '@/interfaces';
-import axios from 'axios';
-import Cookies from 'js-cookie';
+import { ICategory, IFilter, IUser } from "@/interfaces";
+import axios from "axios";
 
+import { cookies } from "next/headers";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8081/api/v1";
 
-const axiosInstance = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_URL, 
-    headers: {
-        Authorization: `Bearer ${Cookies.get('token')}`
-    }
-});
+export async function getAllProduct(query: IFilter) {
+  const page = query.page ? query.page : 1;
+  const limit = query.limit ? query.limit : 10;
+  const status= query.status ? query.status : 1
+  const accessToken = cookies().get("token")?.value; 
 
-export async function getAllProducts() {
-    const accessToken = Cookies.get('token')
-    if (!accessToken) return null
-    try {
-        const res = await axiosInstance.get('/products',{
-            headers: {
-                Authorization: `Bearer ${Cookies.get('token')}`}})
-                return res.data.data as IUser
-                
-    } catch (e) {
-        return null
-    }
-}
-export async function getProductById(id: number) {
-    const accessToken = Cookies.get('token')
-
+  
+  if (!accessToken) return null;
+  try {
+    const res = await axios.get(
+      `${API_URL}/products?page=${page}&limit=${limit}&status=${status}`,
+      {
+        headers: {
+          Authorization: `Bearer ${cookies().get("token")?.value}`,
+        },
+      }
+    );
+    return res.data;
     
-    if (!accessToken) return null
-    try {
-        const res = await axiosInstance.get(`/products/${id}`,{
-            headers: {
-                Authorization: `Bearer ${Cookies.get('token')}`}})
-               return res.data as IUser
-              
-                
-    } catch (e) {
-        return null
-    }
+  } catch (e) {
+ 
+    
+    return null;
+  }
+}
+export async function getAllProductHome(query: IFilter,lable:string) {
+  const page = query.page ? query.page : 1;
+  const limit = query.limit ? query.limit : 10;
+  const status= query.status ? query.status : 1
+  const wordFilter = query.wordFilter ? query.wordFilter : "";
+  // const categories = query.categories ? query.categories : "";
+  // const character = query.characters ? query.characters : "";
+  // const brand = query.brands ? query.brands : "";
+  // const series = query.series ? query.series : "";
+  const accessToken = cookies().get("token")?.value; 
+  const wordOject= lable
+
+  
+  // if (!accessToken) return null;
+  try {
+    const res = await axios.get(
+      `${API_URL}/products?page=${page}&limit=${limit}&status=${status}&${wordOject}=${wordFilter}`,
+      {
+        headers: {
+          Authorization: `Bearer ${cookies().get("token")?.value}`,
+        },
+      }
+    );
+    return res.data;
+    
+  } catch (e) {
+ 
+    
+    return null;
+  }
+}
+
+export async function getProductById(id: string) {
+  try {
+  
+   const res = await axios.get(`${API_URL}/products/${id}`,{
+    headers: {
+      Authorization: `Bearer ${cookies().get("token")?.value}`,
+    },
+   });
+   return res.data
+  } catch (e) {
+    return null;
+  }
 }

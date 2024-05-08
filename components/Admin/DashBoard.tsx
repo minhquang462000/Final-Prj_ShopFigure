@@ -11,7 +11,10 @@ import { SiBrandfolder, SiSteelseries } from "react-icons/si";
 
 export interface IDashboardProps {}
 
-export default function Dashboard(props: IDashboardProps) {
+export default function Dashboard() {
+  // const _id = params.id
+  // console.log("🚀 ~ file: DashBoard.tsx:Dashboard ~ params:", params);
+  
   //   const [tabIndex, setTabIndex] = React.useState<number>(0);
   const pathName = usePathname();
 
@@ -19,7 +22,7 @@ export default function Dashboard(props: IDashboardProps) {
   const cssButton = "flex items-center gap-2 p-3  rounded hover:bg-[#333a48]";
   return (
     <div className="w-full flex flex-col gap-2   py-5 bg-[#1c2434] min-h-screen">
-      <Link href={`/admin/accountAdmin/view/1`}>
+      <Link href={`/admin/accountAdmin/1`}>
         {" "}
         <button className="flex text-2xl gap-2 mb-7 font-medium  px-5">
           <MdOutlineDashboard size={30} />
@@ -55,7 +58,7 @@ export default function Dashboard(props: IDashboardProps) {
             }`}
           >
             {" "}
-            <BiSolidCategory size={20} /> Danh Mục
+            <BiSolidCategory size={20} /> Thể Loại
           </Link>
         </button>
         <button>

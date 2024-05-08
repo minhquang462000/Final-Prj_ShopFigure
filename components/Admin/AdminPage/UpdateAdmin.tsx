@@ -7,18 +7,17 @@ import { getUserById } from "@/api/user";
 import { IUser } from "@/interfaces";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 export interface IUpdateAdminProps {
 
     data: IUser,
     setTabId: (value: number) => void
-    getUser: () => void
 
 }
 
 export default function UpdateAdmin(props: IUpdateAdminProps) {
-    const { setTabId, data,getUser } = props
+    const { setTabId, data } = props
     const [image, setImage] = useState<any>(null);
     const [imagePreview, setImagePreview] = useState<any>(process.env.NEXT_PUBLIC_BASE_URL + "/" + data?.avatar)
 
@@ -59,7 +58,6 @@ export default function UpdateAdmin(props: IUpdateAdminProps) {
             formData,
         ).then((res) => {
             setTabId(0)
-            getUser()
             toast.success('Cập nhật thành công')
         }).catch((e) => {
             toast.error(e.response.data.message)

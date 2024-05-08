@@ -1,3 +1,4 @@
+'use client'
 import * as React from 'react';
 import { FiMinus } from 'react-icons/fi';
 import { GiCheckMark } from 'react-icons/gi';
@@ -8,7 +9,7 @@ export interface IListSelectCategoryProps {
 export default function ListSelectCategory (props: IListSelectCategoryProps) {
     const [changeColor, setChangeColor] = React.useState(false)
   return (
-    <td className=" rounded w-full flex flex-col bg-white p-3">
+    <div className=" rounded w-full flex flex-col bg-white p-3">
     <span className="border-b-[1px] pb-2 justify-between items-center flex w-full"> 
      <h3 className="font-medium" >Đặt hàng</h3>
      <FiMinus />
@@ -23,6 +24,6 @@ export default function ListSelectCategory (props: IListSelectCategoryProps) {
          </li>  
       
      </ul>
-     </td>
+     </div>
   );
 }

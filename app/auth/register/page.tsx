@@ -42,7 +42,9 @@ export default function page(props: IpageProps) {
       try {
         const { comfirmpassword, ...data } = formRegister
         const fetData = async () => {
-          const res = await axios.post("http://localhost:8080/api/v1/auth/register", { ...data }).then((res) => {
+          const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/register`, { ...data }).then((res) => {
+
+            
             toast.success('Đăng ký thành công')
             router.push('/auth/login')
           }).catch((e) => {
@@ -72,9 +74,9 @@ export default function page(props: IpageProps) {
             <li className="cursor-pointer">/ Đăng ký</li>
           </ul>
           <nav className="bg-white flex flex-col pb-10 gap-5 mx-auto rounded-md group/item w-[900px] px-10 p-6">
-            <h1 className="text-center text-[30px] font-medium">
+            <h2 className="text-center text-[30px] font-medium">
               Tạo Tài Khoản
-            </h1>
+            </h2>
             <input
               onChange={(e) => handleDataRegister(e)}
               name="name"

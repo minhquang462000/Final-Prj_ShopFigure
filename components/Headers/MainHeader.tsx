@@ -1,3 +1,4 @@
+'use client'
 import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
@@ -9,7 +10,7 @@ import { IoCartOutline } from "react-icons/io5";
 import LoginHomePage from "../Forms/LoginHomePage";
 import ComfirmPassHomePage from "../Forms/ConfirmPassHomePage";
 import CartHomePage from "../Forms/CartHomePage";
-
+import logoImg from "@/public/images/imglogo.png"
 export interface IAppProps { }
 
 export default function MainHeader(props: IAppProps) {
@@ -58,20 +59,22 @@ export default function MainHeader(props: IAppProps) {
   }, [openLogin, wrapperRef, openAddressShop, wrapperRefAddress, openCart, wrapperRefCart]);
 
   return (
-    <header className="w-screen sha relative py-2 bg-gradient-to-t from-red-700 to-orange-500">
-      <nav className="w-[1280px] mx-auto flex gap-6 justify-between items-center">
-        <div className="w-[250px]">
+    <header className="w-screen sha  py-2 z-50  sticky top-0  bg-gradient-to-t from-red-700 to-orange-500">
+      <div className="w-[1280px] relative mx-auto flex gap-6 justify-between items-center">
+       <Link href={"/"}>
+       <div className="w-[250px] clear-start flex shadow-md shadow-gray-200 border overflow-hidden   rounded-xl items-center gap-3 h-full">
           {" "}
-          <Image src="/vercel.svg" alt="Vercel Logo" width={150} height={30} />
-        </div>
-        <section className="flex items-center gap-2 bg-white  justify-between  rounded-md border-2 w-[500px]  border-white">
+        <img src={logoImg.src} className="h-[50px] bg-white" alt="" />
+        <p className="font-bold ">Dragon Shop</p>
+        </div></Link>
+        <div className="flex items-center gap-2 bg-white  justify-between  rounded-md border-2 w-[500px]  border-white">
           <input
             className="outline-none bg-transparent placeholder:text-black px-2 text-black"
             placeholder="Bạn đang tìm gì ??"
             type="text"
           />
           <IoMdSearch className="bg-gradient-to-r from-red-600 to-orange-500 text-[30px] rounded-md py-1 w-[70px] " />
-        </section>
+        </div>
         <ul className="grid grid-cols-5 leading-5 font-medium  text-sm  gap-5 text-wrap">
           <li className="flex items-center gap-2 w-full cursor-pointer ">
             <FiPhoneCall size={30} />
@@ -98,7 +101,7 @@ export default function MainHeader(props: IAppProps) {
                 }`}
             >
               <h2 className="text-lg">TÌM CỬA HÀNG GẦN BẠN</h2>
-              <nav>
+              <div>
                 <input
                   type="text"
                   className="border mb-3 p-2 outline-none w-full bg-transparent"
@@ -109,7 +112,7 @@ export default function MainHeader(props: IAppProps) {
                   className="border mb-3 p-2 outline-none w-full bg-transparent"
                   placeholder=" Quận hoặc huyện"
                 />
-              </nav>
+              </div>
             </div>
           </div>
           <div ref={wrapperRef} className=" relative w-full">
@@ -165,7 +168,7 @@ export default function MainHeader(props: IAppProps) {
             </div>
           </div>
         </ul>
-      </nav>
+      </div>
     </header>
   );
 }

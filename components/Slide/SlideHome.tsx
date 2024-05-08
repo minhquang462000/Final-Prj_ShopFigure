@@ -1,31 +1,22 @@
+'use client'
 import * as React from 'react';
-import { BiSlider } from 'react-icons/bi';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import Slider from 'react-slick'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./slide.css"
+import slideImg_1 from '@/public/images/slide_1_img.jpg'
+import slideImg_2 from '@/public/images/slide_2_img.jpg'
+import slideImg_3 from '@/public/images/slide_3_img.jpg'
+import slideImg_4 from '@/public/images/slide_4_img.jpg'
 export interface IAppProps {
 }
 
 const listImg = [
-    {
-        urlImg:
-            "https://i.ytimg.com/vi/MsK1zErcskQ/maxresdefault.jpg",
-    },
-    {
-        urlImg:
-            "https://cdn.suwalls.com/wallpapers/anime/dragon-ball-z-15389-1920x1080.jpg",
-    },
-    {
-        urlImg:
-            "https://c.wallhere.com/photos/6f/55/anime_One_Piece-1199541.jpg!d",
-    },
-
-    {
-        urlImg:
-            "https://wallpapers.com/images/featured/g8t326jpw36da9ib.jpg",
-    },
+    slideImg_1.src,
+    slideImg_2.src,
+    slideImg_3.src,
+    slideImg_4.src
 
 ];
 
@@ -69,7 +60,7 @@ export default function SlideHome(props: IAppProps) {
             <Slider {...settings}>
                 {listImg.map((item, index) => (
                   <div key={index} className='w-full  h-[350px]  cursor-pointer overflow-hidden'>  
-                    <img className='w-full h-full object-cover' src={item.urlImg} alt="" />
+                    <img className='w-full h-full object-cover' src={item} alt="" />
                     </div>
                 ))}
             </Slider>

@@ -2,12 +2,14 @@ import * as React from 'react';
 import CardProductMain from './CardProductMain';
 
 export interface ICardTitleSelectProps {
+  title: string;
 }
 
 export default function CardTitleCollection(props: ICardTitleSelectProps) {
+  const { title } = props;
   return (
     <nav className='text-black flex justify-between py-2   items-center '>
-      <h1 className='text-xl font-bold pl-3 border-l-[3px] border-black'>Tất cả sản phẩm</h1>
+      <h1 className='text-xl font-bold pl-3 border-l-[3px] border-black'>{title.toUpperCase()}</h1>
 
       <section className='flex   justify-between items-center gap-8  text-sm '>
         <p>Sắp xếp :</p>

@@ -7,13 +7,13 @@ export interface IFormYourorderProps {
 export default function FormYourOrder(props: IFormYourorderProps) {
     return (
         <div className='text-center bg-white w-full p-4 rounded-xl'>
-            <th className='flex w-full  font-semibold'>
-                <td className='w-[15%] px-2'>Mã đơn hàng</td>
-                <td className='w-1/5 px-2'>Ngày đặt</td>
-                <td className='w-1/5 px-2'>Thành tiền</td>
-                <td className='w-[25%] px-2'>Trạng thái thanh toán</td>
-                <td className='w-1/5 px-2'>Vân chuyển</td>
-            </th>
+            <ul className='flex w-full  font-semibold'>
+                <li className='w-[15%] px-2'>Mã đơn hàng</li>
+                <li className='w-1/5 px-2'>Ngày đặt</li>
+                <li className='w-1/5 px-2'>Thành tiền</li>
+                <li className='w-[25%] px-2'>Trạng thái thanh toán</li>
+                <li className='w-1/5 px-2'>Vân chuyển</li>
+            </ul>
             <div className='w-full felx flex-col gap-5'>
                 <ul className='flex w-full pt-3 mt-2  border-t-[1px] '>
                     <li className='w-[15%]'>#046</li>

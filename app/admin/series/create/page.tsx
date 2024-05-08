@@ -1,30 +1,52 @@
 "use client";
 import axios from "axios";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { HiPhoto } from "react-icons/hi2";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 
 export interface IpageProps {}
 
 export default function page(props: IpageProps) {
-  const [image, setImage] = useState<any>(null);
-
-  const [dataUser, setDataUser] = useState({
-    email: "",
-    password: "",
-    firstName: "",
-    lastName: "",
-    phone: "",
-    address: "",
+  const [thumbnail, setThumbnail] = useState<any>(null);
+  const [imagePreview, setImagePreview] = useState<any>(null);
+  const router = useRouter();
+  const [dataSeries, setDataSeries] = useState<any>({
+    name: "",
+    description: "",
     image: "",
-    gender: "1",
-    positionId: "",
   });
-  const handleOnchange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDataUser({
-      ...dataUser,
-      [e.target.name]: e.target.value,
+  const handleCreateSeries = async () => {
+    if (
+      dataSeries.name === "" ||
+      dataSeries.description === "" ||
+      thumbnail === null
+    ) {
+      toast.error("Vui lòng điền đầy đủ thông tin");
+      return;
+    }
+    const formData = new FormData();
+    formData.append("name", dataSeries.name);
+    formData.append("description", dataSeries.description);
+    if (thumbnail) {
+      formData.append("thumbnail", thumbnail);
+    }
+    await axios
+      .post(`${process.env.NEXT_PUBLIC_API_URL}/series`, formData)
+      .then((res) => {
+        router.push("/admin/series");
+      })
+      .catch((e) => {
+        toast.error(e.response.data.message);
+      });
+  };
+
+  const handleOnchange = (e: any) => {
+    const { name, value } = e.target;
+    setDataSeries({
+      ...dataSeries,
+      [name]: value,
     });
   };
   return (
@@ -45,6 +67,7 @@ export default function page(props: IpageProps) {
             id="name"
             name="name"
             onChange={(e) => handleOnchange(e)}
+            defaultValue={dataSeries.name}
             type=""
             autoComplete="name"
             className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-[#26b9fe] outline-none placeholder:text-gray-400 "
@@ -53,14 +76,16 @@ export default function page(props: IpageProps) {
         <div></div>
         <div className="col-span-1  ">
           <label
-            htmlFor="email"
+            htmlFor="description"
             className="block text-sm font-medium leading-6 text-gray-900"
           >
             Mô tả
           </label>
           <textarea
-            name=""
-            id=""
+            name="description"
+            id="description"
+            onChange={(e) => handleOnchange(e)}
+            defaultValue={dataSeries.description}
             className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset h-[100px] ring-gray-300 focus:ring-[#26b9fe] outline-none placeholder:text-gray-400 "
           />
         </div>
@@ -89,9 +114,10 @@ export default function page(props: IpageProps) {
                     id="image"
                     name="image"
                     type="file"
-                    onChange={(e) =>
-                      setImage(URL.createObjectURL(e.target.files![0]))
-                    }
+                    onChange={(e) => {
+                      setImagePreview(URL.createObjectURL(e.target.files![0]));
+                      setThumbnail(e.target.files![0]);
+                    }}
                     accept="image/*"
                     className="sr-only outline-none"
                   />
@@ -105,24 +131,26 @@ export default function page(props: IpageProps) {
           </div>
           <div
             className={`${
-              image ? "block" : "hidden "
+              imagePreview ? "block" : "hidden "
             } mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-2`}
           >
             <div className="flex justify-between items-center w-full">
               <span className="w-[200px] h-[120px]">
                 <img
                   className="w-full h-full object-cover rounded-md"
-                  src={image}
+                  src={imagePreview}
                   alt=""
                 />
               </span>
-              <span className="w-[70%] truncate">Url Image: {image}</span>
+              <span className="w-[70%] truncate">
+                Url Image: {imagePreview}
+              </span>
               <span className="border border-black rounded-md px-3 py-1 text-xl">
                 {" "}
                 <button
                   type="button"
                   onClick={() => {
-                    setImage(null);
+                    setImagePreview(null);
                   }}
                 >
                   X
@@ -134,12 +162,15 @@ export default function page(props: IpageProps) {
       </div>
 
       <div className="mt-5 flex items-center justify-center gap-x-6 m-auto">
-        <Link href="/admin/users">
+        <Link href="/admin/series">
           <button className="text-sm w-[100px] hover:bg-red-500 hover:text-white hover:border-red-500 border px-3 py-2 rounded-md border-black font-semibold leading-6 text-gray-900">
             Quay Lại
           </button>
         </Link>
-        <button className="rounded-md bg-indigo-600 px-3 w-[100px] py-[10px] text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 ">
+        <button
+          onClick={handleCreateSeries}
+          className="rounded-md bg-indigo-600 px-3 w-[100px] py-[10px] text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 "
+        >
           Lưu
         </button>
       </div>
