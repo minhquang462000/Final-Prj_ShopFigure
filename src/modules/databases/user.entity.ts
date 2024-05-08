@@ -4,6 +4,7 @@ import { PostEntity } from './post.entity';
 import { CartEntity } from './cart.entity';
 import { CommentEntity } from './comment.entity';
 import { InfoEntity } from './Info.entity';
+import { HistoryEntity } from './history.entity';
 
 
 @Entity({name: 'users'})
@@ -20,7 +21,7 @@ export class UserEntity {
     status: number
     @Column({type:'tinyint',default:1})
     role: number
-    @Column({type:'tinyint',default:null}) 
+    @Column({type:'tinyint',default:0}) 
     gender: number
     @Column({default:null})
     address: string
@@ -46,6 +47,8 @@ export class UserEntity {
     // Info
     @OneToMany(() => InfoEntity, (info) => info.user)
     infos: InfoEntity[]
+    @OneToMany(() => HistoryEntity, (history) => history.user)
+    history: HistoryEntity[]
     @CreateDateColumn()
     created_at: Date
     @UpdateDateColumn()

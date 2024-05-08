@@ -31,70 +31,60 @@ export class CharacterService {
 
     async findAll(query: FilterCharacterDto) {
         const keyword = query.name || ''
+    
+        
         const limit = query.limit || 10
         const page = query.page || 1
         const skip = (Number(page) - 1) * Number(limit)
-        const [res, total] = await this.characterRepository.findAndCount({
-            where: [{ name: Like(`%${keyword}%`) }],
-            select: [
-                'character_id',
-                'name',
-                'status',
-                'created_at',
-                'updated_at',
-                'thumbnail',
-                'description',
-            ],
-            order: { created_at: 'DESC' },
-            take: Number(limit),
-            skip: Number(skip),
-        })
-        const lastPage = Math.ceil(total / Number(limit))
-        const nextPage = Number(page) + 1 > lastPage ? null : Number(page) + 1
-        const prevPage = Number(page) - 1 < 1 ? null : Number(page) - 1
-        return {
-            data: res,
-            currenPage: Number(page),
-            total,
-            nextPage,
-            prevPage,
-            lastPage,
-        }
+        const status = query.status || 1
+        // console.log("status-------->",status);
+        // console.log("name-------->",keyword);
+        // console.log("skip-------->",query.status);
+        
+        const [docs, total]= await this.characterRepository.createQueryBuilder('character')
+        .where('character.name like :name',{name:`%${keyword}%`})
+        .andWhere('character.status = :status',{status:Number(status)})
+        .skip(skip)
+        .take(limit)
+        .orderBy('character.created_at','DESC')
+        .getManyAndCount()
+        return {docs,total}
     }
 
-    async findOne(id: number) {
-        const category = await this.characterRepository.findOne({
-            where: { character_id: id },
-        })
-        if (!category) {
-            throw new HttpException(
-                'Không tìm thấy danh mục',
-                HttpStatus.BAD_REQUEST
-            )
-        }
-        return category
-    }
-
-    async findAllCharacter() {
-        const categories = await this.characterRepository.find({
-            select: ['character_id', 'name'],
+        async findAllCharacter() {
+        const character = await this.characterRepository.find({
+            select: ['character_id', 'name', 'thumbnail'],
             where: { status: 1 },
         })
-        if (!categories) {
+        if (!character) {
             throw new HttpException(
-                'Không tìm thấy danh mục',
+                'Không tìm thấy nhân vật',
                 HttpStatus.BAD_REQUEST
             )
         }
-        return categories
+        return character
     }
-    async update(id: number, updateCharacterDto: any) {
-        const category = await this.characterRepository.findOne({
+    async findOne(id: number) {
+        const character = await this.characterRepository.findOne({
             where: { character_id: id },
         })
-        if (!category) {
+        if (!character) {
             throw new HttpException(
-                'Không tìm thấy danh mục',
+                'Không tìm thấy nhân vật',
+                HttpStatus.BAD_REQUEST
+            )
+        }
+        return character
+    }
+
+
+    async update(id: number, updateCharacterDto: any) {
+        const character = await this.characterRepository.findOne({
+            where: { character_id: id },
+        })
+        if (!character) {
+            throw new HttpException(
+                'Không tìm thấy nhân vật',
                 HttpStatus.BAD_REQUEST
             )
         }
@@ -113,7 +103,7 @@ export class CharacterService {
         })
         if (!character) {
             throw new HttpException(
-                'Không tìm thấy danh mục',
+                'Không tìm thấy nhân vật',
                 HttpStatus.BAD_REQUEST
             )
         }

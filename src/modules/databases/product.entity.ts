@@ -5,6 +5,8 @@ import { SeriesEntity } from "./series.entity";
 import { CategoryEntity } from "./category.entity";
 import { CharacterEntity } from "./character.entity";
 import { SaleEntity } from "./sale.entity";
+import { HistoryEntity } from "./history.entity";
+import { FavouriteEntity } from "./favourite.entity";
 
 
 
@@ -18,7 +20,7 @@ export class ProductEntity {
     price:string;
     @Column({default:1})
     quantity:number;
-    @Column()
+    @Column({type:"text"})
     description:string;
     @Column('simple-array')
     images:string[]
@@ -46,6 +48,12 @@ export class ProductEntity {
     //Character
     @ManyToOne(()=>CharacterEntity,(character)=>character.products)
     character:CharacterEntity
+    //History
+   @ManyToOne(()=>HistoryEntity,(historyOrder)=>historyOrder.products)
+    historyOrder:HistoryEntity
+    //Favourite
+    @ManyToOne(()=>FavouriteEntity,(favourite)=>favourite.products)
+    favourite:FavouriteEntity
     // Category
     @ManyToMany(()=>CategoryEntity,(category)=>category.products)
     @JoinTable({name:"product_categories"})

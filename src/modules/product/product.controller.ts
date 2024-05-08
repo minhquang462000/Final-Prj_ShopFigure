@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseInterceptors, Req, UploadedFile, BadRequestException, UploadedFiles } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseInterceptors, Req, UploadedFile, BadRequestException, UploadedFiles, ParseArrayPipe } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -42,7 +42,7 @@ export class ProductController {
       }
       let images = [];
       for (const file of files) {
-        images.push(file.destination + '/' + file.filename);
+        images.push('product' + '/' + file.filename);
       }
      return this.productService.create({...createProductDto,images});
 
@@ -57,12 +57,47 @@ export class ProductController {
   findOne(@Param('id') id: string) {
     return this.productService.findOne(+id);
   }
-
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
-    return this.productService.update(+id, updateProductDto);
+  @UseInterceptors(FilesInterceptor('images',5,{storage:storageConfig('product'),
+  fileFilter: (req, file, cb) => {
+  const ext = extname(file.originalname);
+  const allowedExtArr = ['.png','.jpg','.jpeg'];
+  if (!allowedExtArr.includes(ext)) {
+    req.fileValidationError = `Only images are :${allowedExtArr.toString()} `;
+    return cb(null, false);
   }
+  const fileSize = parseInt(req.headers['content-length']);
+  if (fileSize > 1024*1024*5) {
+    req.fileValidationError = 'File size is too large. Acceptable size is 5MB';
+    return cb(null, false);
+  }
+   return cb(null, true);
+  }}))
+  update(@Req() req: any,@Param('id') id: string, @Body() updateProductDto: any,@UploadedFiles() files: Express.Multer.File[]) {
+    if (req.fileValidationError) {
+      throw new BadRequestException(req.fileValidationError);
+      }
+      if (!files) {
+        throw new BadRequestException('File not found');
+      }
+      let images = [];
+      for (const file of files) {
+        images.push('product' + '/' + file.filename);
+      }
+      if (images.length > 0) {
+        return this.productService.update(+id, {...updateProductDto,images});
+        
+      }
+       return this.productService.update(+id, updateProductDto);
+}
 
+  @Delete('multiple')
+  multipleDelete(
+      @Query('ids', new ParseArrayPipe({ items: String, separator: ',' }))
+      ids: string[]
+  ) {
+      return this.productService.multipleDelete(ids)
+  }
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.productService.remove(+id);

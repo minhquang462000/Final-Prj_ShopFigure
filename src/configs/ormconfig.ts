@@ -7,6 +7,7 @@ import { CategoryEntity } from 'src/modules/databases/category.entity';
 import { CharacterEntity } from 'src/modules/databases/character.entity';
 import { CommentEntity } from 'src/modules/databases/comment.entity';
 import { FavouriteEntity } from 'src/modules/databases/favourite.entity';
+import { HistoryEntity } from 'src/modules/databases/history.entity';
 import { PostEntity } from 'src/modules/databases/post.entity';
 import { ProductEntity } from 'src/modules/databases/product.entity';
 import { SaleEntity } from 'src/modules/databases/sale.entity';
@@ -22,7 +23,7 @@ export const config: MysqlConnectionOptions = {
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   entities: [UserEntity,ProductEntity,CartEntity,BrandEntity,CategoryEntity,CharacterEntity,
-    CommentEntity,FavouriteEntity,InfoEntity,SaleEntity,PostEntity,SeriesEntity
+    CommentEntity,FavouriteEntity,InfoEntity,SaleEntity,PostEntity,SeriesEntity,HistoryEntity
   ],
   synchronize: true,
 };

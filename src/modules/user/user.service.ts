@@ -5,7 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { FilterUserDto } from './dtos/filter.dto';
 import { take } from 'rxjs';
-import { Like } from 'typeorm';
+import { DeleteResult, In, Like } from 'typeorm';
 
 @Injectable()
 export class UserService {
@@ -13,22 +13,15 @@ export class UserService {
     @InjectRepository(UserEntity)
     private readonly userRepository: any,
   ) {}
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: any) {
    if (await this.checkEmail(createUserDto.email)) {
         throw new HttpException('Email đã đăng ký', HttpStatus.BAD_REQUEST);
       }
       if (await this.checkUsername(createUserDto.name)) {
       throw new HttpException('Username đã đăng ký', HttpStatus.BAD_REQUEST);
       }
-
-      const user = new UserEntity();
-      user.name = createUserDto.name;
-      user.status = createUserDto.status;
-      user.email = createUserDto.email;
-      user.role = createUserDto.role;
-      user.password = createUserDto.password;
-
-      await this.userRepository.save(user);
+   const user = this.userRepository.create(createUserDto);
+   await this.userRepository.save(user);
      throw new HttpException('Ok baby', HttpStatus.OK);
   }
   // check role
@@ -52,24 +45,34 @@ export class UserService {
     const keyword = query.search || '';
    const limit = query.limit || 10;
    const page = query.page || 1;
+   const status = query.status || 1;
+   const role = query.role || 1;
     const skip = (Number(page) - 1) * Number(limit);
-    const [res, total] = await this.userRepository.findAndCount({
-     where: [{ name: Like(`%${keyword}%`) }, { email: Like(`%${keyword}%`) },{status:Like(`%${keyword}%`),role:1}],
-     order:{created_at:"DESC"},
-     take: Number(limit),
-     skip: Number(skip)
-
-  })
-const lastPage = Math.ceil(total / Number(limit));
-const nextPage = Number(page) + 1 > lastPage ? null : Number(page) + 1;
-const prevPage = Number(page) - 1 < 1 ? null : Number(page) - 1;
-  return {data:res,currenPage:Number(page),total,nextPage,prevPage,lastPage}; 
+    const [docs, total]= await this.userRepository.createQueryBuilder('user')
+        .where('user.name like :name',{name:`%${keyword}%`})
+        .select(['user.user_id', 'user.name', 'user.email', 'user.role', 'user.status', 'user.created_at', 'user.updated_at','user.avatar','user.address','user.phone','user.gender',"created_at","updated_at"])
+        .andWhere('user.role = :role',{role:Number(role)})
+        .andWhere('user.status = :status',{status:Number(status)})
+        .skip(skip)
+        .take(limit)
+        .orderBy('user.created_at','DESC')
+        .getManyAndCount()
+        return {docs,total}
 }
+  // async findOne(id: number) {
+  //   const data = await this.userRepository.findOne({
+      
+  //     where: { user_id: id },
+  //     select: ['user_id', 'name', 'email', 'role', 'status', 'created_at', 'updated_at','avatar','address','phone','gender'],
+  //   });
+  //   return data;
+  // }
   async findOne(id: number) {
-    const data = await this.userRepository.findOne({
-      where: { user_id: id },
-      select: ['user_id', 'name', 'email', 'role', 'status', 'created_at', 'updated_at','avatar','address','phone','gender'],
-    });
+    const data = await this.userRepository.createQueryBuilder('user')
+    .leftJoinAndSelect('user.cart', 'cart')
+    .where('user.user_id = :id', {id: id})
+    .select(['user.user_id',"user.cart", 'user.name', 'user.email', 'user.role', 'user.status', 'user.created_at', 'user.updated_at','user.avatar','user.address','user.phone','user.gender'])
+    .getOne();
     return data;
   }
 // Upload Avatar
@@ -83,6 +86,9 @@ async updateAvatar(id: number, avatar: string):Promise<any> {
     return 'update OK';
   }
 
+  async multipleDelete(ids: string[]): Promise<DeleteResult> {
+    return await this.userRepository.delete({ user_id: In(ids) })
+}
   async remove(id: number) {
     await this.userRepository.delete({ user_id: id });
     return 'remove OK';

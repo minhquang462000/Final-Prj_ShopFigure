@@ -7,7 +7,7 @@ export class CategoryEntity {
     category_id: number
     @Column()
     name: string
-    @Column()
+    @Column({type:'text'})
     description: string
     @Column({nullable: true, default: null})
     thumbnail: string

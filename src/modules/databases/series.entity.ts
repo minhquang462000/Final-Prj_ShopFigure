@@ -4,10 +4,10 @@ import { ProductEntity } from "./product.entity";
 @Entity({name: 'series'})
 export class SeriesEntity {
     @PrimaryGeneratedColumn({type: 'int'})
-    seri_id: number
+    series_id: number
     @Column()
     name: string
-    @Column()
+    @Column({type: 'text'})
     description: string
     @Column({nullable: true,default:null})
     thumbnail: string

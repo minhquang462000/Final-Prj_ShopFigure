@@ -7,7 +7,7 @@ export class BrandEntity {
     brand_id: number
     @Column()
     name: string
-    @Column()
+    @Column({type: 'text',nullable: true})
     description: string
     @Column({nullable: true,default:null})
     thumbnail: string

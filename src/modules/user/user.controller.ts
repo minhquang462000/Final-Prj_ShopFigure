@@ -13,6 +13,7 @@ import {
     UploadedFile,
     Req,
     BadRequestException,
+    ParseArrayPipe,
   } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { AuthGuard } from 'src/shared/guard/auth.guard';
@@ -30,8 +31,8 @@ import { UserService } from './user.service';
   export class UserController {
     constructor(private readonly userService: UserService) {}
     @Post()
-    @UseGuards(AuthGuard)
-    @UseGuards(AuthGuard)
+    // @UseGuards(AuthGuard)
+    // @UseGuards(AuthGuard)
   @UseInterceptors(FileInterceptor('avatar',{storage:storageConfig('avatar'),
     fileFilter: (req, file, cb) => {
      const ext = extname(file.originalname);
@@ -48,16 +49,17 @@ import { UserService } from './user.service';
      return cb(null, true);
     }
   }))
-    create(@Req() req,@Body() createUserDto: CreateUserDto,@UploadedFile() avatar: Express.Multer.File) {
+    create(@Req() req,@Body() createUserDto: any,@UploadedFile() avatar: Express.Multer.File) {
       if (req.fileValidationError) {
           throw new BadRequestException(req.fileValidationError);
           }
           if (avatar) {
           createUserDto.avatar = avatar.fieldname+'/'+ avatar.filename
           }
+          console.log(createUserDto);
+          
            return this.userService.create(createUserDto);
     }
-  
     @Get()
     // @UseGuards(AuthGuard)
     findAll(@Query() query:FilterUserDto): any{
@@ -84,6 +86,7 @@ import { UserService } from './user.service';
       return cb(null, false);
      }
      return cb(null, true);
+     
     }
   }))
     update(@Req() req,@Param('id') id: string, @Body() updateUserDto: any,@UploadedFile() avatar: Express.Multer.File) {
@@ -124,6 +127,13 @@ import { UserService } from './user.service';
   //   }
   //    return this.userService.updateAvatar(req.user_data.id,file.destination+'/'+file.filename);
   // }
+  @Delete('multiple')
+  multipleDelete(
+      @Query('ids', new ParseArrayPipe({ items: String, separator: ',' }))
+      ids: string[]
+  ) {
+      return this.userService.multipleDelete(ids)
+  }
     @Delete(':id')
     remove(@Param('id') id: string) {
       return this.userService.remove(+id);

@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { CategoryEntity } from '../databases/category.entity'
 import { DeleteResult, In, Like } from 'typeorm'
 import { FilterBrandDto } from '../brand/dto/filter-brand.dto'
+import { FilterCategoryDto } from './dto/filter-caegory.dto'
 
 @Injectable()
 export class CategoryService {
@@ -28,41 +29,30 @@ export class CategoryService {
     async multipleDelete(ids: string[]): Promise<DeleteResult> {
         return await this.categoryRepository.delete({ category_id: In(ids) })
     }
-    async findAll(query: FilterBrandDto) {
+    async findAll(query: FilterCategoryDto) {
         const keyword = query.name || ''
+    
+        
         const limit = query.limit || 10
         const page = query.page || 1
         const skip = (Number(page) - 1) * Number(limit)
-        const [res, total] = await this.categoryRepository.findAndCount({
-            where: [{ name: Like(`%${keyword}%`) }],
-            select: [
-                'category_id',
-                'name',
-                'status',
-                'created_at',
-                'updated_at',
-                'thumbnail',
-                'description',
-            ],
-            order: { created_at: 'DESC' },
-            take: Number(limit),
-            skip: Number(skip),
-        })
-        const lastPage = Math.ceil(total / Number(limit))
-        const nextPage = Number(page) + 1 > lastPage ? null : Number(page) + 1
-        const prevPage = Number(page) - 1 < 1 ? null : Number(page) - 1
-        return {
-            data: res,
-            currenPage: Number(page),
-            total,
-            nextPage,
-            prevPage,
-            lastPage,
-        }
+        const status = query.status || 1
+        // console.log("status-------->",status);
+        // console.log("name-------->",keyword);
+        // console.log("skip-------->",query.status);
+        
+        const [docs, total]= await this.categoryRepository.createQueryBuilder('category')
+        .where('category.name like :name',{name:`%${keyword}%`})
+        .andWhere('category.status = :status',{status:Number(status)})
+        .skip(skip)
+        .take(limit)
+        .orderBy('category.created_at','DESC')
+        .getManyAndCount()
+        return {docs,total}
     }
     async findAllCategory() {
         const category = await this.categoryRepository.find({
-            select: ['category_id', 'name'],
+            select: ['category_id', 'name', 'thumbnail'],
             where: { status: 1 },
         })
         if (!category) {

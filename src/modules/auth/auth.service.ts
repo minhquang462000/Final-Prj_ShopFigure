@@ -36,9 +36,8 @@ async login(loginUserDto: LoginUserDto) {
     const Token = await this.generateToken(payload);
      return {
       Token:Token.accessToken,
-      user:{
-        id: user.user_id,role: user.role}
-     }
+      user: user
+    };
 }
 async register(registerUserDto: RegisterUserDto) {
   

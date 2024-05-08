@@ -27,37 +27,25 @@ export class BrandService {
 
     async findAll(query: FilterBrandDto) {
         const keyword = query.name || ''
+    
+        
         const limit = query.limit || 10
         const page = query.page || 1
         const skip = (Number(page) - 1) * Number(limit)
-        const [res, total] = await this.brandRepository.findAndCount({
-            where: [{ name: Like(`%${keyword}%`) }],
-            select: [
-                'brand_id',
-                'name',
-                'status',
-                'created_at',
-                'updated_at',
-                'thumbnail',
-                'description',
-            ],
-            order: { created_at: 'DESC' },
-            take: Number(limit),
-            skip: Number(skip),
-        })
-        const lastPage = Math.ceil(total / Number(limit))
-        const nextPage = Number(page) + 1 > lastPage ? null : Number(page) + 1
-        const prevPage = Number(page) - 1 < 1 ? null : Number(page) - 1
-        return {
-            data: res,
-            currenPage: Number(page),
-            total,
-            nextPage,
-            prevPage,
-            lastPage,
-        }
+        const status = query.status || 1
+        // console.log("status-------->",status);
+        // console.log("name-------->",keyword);
+        // console.log("skip-------->",query.status);
+        
+        const [docs, total]= await this.brandRepository.createQueryBuilder('brand')
+        .where('brand.name like :name',{name:`%${keyword}%`})
+        .andWhere('brand.status = :status',{status:Number(status)})
+        .skip(skip)
+        .take(limit)
+        .orderBy('brand.created_at','DESC')
+        .getManyAndCount()
+        return {docs,total}
     }
-
     async findOne(id: number) {
         const brand = await this.brandRepository.findOne({
             where: { brand_id: id },
@@ -66,7 +54,7 @@ export class BrandService {
     }
     async findAllBrand() {
         const brands = await this.brandRepository.find({
-            select: ['brand_id', 'name'],
+            select: ['brand_id', 'name', 'thumbnail'],
             where: [{ status: 1 }],
         })
         if (!brands) {

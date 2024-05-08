@@ -22,6 +22,7 @@ import { AuthService } from './modules/auth/auth.service';
 import { UserEntity } from './modules/databases/user.entity';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { HistoryModule } from './modules/history/history.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { join } from 'path';
     AuthModule,
     UserModule,
     BrandModule,
+    HistoryModule,
     CategoryModule,
     CharacterModule,
     CommentModule,

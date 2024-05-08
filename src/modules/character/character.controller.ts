@@ -69,16 +69,16 @@ export class CharacterController {
     findAll(@Query() query: any): Promise<any> {
         return this.characterService.findAll(query)
     }
+    @Get('all')
+    findAllCharacter():Promise<any> {
+       return this.characterService.findAllCharacter();
+     }
 
     @Get(':id')
     findOne(@Param('id') id: string) {
         return this.characterService.findOne(+id)
     }
-    @Get('all')
-    findAllCharacter() {
-        return this.characterService.findAllCharacter()
-    }
-
+  
     @Patch(':id')
     @UseInterceptors(
         FileInterceptor('thumbnail', {

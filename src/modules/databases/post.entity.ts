@@ -8,7 +8,7 @@ export class PostEntity {
     post_id: number
     @Column()
     title: string
-    @Column()
+    @Column({type: 'text'})
     description: string
     @Column()
     thumbnail: string
