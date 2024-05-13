@@ -34,18 +34,19 @@ export default function CardProductMain(props: ICardProductHomeProps) {
           </h3>
         </Link>
         <span className="flex my-3  justify-between text-[#e44c4c] font-medium items-center text-sm">
-          <p>
+          {data?.quantity > 0 && <p>
             {addDotToNumber(
               String(data?.price - (data?.price * data?.discount) / 100)
             )}{" "}
             <span className="underline">đ</span>
-          </p>
-          {Number(data?.discount) > 0 && (
+          </p>}
+          {Number(data?.discount) > 0 && data?.quantity > 0 && (
             <p className="text-gray-500  line-through  ">
               {" "}
               {addDotToNumber(String(data?.price))}đ
             </p>
           )}
+          {data?.quantity == 0 && <span className="bg-[#ff2121] text-white p-1 text-xs rounded-md py-[2px]">Hết hàng</span>}
           <FaRegHeart className="mr-4" size={18} />
         </span>
         <span className="bg-[#20b648] text-white -rotate-45 absolute pb-1 -top-7 -left-9  text-center text-[11px] font-bold pt-12 w-max px-4 m-auto">

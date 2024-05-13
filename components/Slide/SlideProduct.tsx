@@ -57,7 +57,7 @@ export default function SlideProduct(props: ISliderProductProps) {
           key={index}
           className="relative group/search rounded-md overflow-hidden"
         >
-          <div className="w-[95%] flex flex-col  gap-3 mx-auto p-1 h-max   overflow-hidden">
+          <div className="w-[95%] flex flex-col  gap-3 mx-auto p-1 h-max shadow-md rounded mb-2 px-1 shadow-gray-400  overflow-hidden">
             <Link href={`/products/${item?.product_id}`}>
               <div className="w-full cursor-pointer  relative h-[200px]">
                 <img
@@ -78,19 +78,20 @@ export default function SlideProduct(props: ISliderProductProps) {
               </h3>
             </Link>
             <span className="flex my-3  justify-between text-[#e44c4c] font-medium items-center text-sm">
-              <p>
+              {item?.quantity > 0 && <p>
                 {addDotToNumber(
                   String(item?.price - (item?.price * item?.discount) / 100)
-                )}
-                <span className="un derline">đ</span>
-              </p>
-              {Number(item?.discount) > 0 && (
+                )}{" "}
+                <span className="underline">đ</span>
+              </p>}
+              {Number(item?.discount) > 0 && item?.quantity > 0 && (
                 <p className="text-gray-500  line-through  ">
                   {" "}
                   {addDotToNumber(String(item?.price))}đ
                 </p>
               )}
-              <FaRegHeart className="mr-4" size={15} />
+              {item?.quantity == 0 && <span className="bg-[#ff2121] text-white p-1 text-xs rounded-md py-[2px]">Hết hàng</span>}
+              <FaRegHeart className="mr-4" size={18} />
             </span>
             <span className="bg-[#36b056] text-white -rotate-45 absolute pb-1 -top-7 -left-9  text-center text-[11px] font-bold pt-12 w-max px-4 m-auto">
               Pre-order

@@ -1,4 +1,5 @@
 
+import { getCartByUser } from "@/api/cart";
 import { getProductById } from "@/api/product";
 import CardInfoItem from "@/components/Cards/CardInfoItem";
 import CardProductItem from "@/components/Cards/CardProductItem";
@@ -15,7 +16,9 @@ const product = await getProductById(params.id)
 // console.log("_id---->", _id);
 
 // console.log("product---->", product);
-
+  const cart = await getCartByUser()
+  // console.log("cart---->", cart);
+  
 
   
 
@@ -27,7 +30,7 @@ const product = await getProductById(params.id)
         </section>
         <div className="grid gap-3 grid-cols-4">
           <nav className="col-span-3 rounded-md bg-white py-4 px-3">
-            <CardProductItem  data={product}/>
+            <CardProductItem  data={product} id_cart={cart?.cart_id}/>
           </nav>
           <CardInfoItem />
         </div>

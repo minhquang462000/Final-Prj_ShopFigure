@@ -16,7 +16,7 @@ export async function getAllCharacter(query: IFilter) {
   const status= query.status ? query.status : 1
   const accessToken = cookies().get("token")?.value; 
   
-  if (!accessToken) return null;
+  // if (!accessToken) return null;
   try {
     const res = await axios.get(
       `${API_URL}/characters?page=${page}&limit=${limit}&status=${status}`,
@@ -26,7 +26,6 @@ export async function getAllCharacter(query: IFilter) {
         },
       }
     );
-    
     return res.data;
     // console.log("🚀 ~ file: character.ts:res.data", res.data);
     

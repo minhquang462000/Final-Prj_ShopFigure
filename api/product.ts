@@ -12,7 +12,7 @@ export async function getAllProduct(query: IFilter) {
   const accessToken = cookies().get("token")?.value; 
 
   
-  if (!accessToken) return null;
+  // if (!accessToken) return null;
   try {
     const res = await axios.get(
       `${API_URL}/products?page=${page}&limit=${limit}&status=${status}`,

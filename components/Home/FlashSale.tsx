@@ -14,7 +14,7 @@ import { IProduct } from '@/interfaces';
 import { addDotToNumber } from '@/helpers/addDotToNumber';
 import Link from 'next/link';
 export interface IAppProps {
-    data:IProduct[]
+    data: IProduct[]
 }
 // function CustomSlide(props: any) {
 //     const { index, ...otherProps } = props;
@@ -58,20 +58,31 @@ export default function FlashSale(props: IAppProps) {
             </nav>
             <div className=''>
                 <Slider className='flex gap-4' {...settings}>
-                    {data.map((item:IProduct, index:number) => {
+                    {data.map((item: IProduct, index: number) => {
                         return (
                             <div key={index} >
                                 <nav className='w-[95%] mx-auto flex flex-col group/search gap-3 cursor-pointer  relative  h-max bg-white rounded-md p-2'>
                                     <Link href={`/products/${item?.product_id}`}>
-                                    <div className='w-full  relative h-[200px]'>
-                                        <img className='w-full h-full object-cover' src={process.env.NEXT_PUBLIC_BASE_URL +"/"+ item?.images[0]} alt="" />
-                                        <IoSearchOutline size={40} className='bg-white shadow-md group-hover/search:block hidden shadow-gray-400 rounded-full p-2 absolute top-[40%] bottom-[40%]  right-[40%] left-[40%]' />
-                                    </div></Link>
-                                  <Link href={`/products/${item?.product_id}`}>  <h3 className='leading-5 h-[40px] overflow-hidden  mt line-clamp-2'>{item?.name}</h3></Link>
-                                    <span className='flex my-1  justify-between text-[#e44c4c] font-medium items-center text-sm'>
-                                        <p>{addDotToNumber(String(item?.price- (item?.price * item?.discount) / 100))}<span className='underline'>đ</span></p>
-                                        <p className='text-gray-500  line-through  '> {addDotToNumber(String(item?.price))}đ</p>
-                                        <FaRegHeart className='mr-4' size={18} />
+                                        <div className='w-full  relative h-[200px]'>
+                                            <img className='w-full h-full object-cover' src={process.env.NEXT_PUBLIC_BASE_URL + "/" + item?.images[0]} alt="" />
+                                            <IoSearchOutline size={40} className='bg-white shadow-md group-hover/search:block hidden shadow-gray-400 rounded-full p-2 absolute top-[40%] bottom-[40%]  right-[40%] left-[40%]' />
+                                        </div></Link>
+                                    <Link href={`/products/${item?.product_id}`}>  <h3 className='leading-5 h-[40px] overflow-hidden  mt line-clamp-2'>{item?.name}</h3></Link>
+                                    <span className="flex my-3  justify-between text-[#e44c4c] font-medium items-center text-sm">
+                                        {item?.quantity > 0 && <p>
+                                            {addDotToNumber(
+                                                String(item?.price - (item?.price * item?.discount) / 100)
+                                            )}{" "}
+                                            <span className="underline">đ</span>
+                                        </p>}
+                                        {Number(item?.discount) > 0 && item?.quantity > 0 && (
+                                            <p className="text-gray-500  line-through  ">
+                                                {" "}
+                                                {addDotToNumber(String(item?.price))}đ
+                                            </p>
+                                        )}
+                                        {item?.quantity == 0 && <span className="bg-[#ff2121] text-white p-1 text-xs rounded-md py-[2px]">Hết hàng</span>}
+                                        <FaRegHeart className="mr-4" size={18} />
                                     </span>
                                     <span className='flex items-center gap-2'>
                                         <Image src={imgFire.src} alt="" width={18} height={18} />

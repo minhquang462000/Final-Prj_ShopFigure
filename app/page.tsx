@@ -28,11 +28,10 @@ import Link from "next/link";
 
 export default async function Home() {
   const query = { page: 1, limit: 10, search: "" };
-  const data = await getAllCharacter({limit:10} as IFilter) ;
-const characterHome = data.docs || [];
-  const { docs:productHome } = await getAllProduct(query as IFilter);
+  const { docs: characterHome } = await getAllCharacter({ limit: 10 } as IFilter);
+  const { docs: productHome } = await getAllProduct(query as IFilter);
   // if () {
-    
+
   // }
   // console.log("characterHome--->", characterHome);
 
@@ -51,18 +50,18 @@ const characterHome = data.docs || [];
         {/* Figure */}
         <div className="w-full  grid grid-cols-10 bg-white p-4 h-[170px]  overflow-hidden rounded-md">
           {characterHome?.map((item: ICharacter, index: number) => (
-           <Link href={`collections/characters?id=${item.character_id}`} key={index}>
-            <CardFigure data={item} />
-           </Link>
+            <Link href={`collections/characters?id=${item.character_id}`} key={index}>
+              <CardFigure data={item} />
+            </Link>
           ))}
 
         </div>
         {/* FlashSale */}
-        <FlashSale data={productHome}/>
+        <FlashSale data={productHome} />
         {/* SlideProduct */}
         <div className="  bg-white group/item rounded-md my-3 p-4  w-full">
-          <CardTitleMain title="HOT PRODUCT " urlLink=""/>
-          <SlideProduct data={productHome}/>
+          <CardTitleMain title="HOT PRODUCT " urlLink="" />
+          <SlideProduct data={productHome} />
         </div>
         {/* Option2 */}
         <ul className="w-full grid grid-cols-4  bg-white p-4 h-max my-8 gap-4 overflow-hidden rounded-md">
@@ -82,21 +81,21 @@ const characterHome = data.docs || [];
             {productHome?.map((item: any, index: number) => (
               <CardProductMain key={index} data={item} />
             ))}
-           
+
           </div>
           <button className='flex hover:bg-transparent hover:text-[#9b9b9b] border text-sm items-center text-white rounded-lg bg-[#9b9b9b] border-[#9b9b9b] text-center mx-auto mt-4 px-14 py-3 '>Xem tất cả <MdKeyboardDoubleArrowRight /></button>
         </div>
         {/* PostNews */}
-        <tr className="w-full grid grid-cols-3 gap-5 h-max my-4">
-          <td className="  bg-white rounded-md my-3 p-2 px-4 col-span-2  w-full">
-            <CardTitleMain title="TIN TỨC MỚI" urlLink=""/>
+        <ul className="w-full grid grid-cols-3 gap-5 h-max my-4">
+          <li className="  bg-white rounded-md my-3 p-2 px-4 col-span-2  w-full">
+            <CardTitleMain title="TIN TỨC MỚI" urlLink="" />
             <ListNewsPosts />
-          </td>
-          <td className="  bg-white rounded-md my-3 p-2 px-4  w-full">
-            <CardTitleMain title=" tin khuyến Mãi" urlLink=""/>
+          </li>
+          <li className="  bg-white rounded-md my-3 p-2 px-4  w-full">
+            <CardTitleMain title=" tin khuyến Mãi" urlLink="" />
             <ListPromotion />
-          </td>
-        </tr>
+          </li>
+        </ul>
 
       </main>
     </MainLayout>

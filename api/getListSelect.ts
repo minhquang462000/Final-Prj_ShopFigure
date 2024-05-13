@@ -15,7 +15,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8081/api/v1
 
 export async function getListSelect(url:string) {
     const accessToken = cookies().get('token')
-    if (!accessToken) return null
+    // if (!accessToken) return null
     try {
         const res = await axios.get(`${API_URL}/${url}/all`, {
             headers: {
@@ -30,7 +30,7 @@ export async function getListSelect(url:string) {
 }
 export async function getOneSelect(url:string,id:string) {
     const accessToken = cookies().get('token')
-    if (!accessToken) return null
+    // if (!accessToken) return null
     try {
         const res = await axios.get(`${API_URL}/${url}/${id}`, {
             headers: {

@@ -35,10 +35,8 @@ export default function page(props: IAppProps) {
           `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
           { ...formLogin }
         ).then(async (res) => {
-          if (res.data.user.cart ===null) {
-            await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth`, {user: res.data.user.user_id})
-           }
-         setTokenCookie(res.data.Token);
+         await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/carts`, {user: res.data.user.user_id})
+          setTokenCookie(res.data.Token,res.data.user.user_id);
           toast.success('Đăng nhập thành công ,xin chờ trong giây lát...')
           if (res.data.user.role == 0) {
             router.push(`/admin/accountAdmin/${res.data.user.user_id}`)

@@ -63,7 +63,7 @@ export default function FormUpdateProduct(props: IFormUpdate) {
             .patch(`${process.env.NEXT_PUBLIC_API_URL}/products/${data?.product_id}`, formData)
             .then((res) => {
                 toast.success("Cập nhật sản phẩm thành công");
-                router.push("/admin/product");
+                router.back();
                 
             })
             .catch((e) => {
