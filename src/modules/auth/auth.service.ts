@@ -31,7 +31,8 @@ async login(loginUserDto: LoginUserDto) {
     }
     if (!await this.comparePassword(loginUserDto.password, user.password)) {
       throw new HttpException('Password không đúng', HttpStatus.BAD_REQUEST);
-    }
+  }
+  
     const payload = { id: user.user_id, email: user.email };
     const Token = await this.generateToken(payload);
      return {

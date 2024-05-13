@@ -1,3 +1,4 @@
+import { json } from 'stream/consumers';
 import { Column, CreateDateColumn, Entity, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { UserEntity } from "./user.entity";
 import { ProductEntity } from "./product.entity";
@@ -7,6 +8,8 @@ export class CartEntity {
     @PrimaryGeneratedColumn({type: 'int'})
     cart_id: number
     // Relationship
+    @Column('simple-array', {nullable: true})
+    productQuantity: string[]
     @ManyToMany(() => ProductEntity, (product) => product.cart)
     product: ProductEntity[]
     // User

@@ -28,9 +28,6 @@ export class ProductEntity {
     status:number;
     @Column({nullable:true,default:null})
     discount:number;
-    // OnlyCart
-    @Column({default:1})
-    Count:number
     //RelationShip
     // Sale
     @ManyToOne(()=>SaleEntity,(sale)=>sale.products)

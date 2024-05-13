@@ -12,7 +12,7 @@ import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 @ApiResponse({ status: 403, description: 'Forbidden'})
 
 @ApiTags('Cart')
-@Controller('api/v1/cart')
+@Controller('api/v1/carts')
 export class CartController {
   constructor(private readonly cartService: CartService) {}
 
