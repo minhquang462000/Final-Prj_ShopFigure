@@ -47,10 +47,13 @@ export class ProductController {
      return this.productService.create({...createProductDto,images});
 
   }
-
+  @Get('client')
+  search(@Query() query: FilterProductDto):Promise<any> {
+    return this.productService.findProroductClient(query);
+  }
   @Get()
   findAll(@Query() query: FilterProductDto):Promise<any> {
-    return this.productService.findAll(query);
+    return this.productService.findAllAdmin(query);
   }
 
   @Get(':id')

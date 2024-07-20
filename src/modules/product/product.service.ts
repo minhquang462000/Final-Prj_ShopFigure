@@ -46,7 +46,7 @@ export class ProductService {
   }
   return false;
 }
- async findAll(query:FilterProductDto) {
+ async findAllAdmin(query:FilterProductDto) {
   const keyword = query.search || '';
 let categories = isArray(query.categories) ? query.categories: [query.categories];
 if (!categories[0] || categories.length == 0) {
@@ -60,74 +60,32 @@ const page = Number(query.page) || 1;
 const limit = Number(query.limit) || 10;
 const skip = (Number(page) - 1) * Number(limit);
 const status = query.status || 1;
-// console.log("-------->",query);
-
-// console.log(limit);
-
-
-
-// let products = [];
-//     for (let i = 0; i < categories.length; i++) {
-//       const element = Number(categories[i]) || '';
-//       const res = await this.productRepository
-//         .createQueryBuilder('product')
-//         .leftJoinAndSelect('product.character', 'characters')
-//         .leftJoinAndSelect('product.categories', 'categories')
-//         .leftJoinAndSelect('product.brand', 'brand')
-//         .leftJoinAndSelect('product.series', 'series')
-//         .where('product.name LIKE :name', { name: `%${keyword}%` })
-//         .select([
-//          'product',
-//          'categories.category_id',
-//          'categories.name',
-//          'characters.character_id',
-//          'characters.name',
-//          'brand.brand_id',
-//          'brand.name',
-//          'series.series_id',
-//          'series.name',
-//         ])
-//       .andWhere('characters.character_id LIKE :character', { character: `%${character}%` })
-//       .andWhere('brand.brand_id LIKE :brand', { brand: `%${brand}%` })
-//       .andWhere('series.series_id LIKE :series', { series: `%${series}%` })
-//       .andWhere('categories.category_id LIKE :element', { element: `%${element }%` })
-//       .orderBy('product.product_id', 'ASC')
-//       .skip(skip)
-//       .take(limit)
-//       .getMany();
-//     if (res) {
-//       products = products.concat(res);
-//     }
-//     }
-//     products = (products.filter((v, i, a) => a.findIndex(t => (t.product_id === v.product_id)) === i)); 
 let data = await this.productRepository.createQueryBuilder('product')
   .leftJoinAndSelect('product.character', 'characters')
   .leftJoinAndSelect('product.brand', 'brand')
   .leftJoinAndSelect('product.series', 'series')
   .leftJoinAndSelect('product.categories', 'categories')
-  .select([
-    'product',
-    'categories.category_id',
-    'categories.name',
-           'characters.character_id',
-           'characters.name',
-            'brand.brand_id',
-           'brand.name',
-            'series.series_id',
-             'series.name',
-  ])
   .where('product.name LIKE :name', { name: `%${keyword}%` })
   .andWhere('characters.character_id LIKE :characters', { characters: `%${character}%` })
   .andWhere('brand.brand_id LIKE :brands', { brands: `%${brand}%` })
   .andWhere('series.series_id LIKE :series', { series: `%${series}%` })
+  .andWhere('product.status = :status', { status })
   // .andWhere('categories.category_id IN (:...categories)', { categories })
   .skip(skip)
   .take(limit)
   if (query.categories) {
     data = data
     .where('categories.category_id IN (:...categories)', { categories })
-    .select([
-      'product',
+   
+  }
+  const [docs, total] = await data.orderBy('product.product_id', 'DESC').select([
+      'product.product_id',
+      'product.name',
+      'product.price',
+      'product.images',
+      'product.discount',
+      'product.quantity',
+      'product.status',
       'categories.category_id',
       'categories.name',
       'characters.character_id',
@@ -136,9 +94,7 @@ let data = await this.productRepository.createQueryBuilder('product')
       'brand.name',
       'series.series_id',
       'series.name',
-    ])
-  }
-  const [docs, total] = await data.orderBy('product.product_id', 'DESC').getManyAndCount();
+    ]).getManyAndCount();
     return {docs,total};
   }
  async findOne(id: number) {
@@ -166,17 +122,54 @@ let data = await this.productRepository.createQueryBuilder('product')
     }
     return data;
   }
+  async findProroductClient(query: FilterProductDto) {
+   const keyword = query.search || '';
+let categories = isArray(query.categories) ? query.categories: [query.categories];
+if (!categories[0] || categories.length == 0) {
+  categories = []
+}
+
+const character = query.characters || "";
+const brand = query.brands || "";
+const series = query.series || "";
+const page = Number(query.page) || 1;
+const limit = Number(query.limit) || 10;
+const skip = (Number(page) - 1) * Number(limit);
+const status = query.status || 1;
+let data = await this.productRepository.createQueryBuilder('product')
+  .leftJoinAndSelect('product.character', 'characters')
+  .leftJoinAndSelect('product.brand', 'brand')
+  .leftJoinAndSelect('product.series', 'series')
+  .leftJoinAndSelect('product.categories', 'categories')
+  .where('product.name LIKE :name', { name: `%${keyword}%` })
+  .andWhere('characters.character_id LIKE :characters', { characters: `%${character}%` })
+  .andWhere('brand.brand_id LIKE :brands', { brands: `%${brand}%` })
+  .andWhere('series.series_id LIKE :series', { series: `%${series}%` })
+  .andWhere('product.status = :status', { status })
+  // .andWhere('categories.category_id IN (:...categories)', { categories })
+  .skip(skip)
+  .take(limit)
+  if (query.categories) {
+    data = data
+    .where('categories.category_id IN (:...categories)', { categories })
+   
+  }
+  const [docs, total] = await data.orderBy('product.product_id', 'DESC').select([
+      'product.product_id',
+      'product.name',
+      'product.price',
+      'product.images',
+      'product.discount',
+      'product.quantity',
+    ]).getManyAndCount();
+    return {docs,total};
+  }
   async update(id: number, updateProductDto: UpdateProductDto) {
     const product = await this.productRepository.findOne({ where: { product_id: id } });
     if (!product) {
       throw new HttpException('Không tìm thấy sản phẩm', HttpStatus.BAD_REQUEST);
     }
-    // let categories =[]
-    // for (let i = 0; i < updateProductDto.categories.length; i++) {
-    //   const element = Number(updateProductDto.categories[i]) || '';
-    //   const res = await this.categoryRepository.findOne({ where: { category_id: element } });
-    //   categories.push(res);
-    // }
+
     await this.productRepository.update({ product_id: id }, { ...updateProductDto });
      return new HttpException('Cập nhật thành công', HttpStatus.OK); 
   }

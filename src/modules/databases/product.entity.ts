@@ -1,5 +1,4 @@
-import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { CartEntity } from "./cart.entity";
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne,  PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { BrandEntity } from "./brand.entity";
 import { SeriesEntity } from "./series.entity";
 import { CategoryEntity } from "./category.entity";
@@ -33,9 +32,6 @@ export class ProductEntity {
     @ManyToOne(()=>SaleEntity,(sale)=>sale.products)
     sale:ProductEntity
     // Cart
-    @ManyToMany(()=>CartEntity,(cart)=>cart.product)
-    @JoinTable({name:"cart_products"})
-    cart:CartEntity[]
     //Brand
     @ManyToOne(()=>BrandEntity,(brand)=>brand.products)
     brand:BrandEntity

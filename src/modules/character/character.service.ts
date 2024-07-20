@@ -50,7 +50,6 @@ export class CharacterService {
         .getManyAndCount()
         return {docs,total}
     }
-
         async findAllCharacter() {
         const character = await this.characterRepository.find({
             select: ['character_id', 'name', 'thumbnail'],
