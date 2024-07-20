@@ -1,7 +1,9 @@
+import { IUser } from '@/interfaces';
 import * as React from 'react';
 import { FaTruckFast } from 'react-icons/fa6';
 
 export interface IFormYourorderProps {
+    data:IUser
 }
 
 export default function FormYourOrder(props: IFormYourorderProps) {

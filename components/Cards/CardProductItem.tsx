@@ -7,6 +7,7 @@ import moment from 'moment';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { count } from 'console';
+import { useRouter } from 'next/navigation';
 
 export interface ICardProductItemProps {
   data: IProduct
@@ -14,16 +15,17 @@ export interface ICardProductItemProps {
 }
 
 export default function CardProductItem(props: ICardProductItemProps) {
-  const { data ,id_cart} = props
+  const { data, id_cart } = props
+  const router = useRouter()
   const handleClickAddToCart = async () => {
     await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/carts/${id_cart}`, {
-      product: data?.product_id,count:1
+      product_id: data?.product_id
     }).then((res) => {
       toast.success('Đã thêm vào giỏ hàng')
+      router.refresh()
     }).catch((e) => {
       toast.error(e.response.data.message)
     })
-
   }
   const formatDateTime = (dateTime: any) => {
     return moment(dateTime).format("DD/MM/YYYY");

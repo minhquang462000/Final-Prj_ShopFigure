@@ -23,7 +23,6 @@ export default function ListUsers(props: ListCharacterProps) {
     const router = useRouter();
     const { users, query, total, searchParams } = props
     const [idsRemove, setIdsRemove] = useState<any>([]);
-    const [page, setPage] = useState(query.page ? Number(query.page) : 1);
     useEffect(() => {router.refresh()}, []);
 
 
@@ -184,7 +183,7 @@ export default function ListUsers(props: ListCharacterProps) {
                 ))}
                 <RootPagination
                     total={total}
-                    setPage={setPage}
+                    query={query.search ? query.search : ""}
                     page={query.page ? query.page : 1}
                     limit={query.limit ? query.limit : 10}
                 />

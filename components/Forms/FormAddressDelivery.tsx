@@ -4,8 +4,10 @@ import { FaHome, FaPencilAlt, FaUserCircle } from 'react-icons/fa';
 import { GiCheckMark } from 'react-icons/gi';
 import { IoCall, IoClose } from 'react-icons/io5';
 import AddressCard from '../Cards/AddressCard';
+import { IUser } from '@/interfaces';
 
 export interface IFormAddressDeliveryProps {
+  data: IUser
 }
 
 export default function FormAddressDelivery(props: IFormAddressDeliveryProps) {
@@ -28,8 +30,8 @@ export default function FormAddressDelivery(props: IFormAddressDeliveryProps) {
         </span>
       </nav>}
       <button onClick={() => setOpenAdd(true)} className='flex items-center gap-2   py-1  font-medium bg-[#d62018] justify-center text-white rounded-full'>Bổ sung địa chỉ <AiFillPlusCircle size={20} /></button>
-      <div className={`${!openAdd&&"hidden"}`}>
-        <AddressCard BtnContent={"THÊM MỚI"} setOpen={setOpenAdd}/>
+      <div className={`${!openAdd && "hidden"}`}>
+        <AddressCard BtnContent={"THÊM MỚI"} setOpen={setOpenAdd} />
       </div>
     </div>
   );

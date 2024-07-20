@@ -2,8 +2,6 @@
 import AvatarAdmin from "@/components/Admin/AvatarAdmin";
 import Dashboard from "@/components/Admin/DashBoard";
 import { ILayout } from "@/interfaces";
-import * as React from "react";
-import { FaPlus } from "react-icons/fa";
 import { IoSearchOutline } from "react-icons/io5";
 
 
@@ -23,7 +21,6 @@ export default function layout({ children }: Readonly<ILayout>) {
           </div>
           <AvatarAdmin />
         </nav>
-       
         <div className="p-4 py-2">{children}</div>
       </div>
     </main>

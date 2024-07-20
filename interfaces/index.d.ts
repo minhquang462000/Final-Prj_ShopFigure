@@ -2,13 +2,20 @@ export interface ILayout {
   children: React.ReactNode;
 }
 export interface IFilter {
-  search: string;
+  search: string ;
   page: number;
   limit: number;
- 
   wordFilter: string;
   price: string;
   status: number;
+}
+export interface ICart {
+  cart_id: number;
+  items: [
+    { productId: number;
+    quantity: number;
+    product: IProduct;}
+  ]
 }
 export interface IUser {
   user_id: number;
@@ -51,6 +58,7 @@ export interface IProduct {
   created_at: string;
   updated_at: string;
   characteristics: string;
+  liked:boolean
 }
 export interface ICategory {
   category_id: number;

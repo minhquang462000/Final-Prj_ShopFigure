@@ -2,8 +2,10 @@ import axios from "axios";
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 import { cookies } from "next/headers";
 export async function getCartByUser() {
+
+  
     try {
-        const _id = cookies().get("user")?.value
+      const _id = cookies().get("user")?.value
         if (!_id) {
             return null
         }

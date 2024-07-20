@@ -5,11 +5,11 @@ export interface ICardTitleSelectProps {
   title: string;
 }
 
-export default function CardTitleCollection(props: ICardTitleSelectProps) {
-  const { title } = props;
+export default function CardTitleCollection({ title }: ICardTitleSelectProps) {
+
   return (
     <nav className='text-black flex justify-between py-2   items-center '>
-      <h1 className='text-xl font-bold pl-3 border-l-[3px] border-black'>{title.toUpperCase()}</h1>
+      <h2 className='text-xl font-bold pl-3 border-l-[3px] border-black'>{title.toUpperCase()}</h2>
 
       <section className='flex   justify-between items-center gap-8  text-sm '>
         <p>Sắp xếp :</p>
@@ -22,7 +22,6 @@ export default function CardTitleCollection(props: ICardTitleSelectProps) {
           <li className='cursor-pointer border-[1px] rounded-md p-2 my-2 hover:text-white hover:bg-[#fc4444]'>Mới nhất</li>
           <li className='cursor-pointer border-[1px] rounded-md p-2 my-2 hover:text-white hover:bg-[#fc4444]'>Bán chạy</li>
         </ul>
-
       </section>
     </nav>
   );

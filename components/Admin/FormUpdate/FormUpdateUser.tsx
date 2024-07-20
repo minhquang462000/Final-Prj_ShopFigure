@@ -1,10 +1,8 @@
 "use client";
 import { IUser } from "@/interfaces";
-import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
 import { HiPhoto } from "react-icons/hi2";
-import Select from "react-select"
 import makeAnimated from "react-select/animated"
 import { useState, useEffect } from "react";
 import axios from "axios";

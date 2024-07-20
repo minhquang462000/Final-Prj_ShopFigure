@@ -8,29 +8,31 @@ import InfoItem from "@/components/Cards/InFoItem";
 import SlideProductItem from "@/components/Slide/SlideProductItem";
 import MainLayout from "@/layouts/main";
 import * as React from "react";
+import { ToastContainer } from "react-toastify";
 
 
 export default async function page({ params }: { params: { id: string } }) {
 
-const product = await getProductById(params.id)
-// console.log("_id---->", _id);
+  const product = await getProductById(params.id)
+  // console.log("_id---->", _id);
 
-// console.log("product---->", product);
+  // console.log("product---->", product);
   const cart = await getCartByUser()
   // console.log("cart---->", cart);
-  
 
-  
+
+
 
   return (
     <MainLayout>
-      <main className="text-black mb-8 w-[1280px] mx-auto">
+      <main className="text-black mb-8 w-[1280px] mt-[100px] mx-auto">
+        <ToastContainer autoClose={1000} />
         <section className="text-sm py-2 w-full">
           <button className="font-semibold">Trang chủ /</button>
         </section>
         <div className="grid gap-3 grid-cols-4">
           <nav className="col-span-3 rounded-md bg-white py-4 px-3">
-            <CardProductItem  data={product} id_cart={cart?.cart_id}/>
+            <CardProductItem data={product} id_cart={cart?.cart_id} />
           </nav>
           <CardInfoItem />
         </div>
@@ -43,14 +45,14 @@ const product = await getProductById(params.id)
           <div className="flex items-center leading-3 mb-4 justify-center gap-2 before:bg-black before:h-[1px]  before:w-[50px] after:w-[50px] after:bg-black after:h-[1px]">
           ///
           </div>
-          <SlideProductItem/>
+          <SlideProductItem />
         </section>
         <section className="bg-white text-center rounded-md group/item mt-6 p-4">
           <h3 className="text-xl font-medium">SẢN PHẨM ĐÃ XEM</h3>
           <div className="flex items-center leading-3 mb-4 justify-center gap-2 before:bg-black before:h-[1px]  before:w-[50px] after:w-[50px] after:bg-black after:h-[1px]">
           ///
           </div>
-          <SlideProductItem/>
+          <SlideProductItem />
         </section>
       </main>
     </MainLayout>

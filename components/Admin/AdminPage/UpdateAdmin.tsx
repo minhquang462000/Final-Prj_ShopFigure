@@ -1,11 +1,8 @@
 "use client";
-import Link from "next/link";
 import * as React from "react";
 import { HiPhoto } from "react-icons/hi2";
 import { useState, useEffect } from "react"
-import { getUserById } from "@/api/user";
 import { IUser } from "@/interfaces";
-import { useSelector } from "react-redux";
 import axios from "axios";
 import { toast } from "react-toastify";
 

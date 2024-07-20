@@ -35,10 +35,6 @@ export async function getAllProductHome(query: IFilter,lable:string) {
   const limit = query.limit ? query.limit : 10;
   const status= query.status ? query.status : 1
   const wordFilter = query.wordFilter ? query.wordFilter : "";
-  // const categories = query.categories ? query.categories : "";
-  // const character = query.characters ? query.characters : "";
-  // const brand = query.brands ? query.brands : "";
-  // const series = query.series ? query.series : "";
   const accessToken = cookies().get("token")?.value; 
   const wordOject= lable
 
@@ -47,6 +43,33 @@ export async function getAllProductHome(query: IFilter,lable:string) {
   try {
     const res = await axios.get(
       `${API_URL}/products?page=${page}&limit=${limit}&status=${status}&${wordOject}=${wordFilter}`,
+      {
+        headers: {
+          Authorization: `Bearer ${cookies().get("token")?.value}`,
+        },
+      }
+    );
+    return res.data;
+    
+  } catch (e) {
+ 
+    
+    return null;
+  }
+}
+export async function getAllProductClient(query: IFilter,lable:string) { 
+  const page = query.page ? query.page : 1;
+  const limit = query.limit ? query.limit : 10;
+  const status= query.status ? query.status : 1
+  const wordFilter = query.wordFilter ? query.wordFilter : "";
+  const wordOject = lable || ""
+  const keyword = query.search ? query.search : "";
+
+  
+  // if (!accessToken) return null;
+  try {
+    const res = await axios.get(
+      `${API_URL}/products/client?page=${page}&limit=${limit}&status=${status}&${wordOject}=${wordFilter}&search=${keyword}`,
       {
         headers: {
           Authorization: `Bearer ${cookies().get("token")?.value}`,

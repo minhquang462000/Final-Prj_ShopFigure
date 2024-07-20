@@ -37,7 +37,10 @@ export async function getUserById(id: string) {
       Authorization: `Bearer ${cookies().get("token")?.value}`,
     },
    });
-   return res.data
+    
+    return res.data
+   
+    
   } catch (e) {
     return null;
   }

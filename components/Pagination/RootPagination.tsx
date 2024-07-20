@@ -10,47 +10,24 @@ import {
 export interface IRootPaginationProps {
   page: number;
   limit: number;
-  setPage: (value: number) => void;
+  query: string | undefined;
   total: number;
 }
 export default function RootPagination(props: IRootPaginationProps) {
-  const {  page, limit, setPage, total } = props;
-  const totalPage = Math.ceil( total/ Number(limit)) 
+  const { page, limit, total, query } = props;
+  const totalPage = Math.ceil(total / Number(limit))
   const nextPage = page + 1 > totalPage ? null : page + 1;
   const prevPage = page - 1 < 1 ? null : page - 1;
   const renderPagination = () => {
-    // const pagination = [];
-
-
-    // // console.log("test--->", nextPage ?? 1);
-
-    // for (let i = 1; i <= totalPage; i++) {
-    //   pagination.push(
-    //     <li key={i}>
-    //      <Link href={`?p=${i}`}>
-    //      <button
-    //      onClick={() => setPage(i)}
-    //         className={`flex items-center ${
-    //           page == i
-    //             ? "text-white bg-[#26b9fe] hover:bg-[#26c4fe]"
-    //             : " hover:bg-gray-100 hover:text-gray-700  bg-white"
-    //         } justify-center px-3 h-8 leading-tight  border border-gray-300 `}
-    //       >
-    //         {i}
-    //       </button></Link>
-    //     </li>
-    //   );
-    // }
-    // return pagination;
     if (totalPage <= 10)
       return Array.from({ length: totalPage }, (_, index) => (
         <li key={index}>
-          <Link href={`?p=${index + 1}`}>
+          <Link href={`?p=${index + 1}&q=${query}`}>
             <button
-              onClick={() => setPage(index + 1)}
+
               className={`flex items-center ${page == index + 1
-                  ? "text-white bg-[#26b9fe] hover:bg-[#26c4fe]"
-                  : " hover:bg-gray-100 hover:text-gray-700  bg-white"
+                ? "text-white bg-[#26b9fe] hover:bg-[#26c4fe]"
+                : " hover:bg-gray-100 hover:text-gray-700  bg-white"
                 } justify-center px-4 h-12 leading-tight  border border-gray-300 `}
             >
               {index + 1}
@@ -127,15 +104,15 @@ export default function RootPagination(props: IRootPaginationProps) {
 
       return (
         <li key={index}>
-          <Link href={`?p=${parseInt(item)}`}>
+          <Link href={`?p=${parseInt(item)}&q=${query}`}>
             <button
-              onClick={() => setPage(parseInt(item) )}
-              className={`flex items-center ${ parseInt(item ) === page
-                  ? "text-white bg-[#26b9fe] hover:bg-[#26c4fe]"
-                  : " hover:bg-gray-100 hover:text-gray-700  bg-white"
+
+              className={`flex items-center ${parseInt(item) === page
+                ? "text-white bg-[#26b9fe] hover:bg-[#26c4fe]"
+                : " hover:bg-gray-100 hover:text-gray-700  bg-white"
                 } justify-center px-4 h-12 leading-tight  border border-gray-300 `}
             >
-              {item }
+              {item}
             </button></Link>
         </li>
       );
@@ -145,9 +122,9 @@ export default function RootPagination(props: IRootPaginationProps) {
     <nav className="w-full text-gray-600 border-t-[1px]" aria-label="Page navigation example">
       <ul className="flex  p-10 items-center justify-center -space-x-px h-10 text-lg font-bold">
         <li className={` ${prevPage === null && "opacity-30"}`}>
-          <Link href={`?p=${prevPage ?? 1}`}>
+          <Link href={`?p=${prevPage ?? 1}&q=${query}`}>
             <button
-              onClick={() => setPage(prevPage ?? 1)}
+
               className={`flex items-center justify-center px-3 h-12 ms-0 leading-tight  bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 `}
             >
               <MdOutlineKeyboardDoubleArrowLeft />
@@ -155,9 +132,8 @@ export default function RootPagination(props: IRootPaginationProps) {
         </li>
         {renderPagination()}
         <li className={` ${nextPage === null && "opacity-30"}`}>
-          <Link href={`?p=${nextPage ?? totalPage}`}>
+          <Link href={`?p=${nextPage ?? totalPage}&q=${query}`}>
             <button
-              onClick={() => setPage(nextPage ?? totalPage)}
               className="flex items-center justify-center px-3 h-12 leading-tight  bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 "
             >
               <MdOutlineKeyboardDoubleArrowRight />
@@ -165,7 +141,6 @@ export default function RootPagination(props: IRootPaginationProps) {
           </Link>
         </li>
       </ul>
-
     </nav>
   );
 }

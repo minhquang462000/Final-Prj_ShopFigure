@@ -10,7 +10,7 @@ export interface IAppProps {
 
 export default function HeaderSelect(props: IAppProps) {
     return (
-        <div className='w-screen shadow-md text-black  bg-white shadow-gray-400'>
+        <div className='w-screen shadow-md  text-black  bg-white shadow-gray-400'>
             <nav className='w-[1280px] mx-auto grid grid-cols-4  fle font-medium text-start'>
                 <div className='flex gap-2  h-full items-center cursor-pointer text-white py-1 p-3 bg-[#000]'>
                     <LuLayoutDashboard className='text-[30px]' /><h2 className='text-base font-bold'>MENU</h2>
@@ -31,9 +31,7 @@ export default function HeaderSelect(props: IAppProps) {
                         <TbMessageCircleQuestion color='black' className="text-[25px]" />
                         <h3 className='font-normal '>FAQ</h3></li>
                 </ul>
-
             </nav>
-
         </div>
     );
 }

@@ -4,14 +4,11 @@ import { CiLogout } from "react-icons/ci";
 import { FaHome } from "react-icons/fa";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import { useState, useEffect, useRef } from "react";
-import { IUser } from "@/interfaces";
-
 export interface IAvatarAdminProps { }
 
 export default function AvatarAdmin(props: IAvatarAdminProps) {
   const [showOption, setShowOption] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const [data, setData] = useState({} as IUser);
   
 
   useEffect(() => {

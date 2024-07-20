@@ -1,8 +1,10 @@
+'use client';
 import { addDotToNumber } from "@/helpers/addDotToNumber";
 import { IProduct } from "@/interfaces";
 import Link from "next/link";
-import * as React from "react";
-import { FaRegHeart } from "react-icons/fa";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { IoSearchOutline } from "react-icons/io5";
 
 export interface ICardProductHomeProps {
@@ -11,8 +13,11 @@ export interface ICardProductHomeProps {
 
 export default function CardProductMain(props: ICardProductHomeProps) {
   const { data } = props;
+  const router = useRouter();
+
+
   return (
-    <nav className="relative group/search hover:shadow-lg hover:shadow-neutral-400  border-[1px] overflow-hidden">
+    <nav className="relative group/search hover:shadow-lg hover:shadow-neutral-400 py-1 rounded-md  border-[1px] overflow-hidden">
       <div className="w-[95%] flex flex-col  gap-3 mx-auto p-1 h-max  overflow-hidden">
         <Link href={`/products/${data?.product_id}`}>
           <div className="w-full cursor-pointer  relative h-[220px]">
@@ -33,22 +38,22 @@ export default function CardProductMain(props: ICardProductHomeProps) {
             {data?.name}
           </h3>
         </Link>
-        <span className="flex my-3  justify-between text-[#e44c4c] font-medium items-center text-sm">
-          {data?.quantity > 0 && <p>
-            {addDotToNumber(
-              String(data?.price - (data?.price * data?.discount) / 100)
-            )}{" "}
-            <span className="underline">đ</span>
-          </p>}
-          {Number(data?.discount) > 0 && data?.quantity > 0 && (
-            <p className="text-gray-500  line-through  ">
-              {" "}
-              {addDotToNumber(String(data?.price))}đ
+        <div className="flex  justify-between text-[#e44c4c] font-medium items-center text-sm">
+          <span className={`flex gap-4 items-center ${data.quantity === 0 && "hidden"}`}>
+            <p>
+              {addDotToNumber(
+                (data?.price - (data?.price * data?.discount) / 100)
+              )}{" "}
+              <span className="underline">đ</span>
             </p>
-          )}
-          {data?.quantity == 0 && <span className="bg-[#ff2121] text-white p-1 text-xs rounded-md py-[2px]">Hết hàng</span>}
-          <FaRegHeart className="mr-4" size={18} />
-        </span>
+            <p className={`text-gray-500  line-through ${data?.discount > 0 && data?.quantity > 0 ? "block" : "hidden"} `}>
+              {" "}
+              {data?.price}  <span className="underline ">đ</span>
+            </p>
+          </span>
+          <span className={`bg-[#ff2121] text-white p-1 text-xs rounded-md py-[2px] ${data?.quantity == 0 || data?.quantity == null ? "block" : "hidden"}`}>Hết hàng</span>
+          <button className="mr-4 text-xl">{0 < 1 ? <FaRegHeart /> : <FaHeart />}</button>
+        </div>
         <span className="bg-[#20b648] text-white -rotate-45 absolute pb-1 -top-7 -left-9  text-center text-[11px] font-bold pt-12 w-max px-4 m-auto">
           Pre-order
         </span>

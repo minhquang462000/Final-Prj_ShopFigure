@@ -14,11 +14,9 @@ import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 import SlideProduct from "@/components/Slide/SlideProduct";
 import CardFigure from "@/components/Cards/CardFigure";
 import CardTitleSelect from "@/components/Cards/CardTitleSelect";
-import CardPostNews from "@/components/Cards/CardPostNews";
 import ListNewsPosts from "@/components/List/ListNewsPost";
-import { IoCalendarNumberOutline } from "react-icons/io5";
 import ListPromotion from "@/components/List/ListPromotion";
-import { getAllProduct } from "@/api/product";
+import { getAllProductClient } from "@/api/product";
 import { ICharacter, IFilter } from "@/interfaces";
 import { getAllCharacter } from "@/api/character";
 import banner1 from "@/public/images/banner_1.jpg"
@@ -27,17 +25,12 @@ import banner3 from "@/public/images/banner_3.jpg"
 import Link from "next/link";
 
 export default async function Home() {
-  const query = { page: 1, limit: 10, search: "" };
+  const query = { page: 1, limit: 10 };
   const { docs: characterHome } = await getAllCharacter({ limit: 10 } as IFilter);
-  const { docs: productHome } = await getAllProduct(query as IFilter);
-  // if () {
-
-  // }
-  // console.log("characterHome--->", characterHome);
-
+  const { docs: productHome } = await getAllProductClient(query as IFilter, "");
   return (
     <MainLayout>
-      <main className="w-[1280px] text-black mx-auto">
+      <main className="w-[1280px] mt-[100px] text-black mx-auto">
         <nav className="w-full  relative grid grid-cols-4">
           <SectionHome />
           <SlideHome />

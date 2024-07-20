@@ -11,9 +11,9 @@ import ButtonCreate from "../ButtonCreate";
 import NoDataPage from "@/components/Pagination/NoDataPage";
 import SlideProductAdmin from "../Slide/SlideProductAdmin";
 import { FaRegEye } from "react-icons/fa";
-import PaginationProduct from "@/components/Pagination/PaginationProduct";
 import { addDotToNumber } from "@/helpers/addDotToNumber";
 import { useRouter } from "next/navigation";
+import RootPagination from "@/components/Pagination/RootPagination";
 
 export interface IListProductProps {
     products: IProduct[]
@@ -21,16 +21,14 @@ export interface IListProductProps {
     total: number
     searchParams: any
 }
-
 export default function ListProduct(props: IListProductProps) {
     const { products, query, total, searchParams } = props
     const router = useRouter();
     useEffect(() => {
-       router.refresh()
+        router.refresh()
     }, [])
     // const totalPage = 
     const [idsRemove, setIdsRemove] = useState<any>([]);
-    const [page, setPage] = useState(query.page ? Number(query.page) : 1);
     const formatDateTime = (dateTime: any) => {
         return moment(dateTime).format("DD/MM/YYYY HH:mm:ss A");
     };
@@ -64,7 +62,7 @@ export default function ListProduct(props: IListProductProps) {
                     setIdsRemove([]);
                     router.refresh();
                 });
-               
+
         } catch (error) {
             console.error("Error deleting rows:", error);
         }
@@ -233,10 +231,10 @@ export default function ListProduct(props: IListProductProps) {
                         </li>
                     </ul>
                 ))}
-                <PaginationProduct
+                <RootPagination
                     total={total}
-                    setPage={setPage}
                     page={query.page ? query.page : 1}
+                    query={query.search ? query.search : ""}
                     limit={query.limit ? query.limit : 10}
                 />
             </div>}

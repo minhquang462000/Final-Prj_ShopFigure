@@ -13,7 +13,6 @@ export interface IpageProps {
 }
 
 export default function ViewDetailProduct(props: IpageProps) {
-    const [formatPrice, setFormatPrice] = React.useState('');
     const formatDateTime = (dateTime: any) => {
         return moment(dateTime).format("DD/MM/YYYY HH:mm:ss A");
     };

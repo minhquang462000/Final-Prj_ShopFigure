@@ -6,16 +6,16 @@ import { IProduct } from "@/interfaces";
 import MainLayout from "@/layouts/main";
 import * as React from "react";
 import { TbArrowBackUp } from "react-icons/tb";
+import { ToastContainer } from "react-toastify";
 
-export interface IpageProps {}
+export interface IpageProps { }
 
 export default async function page(props: IpageProps) {
-  const cart = await getCartByUser()
-//   console.log("cart---->", cart);
-//  console.log();
+  const dataCart = await getCartByUser()
   return (
     <MainLayout>
-    <CartForm cart={cart} />
+      <ToastContainer autoClose={1000} />
+      <CartForm dataCart={dataCart} />
     </MainLayout>
   );
 }
