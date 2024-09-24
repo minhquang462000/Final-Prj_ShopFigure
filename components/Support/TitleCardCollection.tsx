@@ -45,8 +45,7 @@ export default function TitleCardCollection({ character }: ITitleCardCollectionP
   }
   useEffect(() => {
     extractColor();
-
-  }, [imageSrc]);
+  }, [extractColor]);
 
   return (
     <div className=" h-[350px] relative w-full gap-3  flex justify-between">
