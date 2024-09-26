@@ -64,7 +64,7 @@ export default function FlashSale(props: IAppProps) {
                                 <nav className='w-[95%] mx-auto flex flex-col group/search gap-3 cursor-pointer  relative  h-max bg-white rounded-md p-2'>
                                     <Link href={`/products/${item?.product_id}`}>
                                         <div className='w-full  relative h-[200px]'>
-                                            <img className='w-full h-full object-cover' src={process.env.NEXT_PUBLIC_BASE_URL + "/" + item?.images[0]} alt="" />
+                                            <img className='w-full h-full object-cover' src={item?.images[0]} alt="" />
                                             <IoSearchOutline size={40} className='bg-white shadow-md group-hover/search:block hidden shadow-gray-400 rounded-full p-2 absolute top-[40%] bottom-[40%]  right-[40%] left-[40%]' />
                                         </div></Link>
                                     <Link href={`/products/${item?.product_id}`}>  <h3 className='leading-5 h-[40px] overflow-hidden  mt line-clamp-2'>{item?.name}</h3></Link>

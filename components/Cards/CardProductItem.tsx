@@ -1,13 +1,14 @@
 'use client'
 import * as React from 'react';
-import SlideItem from '../Slide/SlideItem';
-import { IProduct } from '@/interfaces';
+import SlideItem from '../Slide/SlideItem.jsx';
+import { ICategory, IProduct } from '@/interfaces';
 import { addDotToNumber } from '@/helpers/addDotToNumber';
 import moment from 'moment';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { count } from 'console';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link.js';
 
 export interface ICardProductItemProps {
   data: IProduct
@@ -33,13 +34,15 @@ export default function CardProductItem(props: ICardProductItemProps) {
   return (
     <div className='grid grid-cols-5 gap-4 '>
       <div className='col-span-3'>
-        <SlideItem images={data?.images} />
+        {data?.images?.length === 1 ?
+          <img className="w-full aspect-square  object-cover" src={data?.images[0]} alt="" />
+          : <SlideItem images={data?.images} />}
+
       </div>
       <nav className="flex col-span-2  flex-col gap-2">
         <div className='flex flex-wrap items-center gap-2'>
           <h3 className="text-2xl font-medium max-h-[130px] line-clamp-4 overflow-hidden text-wrap">
             {data?.name}
-
           </h3>
           <span className={` ${data?.quantity > 0 ? "bg-[#38bf57]" : "bg-[#ff0000]"} w-max h-max  text-xs px-1 py-[2px] rounded text-white`}>
             {" "}
@@ -48,11 +51,13 @@ export default function CardProductItem(props: ICardProductItemProps) {
         </div>
         <h4>
           Thương hiệu:{" "}
-          <span className="text-[#ff0000] font-bold px-1">{data?.brand.name}</span> |
+          <span className="text-[#ff0000] font-bold px-1">{data?.brand}</span> |
           Loại:{" "}
-          <span className="text-[#ff0000] font-bold px-1">
-            Game Prize
-          </span>
+          {/* {data?.categories.map((item) => <p className="text-[#ff0000] font-bold px-1">
+            <Link href={`/collect/${item.name}`}>{item.name}</Link>
+          </p>).join(", ")} */}
+          {data?.categories.map((item) => <span className="text-[#ff0000]  font-bold px-1"><Link href={`/collections/${item.name}`}>{item.name}</Link>,</span>)}
+
         </h4>
         <p className="text-[#ff0000] font-medium text-2xl">
           {addDotToNumber(data?.price)} <span className="underline">đ</span>
@@ -88,7 +93,6 @@ export default function CardProductItem(props: ICardProductItemProps) {
               {item.name}
             </li>
           ))}
-
         </ul>
       </nav>
     </div>

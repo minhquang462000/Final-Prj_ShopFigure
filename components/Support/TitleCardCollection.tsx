@@ -9,9 +9,7 @@ export interface ITitleCardCollectionProps {
 }
 
 export default function TitleCardCollection({ character }: ITitleCardCollectionProps) {
-  const imageSrc = `${process.env.NEXT_PUBLIC_BASE_URL}/${character?.thumbnail}`;
-
-
+  const imageSrc = character?.thumbnail;
   const [color, setColor] = useState([]);
 
   const extractColor = () => {
@@ -48,14 +46,14 @@ export default function TitleCardCollection({ character }: ITitleCardCollectionP
   }, [extractColor]);
 
   return (
-    <div className=" h-[350px] relative w-full gap-3  flex justify-between">
+    <section className=" h-[350px] relative w-full gap-3  flex justify-between">
       <div
         style={{ backgroundColor: `rgb(${darkenColor(color[0], color[1], color[2], 20)})` }}
         className={` w-3/5 h-4/5  p  p-10 `}>
         <p className="max-w-[280px] leading-[80px] text-[70px]  text-white font-mono text-wrap ">{(character?.name)}</p>
       </div>
       <div className="z-20 left-14 cursor-default absolute bottom-3 flex flex-col justify-center items-center">
-        <div className="text-white font-medium px-10 py-1  text-[25px]  bg-gray-400 ">
+        <div className={`text-white font-medium px-10 py-1  text-[25px]  bg-gray-500`}>
           SHOP NOW
         </div>
         <IoIosArrowDown size={40} color="gray" />
@@ -74,6 +72,6 @@ export default function TitleCardCollection({ character }: ITitleCardCollectionP
         />
       </div>
 
-    </div>
+    </section>
   );
 }

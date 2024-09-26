@@ -21,6 +21,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "store/AddToLikeList/index.js", "store/index.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "store/AddToLikeList/index.js", "store/index.js", "components/Slide/SlideItem.jsx"],
   "exclude": ["node_modules"]
 }

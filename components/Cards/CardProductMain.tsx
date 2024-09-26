@@ -23,7 +23,7 @@ export default function CardProductMain(props: ICardProductHomeProps) {
           <div className="w-full cursor-pointer  relative h-[220px]">
             <img
               className="w-full h-full object-cover"
-              src={process.env.NEXT_PUBLIC_BASE_URL + "/" + data?.images[0]}
+              src={data?.images[0]}
               alt=""
             />
             <IoSearchOutline

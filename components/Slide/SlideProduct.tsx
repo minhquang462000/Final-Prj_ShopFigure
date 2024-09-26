@@ -62,7 +62,7 @@ export default function SlideProduct(props: ISliderProductProps) {
               <div className="w-full cursor-pointer  relative h-[200px]">
                 <img
                   className="w-full h-full object-cover"
-                  src={process.env.NEXT_PUBLIC_BASE_URL + "/" + item?.images[0]}
+                  src={ item?.images[0]}
                   alt=""
                 />
                 <IoSearchOutline

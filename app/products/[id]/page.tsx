@@ -7,28 +7,25 @@ import DescriptionItem from "@/components/Cards/DescriptionItem";
 import InfoItem from "@/components/Cards/InFoItem";
 import SlideProductItem from "@/components/Slide/SlideProductItem";
 import MainLayout from "@/layouts/main";
+import { request } from "http";
 import * as React from "react";
 import { ToastContainer } from "react-toastify";
+import { listProduct } from "@/models/product";
 
 
-export default async function page({ params }: { params: { id: string } }) {
+export default async function page({ params }: { params: { id: number } }) {
 
-  const product = await getProductById(params.id)
+  const product = listProduct[params.id -1];
   // console.log("_id---->", _id);
 
   // console.log("product---->", product);
-  const cart = await getCartByUser()
-  // console.log("cart---->", cart);
-
-
-
-
+  const cart = await getCartByUser() || []  // console.log("cart---->", cart);
   return (
     <MainLayout>
       <main className="text-black mb-8 w-[1280px] mt-[100px] mx-auto">
         <ToastContainer autoClose={1000} />
         <section className="text-sm py-2 w-full">
-          <button className="font-semibold">Trang chủ /</button>
+          <button className="font-semibold">Trang chủ / Product/ {product?.name}</button>
         </section>
         <div className="grid gap-3 grid-cols-4">
           <nav className="col-span-3 rounded-md bg-white py-4 px-3">

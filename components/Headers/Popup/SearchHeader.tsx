@@ -6,10 +6,8 @@ import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { IoMdSearch } from 'react-icons/io';
 
-export interface ISearchHearderProps {
-}
 
-export default function SearchHearder(props: ISearchHearderProps) {
+export default function SearchHeader() {
     const [contentSearch, setContentSearch] = useState<string>('');
     const [showPopup, setShowPopup] = useState<boolean>(false);
     const [dataProductSearch, setDataProductSearch] = useState<any>({} as { data: IProduct[], total: number });
@@ -20,7 +18,6 @@ export default function SearchHearder(props: ISearchHearderProps) {
         const result = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/products/client?search=${contentSearch}`)
         setDataProductSearch(result.data)
     }
-
     useEffect(() => {
         /**
          * Alert if clicked on outside of element
