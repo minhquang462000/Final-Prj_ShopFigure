@@ -21,15 +21,15 @@ export default function LoginPopupHeader({ accountId }: ILoginPoupHomeProps) {
 
 
   const [dataAccoun, setDataAccoun] = useState({} as IUser)
-  accountId &&
-    useEffect(() => {
-      const fetchAccountData = async () => {
-        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users/${accountId}`)
-        setDataAccoun(res.data)
+  // accountId &&
+  //   useEffect(() => {
+  //     const fetchAccountData = async () => {
+  //       const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users/${accountId}`)
+  //       setDataAccoun(res.data)
 
-      }
-      fetchAccountData()
-    }, [])
+  //     }
+  //     fetchAccountData()
+  //   }, [])
 
   useEffect(() => {
     /**

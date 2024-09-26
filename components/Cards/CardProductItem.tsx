@@ -56,7 +56,7 @@ export default function CardProductItem(props: ICardProductItemProps) {
           {/* {data?.categories.map((item) => <p className="text-[#ff0000] font-bold px-1">
             <Link href={`/collect/${item.name}`}>{item.name}</Link>
           </p>).join(", ")} */}
-          {data?.categories.map((item) => <span className="text-[#ff0000]  font-bold px-1"><Link href={`/collections/${item.name}`}>{item.name}</Link>,</span>)}
+          {data?.categories.map((item) => <span key={item.id} className="text-[#ff0000]  font-bold px-1"><Link href={`/collections/${item.name}`}>{item.name}</Link>,</span>)}
 
         </h4>
         <p className="text-[#ff0000] font-medium text-2xl">
