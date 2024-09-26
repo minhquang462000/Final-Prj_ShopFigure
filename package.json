@@ -34,7 +34,8 @@
     "sass-loader": "^14.2.1",
     "slick-carousel": "^1.8.1",
     "swiper": "^11.1.1",
-    "swiper-react": "^1.0.0"
+    "swiper-react": "^1.0.0",
+    "zustand": "^5.0.0-rc.2"
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.6",

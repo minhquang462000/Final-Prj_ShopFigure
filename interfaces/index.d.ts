@@ -11,7 +11,7 @@ export interface IFilter {
 }
 export interface ICart {
   cart_id: number;
-  items: [{ productId: number; quantity: number; product: IProduct }];
+  items: [{  quantity: number; product: IProduct }];
 }
 export interface IUser {
   user_id: number;
